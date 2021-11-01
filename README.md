@@ -1,4 +1,4 @@
-# Ruby Lab
+# Ruby Lab 2021-2022
 
 ## Домашние задания
 TBD
@@ -18,6 +18,6 @@ TBD
 5. В своей папке создать папку с названием домашнего задания
 6. В папке с домашним заданием создать все необходимые файлы с кодом
 7. По завершению задания [добавить изменения](https://github.com/git-guides/git-add), [cоздать](https://github.com/git-guides/git-commit)  [запушить](https://github.com/git-guides/git-push) коммит в свою ветку
-8. [Создать PR](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) с домашним заданием для ветки main
+8. [Создать PR](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) с домашним заданием для ветки rubylab-2021-2022
 9. Скинуть ссылку на PR своему ментору и дождаться его ревью
 10. [Замержить](https://docs.github.com/en/github/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/merging-a-pull-request) PR, если ментор одобрил PR
