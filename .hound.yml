@@ -1,0 +1,5 @@
+fail_on_violations: true
+
+rubocop:
+  version: 1.22.1
+  config_file: .rubocop.yml
