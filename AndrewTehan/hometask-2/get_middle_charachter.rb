@@ -1,13 +1,29 @@
-def return_by_index(string, index)
-  string[index]
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+ENTER_MESSAGE = 'Enter string: '
+ERROR_MESSAGE = "String can't be blank"
+RESULT_MESSAGE = 'Middle character: '
+EXIT_MESSAGE = 'exit!'
+
+def run_cli
+  loop do
+    print ENTER_MESSAGE
+    string = gets.chomp
+
+    exit if string == EXIT_MESSAGE
+
+    if string.empty?
+      puts ERROR_MESSAGE
+    else
+      puts RESULT_MESSAGE + get_middle(string)
+    end
+  end
 end
 
-def return_by_range(string, start_index, end_index)
-  string[start_index..end_index]
+def get_middle(string)
+  middle_index = (string.size - 1) / 2.0
+  string[middle_index.floor..middle_index.round]
 end
 
-def get_middle(string) 
-  size = string.size
-  middle_index = size / 2
-  size.odd? ? return_by_index(string, middle_index) : return_by_range(string, middle_index - 1, middle_index)
-end
+run_cli
