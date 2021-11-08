@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-# begin resault # = gets.chomp
-
 # frozen_string_literal: true
+
+# begin resault # = gets.chomp
 
 # get middle from world
 class Middle
