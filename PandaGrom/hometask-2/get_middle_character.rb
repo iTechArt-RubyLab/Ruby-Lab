@@ -8,7 +8,7 @@ end
 
 def run_cli
   loop do
-    print 'Enter string: '
+    p 'Enter string: '
     str = gets.chomp
 
     break if str == 'exit!'
