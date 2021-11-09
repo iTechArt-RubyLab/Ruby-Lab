@@ -9,7 +9,7 @@ class Middle
   puts 'Enter a string:'
   def initialize
     @user_input = user_input
-    @receive_length
+    @receive_length = @user_input.length
   end
 
   def user_input
@@ -37,20 +37,18 @@ class Middle
   end
 
   def its_middle
-    @receive_length = @user_input.length
     if @receive_length.odd?
       same_string(@user_input[@receive_length / 2])
     else
       same_string(@user_input[@receive_length / 2 - 1] + @user_input[@receive_length / 2])
     end
   end
-  
+
   def same_string(middle_character)
     puts "Middle character: #{middle_character}"
   end
-    
 end
-  
+
 middle = Middle.new
 
 middle.run_cli
