@@ -7,8 +7,13 @@
 # get middle from world
 class Middle
   puts 'Enter a string:'
-  def initialize(user_input = gets.chomp)
+  def initialize
     @user_input = user_input
+    @receive_length
+  end
+
+  def user_input
+    gets.chomp
   end
 
   def repeat
@@ -21,7 +26,7 @@ class Middle
   def run_cli
     return if @user_input == 'exit!'
 
-    if @user_input == ''
+    if @user_input.empty?
       puts 'Mistake!!!'
     else
       its_middle
@@ -32,15 +37,20 @@ class Middle
   end
 
   def its_middle
-    a = @user_input.length
-    if a.odd?
-
-      puts "Middle character: #{@user_input[a / 2]}"
+    @receive_length = @user_input.length
+    if @receive_length.odd?
+      same_string(@user_input[@receive_length / 2])
     else
-      puts "Middle character: #{@user_input[a / 2 - 1] + @user_input[a / 2]}"
+      same_string(@user_input[@receive_length / 2 - 1] + @user_input[@receive_length / 2])
     end
   end
+  
+  def same_string(middle_character)
+    puts "Middle character: #{middle_character}"
+  end
+    
 end
+  
 middle = Middle.new
 
 middle.run_cli
