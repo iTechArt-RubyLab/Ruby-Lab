@@ -9,15 +9,10 @@ end
 def run_cli
   loop do
     puts 'Enter string: '
-    string = gets.chomp
-    break if string.downcase == 'exit!'
+    str = gets.chomp
+    break if str.downcase == 'exit!'
 
-    if string == ''
-      puts 'String cannot be blank!'
-    else
-      get_middle(string)
-      puts "Middle character is: #{get_middle(string)}"
-    end
+    str.empty? ? puts('String cannot be blank!') : puts("Middle character is: #{get_middle(str)}")
   end
 end
 
