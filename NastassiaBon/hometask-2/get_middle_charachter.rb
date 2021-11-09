@@ -12,6 +12,7 @@ def run_cli
     puts 'Enter string: '
     string = gets.chomp
     break if string == 'exit'
+
     string.empty? ? puts('String can not be blank!') : puts("Middle character: #{get_middle(string)}")
   end
 end
