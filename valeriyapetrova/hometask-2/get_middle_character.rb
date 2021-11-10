@@ -6,21 +6,9 @@
 
 # get middle from world
 class Middle
-  puts 'Enter a string:'
   def initialize
     @user_input = user_input
     @receive_length = @user_input.length
-  end
-
-  def user_input
-    gets.chomp
-  end
-
-  def repeat
-    puts 'Enter a string:'
-    @user_input = gets.chomp
-
-    run_cli
   end
 
   def run_cli
@@ -29,22 +17,34 @@ class Middle
     if @user_input.empty?
       puts 'Mistake!!!'
     else
-      its_middle
-
+      catch_middle
     end
 
     repeat
   end
 
-  def its_middle
+  private
+
+  def user_input
+    puts 'Enter a string:'
+    gets.chomp
+  end
+
+  def repeat
+    @user_input = user_input
+
+    run_cli
+  end
+
+  def catch_middle
     if @receive_length.odd?
-      same_string(@user_input[@receive_length / 2])
+      puts_middle_character(@user_input[@receive_length / 2])
     else
-      same_string(@user_input[@receive_length / 2 - 1] + @user_input[@receive_length / 2])
+      puts_middle_character(@user_input[@receive_length / 2 - 1] + @user_input[@receive_length / 2])
     end
   end
 
-  def same_string(middle_character)
+  def puts_middle_character(middle_character)
     puts "Middle character: #{middle_character}"
   end
 end
