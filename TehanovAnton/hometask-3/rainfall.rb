@@ -1,11 +1,38 @@
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 
-def mean(town, data)
-  RainfallStatistics.new(town, data).mean
+def run_cli
+  RainfallCli.new.run_cli
 end
 
-def variance(town, data)
-  RainfallStatistics.new(town, data).variance
+# RainfallCli designed to initialise data for run_cli method
+class RainfallCli
+  def run_cli
+    loop do
+      puts 'Enter city name:'
+      input = gets.chomp
+
+      break if input == 'exit!'
+
+      input.empty? ? show_error_message : show_result(input)
+    end
+  end
+
+  private
+
+  def show_error_message
+    puts "City name can't be blank"
+  end
+
+  def show_result(input)
+    statistics = RainfallStatistics.new(input, data)
+    puts "Rainfall mean: #{statistics.mean}"
+    puts "Rainfall variance: #{statistics.variance}"
+  end
+
+  def data
+    @data ||= File.open('rainfall_data').read
+  end
 end
 
 # RainfallStatistics designed to calculate mean and variance values
@@ -18,27 +45,29 @@ class RainfallStatistics
   end
 
   def mean
-    return -1 unless valid_input?
+    return -1 if missing_data?
 
     average(parse_rainfall_values)
   end
 
   def variance
-    return -1 unless valid_input?
+    return -1 if missing_data?
 
     calculate_variance(calculate_rainfall_diviations)
   end
 
   private
 
-  def valid_input?
-    @valid_input ||= town && data.include?("#{town}:")
+  def find_town_rainfall_data
+    return if town.empty?
+
+    @find_town_rainfall_data ||= data.each_line.find do |town_rainfall_data|
+      town_rainfall_data.start_with?("#{town}:")
+    end
   end
 
-  def find_town_rainfall_data
-    @find_town_rainfall_data ||= data.each_line.find do |town_rainfall_data|
-      town_rainfall_data.include?(town)
-    end
+  def missing_data?
+    !find_town_rainfall_data
   end
 
   def parse_rainfall_values
@@ -58,3 +87,5 @@ class RainfallStatistics
     sum_squared_diviations / rainfall_diviations.size
   end
 end
+
+run_cli
