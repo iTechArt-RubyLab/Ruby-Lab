@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-def get_middle(str)
+EXIT_COMMAND = 'exit!'
+
+def calculate_middle_characters(str)
   mid = str.length / 2
   if str.length.odd?
     str[mid]
@@ -14,12 +16,12 @@ def run_cli
   loop do
     print 'Enter string: '
     str = gets.chomp
-    break if str == 'exit!'
+    break if str == EXIT_COMMAND
 
     if str.empty?
-      p 'String can not be blank!'
+      puts 'String can not be blank!'
     else
-      p "Middle character: #{get_middle(str)}"
+      puts "Middle character: #{calculate_middle_characters(str)}"
     end
   end
 end
