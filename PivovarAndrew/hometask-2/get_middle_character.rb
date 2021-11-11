@@ -20,8 +20,7 @@ def run_cli
       exit!
     elsif str.empty?
       puts 'String can not be blank!'
-    else
-      puts "Middle character(s): #{get_middle(str)}"
+    else puts "Middle character(s): #{get_middle(str)}"
     end
   end
 end
