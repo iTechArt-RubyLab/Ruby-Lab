@@ -7,7 +7,7 @@ def get_middle(str)
   if str.length.odd? && str.length != 1
     str[half_a_len]
   elsif str.length.even?
-    str.slice((half_a_len - 1)..(half_a_len))
+    str.slice(half_a_len - 1..half_a_len)
   elsif str.length == 1
     str
   end
@@ -18,7 +18,7 @@ def run_cli
     puts 'Enter a string'
     str = gets.chomp.to_s
     str.empty? ? (puts 'String can not be blank!') : (puts get_middle(str))
-    break if str == "exit!"
+    break if str == 'exit!'
   end
 end
 
