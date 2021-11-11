@@ -8,7 +8,7 @@ end
 
 def run_cli
   loop do
-    puts 'Enter string: '
+    puts 'Enter string:'
     str = gets.chomp
     break if str.downcase == 'exit!'
 
