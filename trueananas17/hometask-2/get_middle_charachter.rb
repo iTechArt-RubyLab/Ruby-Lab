@@ -23,7 +23,7 @@ def run_cli
     elsif str == 'exit!'
       break
     else
-      puts get_middle(str)s
+      puts get_middle(str)
     end
   end
 end
