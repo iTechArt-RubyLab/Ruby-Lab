@@ -10,12 +10,12 @@ end
 
 def run_cli
   loop do
-    print "Enter string: "
+    print 'Enter string: '
     str = gets.chomp
-    if str == "exit!"
+    if str == 'exit!'
       exit!
     elsif str.empty?
-      puts "String can not be blank!"
+      puts 'String can not be blank!'
     else
       puts "Middle character(s): #{get_middle(str)}"
     end
