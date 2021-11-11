@@ -3,13 +3,12 @@
 # frozen_string_literal: true
 
 def get_middle(str)
-  if str.length % 2 == 0 && str.length != 1
+  if (str.length % 2).zero? && str.length != 1
     mid = str[str.length / 2 - 1]
     mid += str[str.length / 2]
     mid
   elsif str.length#even?
-    mid = str[str.length / 2]
-    mid
+    str[str.length / 2]
   elsif str.length == 1
     str
   end
@@ -24,7 +23,7 @@ def run_cli
     elsif str == 'exit!'
       break
     else
-      puts get_middle(str)
+      puts get_middle(str)s
     end
   end
 end
