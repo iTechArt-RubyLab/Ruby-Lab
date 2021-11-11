@@ -23,8 +23,10 @@ data1 =
   'Tokyo:Jan 59.9,Feb 81.5,Mar 106.4,Apr 139.2,May 144.0,Jun 186.0,Jul 155.6,Aug 148.5,Sep 216.4,Oct 194.1,Nov 95.6,Dec 54.4' + "\n" \
   'Beijing:Jan 13.9,Feb 14.7,Mar 18.2,Apr 18.4,May 43.0,Jun 88.1,Jul 224.3,Aug 170.0,Sep 58.4,Oct 38.0,Nov 19.3,Dec 2.7' + "\n" \
   'Lima:Jan 11.2,Feb 10.9,Mar 10.7,Apr 10.4,May 10.6,Jun 11.8,Jul 14.4,Aug 13.1,Sep 23.3,Oct 1.7,Nov 0.5,Dec 10.7'
-towns = %w[Rome London Paris NY Vancouver Sydney Bangkok Tokyo
+  
+$towns = %w[Rome London Paris NY Vancouver Sydney Bangkok Tokyo
            Beijing Lima Montevideo Caracas Madrid Berlin]
+          
 
 def numbers(town, strng)
   strng.split("\n").select { |town_strng| town_strng.include?(town) }.first.scan(/\d+\.\d+/).map(&:to_f)
@@ -34,13 +36,22 @@ def average(year)
   year.sum / 12
 end
 
+def validate_town?(town)
+  !$towns.include?(town)
+end
+
 def mean(town, strng)
+  return -1 if validate_town?(town)
+
   average(numbers(town, strng))
 end
 
-#puts mean('NY', data1)
+
+puts mean('111', data1)
 
 def variance(town, strng)
+  return -1 if validate_town?(town)
+
   year = 
     numbers(town, strng).map do |element|
       element - mean(town, strng)
@@ -52,4 +63,4 @@ def variance(town, strng)
 end
 
 
-#puts variance('London', data)
+puts variance('London', data)
