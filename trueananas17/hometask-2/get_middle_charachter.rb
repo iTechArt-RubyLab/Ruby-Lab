@@ -3,12 +3,11 @@
 # frozen_string_literal: true
 
 def get_middle(str)
-  if (str.length % 2).zero? && str.length != 1
-    mid = str[str.length / 2 - 1]
-    mid += str[str.length / 2]
-    mid
-  elsif str.length # even?
-    str[str.length / 2]
+  half_a_len = str.length / 2
+  if str.length.odd? && str.length != 1
+    str[half_a_len]
+  elsif str.length.even?
+    str.slice((half_a_len - 1)..(half_a_len))
   elsif str.length == 1
     str
   end
@@ -18,13 +17,8 @@ def run_cli
   loop do
     puts 'Enter a string'
     str = gets.chomp.to_s
-    if str.empty? == true
-      puts 'String can not be blank!'
-    elsif str == 'exit!'
-      break
-    else
-      puts get_middle(str)
-    end
+    str.empty? ? (puts 'String can not be blank!') : (puts get_middle(str))
+    break if str == "exit!"
   end
 end
 
