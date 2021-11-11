@@ -1,25 +1,22 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+EXIT = 'exit!'
+ERROR_MESSAGE = 'String can not be blank!'
+
 def get_middle(str)
   middle_symbol_point = str.length / 2 - 1
-  middle_symbol = str[middle_symbol_point]
-  middle_next_symbol = str[middle_symbol_point + 1]
-  if str.length == 1
-    str
-  else
-    str.length.even? ? middle_symbol + middle_next_symbol : middle_next_symbol
-  end
+  str.length.even? ? str[middle_symbol_point..middle_symbol_point + 1] : str[middle_symbol_point]
 end
 
 def run_cli
   loop do
     print 'Enter string: '
     str = gets.chomp
-    if str == 'exit!'
+    if str == EXIT
       exit!
     elsif str.empty?
-      puts 'String can not be blank!'
+      puts ERROR_MESSAGE
     else puts "Middle character(s): #{get_middle(str)}"
     end
   end
