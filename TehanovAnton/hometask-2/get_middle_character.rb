@@ -1,28 +1,33 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-def middle_character(string)
-  half = string.size / 2
-  string.length.odd? ? string[half] : string[(half - 1)..half]
-end
+# Class designed to implement run_cli method
+class Cli
+  def run_cli
+    loop do
+      puts 'Enter string:'
+      input = gets.chomp
 
-def error_message
-  "String can't be blank"
-end
+      break if input == 'exit!'
 
-def result(input)
-  "Middle character: #{middle_character(input)}"
-end
+      puts input.empty? ? error_message : result(input)
+    end
+  end
 
-def run_cli
-  loop do
-    puts 'Enter string:'
-    input = gets.chomp
+  private
 
-    exit if input == 'exit!'
+  def middle_character(string)
+    half = string.size / 2
+    string.length.odd? ? string[half] : string[(half - 1)..half]
+  end
 
-    puts input.empty? ? error_message : result(input)
+  def error_message
+    "String can't be blank"
+  end
+
+  def result(input)
+    "Middle character: #{middle_character(input)}"
   end
 end
 
-run_cli
+Cli.new.run_cli
