@@ -7,7 +7,7 @@ def get_middle(str)
     mid = str[str.length / 2 - 1]
     mid += str[str.length / 2]
     mid
-  elsif str.length#even?
+  elsif str.length # even?
     str[str.length / 2]
   elsif str.length == 1
     str
