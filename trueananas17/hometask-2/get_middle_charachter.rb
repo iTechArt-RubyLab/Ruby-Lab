@@ -4,13 +4,7 @@
 
 def get_middle(str)
   half_a_len = str.length / 2
-  if str.length.odd? && str.length != 1
-    str[half_a_len]
-  elsif str.length.even?
-    str.slice(half_a_len - 1..half_a_len)
-  elsif str.length == 1
-    str
-  end
+  str.length.odd? ? str[half_a_len] : str[half_a_len - 1..half_a_len]
 end
 
 def run_cli
