@@ -15,7 +15,7 @@ def get_middle(str)
 end
 
 def run_cli
-  while true
+  loop do
     puts 'Enter a string'
     str = gets.chomp.to_s
     if str.empty? == true
