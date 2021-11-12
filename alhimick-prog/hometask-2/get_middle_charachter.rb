@@ -16,14 +16,11 @@ def get_middle(string)
 end
 
 def run_cli
-  string = ''
   loop do
     puts INPUT_PROMPT
     string = gets.chomp
-    case string
-    when EXIT_STRING
-      exit
-    when ''
+    exit if string == EXIT_STRING
+    if string.empty?
       puts ERROR_BLANK_STRING
     else
       puts "#{MESSAGE_RESULT} #{get_middle(string)}"
