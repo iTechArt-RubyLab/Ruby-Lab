@@ -2,14 +2,6 @@
 
 # frozen_string_literal: true
 
-def get_middle(str)
-  if s.length.even?
-    puts (str[str.length / 2 - 1] + str[str.length / 2]).chomp
-  else
-    puts (str[str.length / 2]).chomp
-  end
-end
-
 def run_cli
   loop do
     puts 'Enter string'
@@ -24,4 +16,13 @@ def run_cli
     end
   end
 end
+
+def get_middle(str)
+  if str.length.even?
+    puts str[str.length / 2 - 1] + str[str.length / 2]
+  else
+    puts str[str.length / 2]
+  end
+end
+
 run_cli
