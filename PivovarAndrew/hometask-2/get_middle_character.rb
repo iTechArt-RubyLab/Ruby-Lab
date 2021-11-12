@@ -5,7 +5,7 @@ STOP_WORD = "exit!"
 ERROR_MESSAGE = "String can not be blank!"
 
 def get_middle(str)
-  middle_symbol_point = (str.length / 2).cell - 1
+  middle_symbol_point = (str.length / 2).ceil - 1
   str.length.even? ? str[middle_symbol_point..middle_symbol_point + 1] : str[middle_symbol_point]
 end
 
