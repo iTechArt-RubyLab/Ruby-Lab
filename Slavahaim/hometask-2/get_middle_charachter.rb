@@ -4,9 +4,9 @@
 EXIT_STATE = 'exit!'
 ERROR_MESSAGE = 'String can not be blank'
 def get_middle(inputed_string)
-  last_element = inputed_string.size - 1
+  premiddle_element = (inputed_string.size - 1) / 2
   middle_element = inputed_string.size / 2
-  inputed_string[last_element / 2..middle_element]
+  inputed_string[premiddle_element..middle_element]
 end
 
 def run_cli
