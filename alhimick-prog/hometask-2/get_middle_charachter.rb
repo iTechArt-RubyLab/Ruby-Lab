@@ -17,13 +17,17 @@ end
 
 def run_cli
   string = ''
-  until string == EXIT_STRING
-    stop = false
+  loop do
     puts INPUT_PROMPT
     string = gets.chomp
-    stop = true if string == EXIT_STRING
-    puts "#{MESSAGE_RESULT} #{get_middle(string)}" if !string.empty? && !stop
-    puts ERROR_BLANK_STRING if string.empty?
+    case string
+    when EXIT_STRING
+      exit
+    when ''
+      puts ERROR_BLANK_STRING
+    else
+      puts "#{MESSAGE_RESULT} #{get_middle(string)}"
+    end
   end
 end
 
