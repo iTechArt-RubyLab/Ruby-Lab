@@ -2,20 +2,16 @@
 # frozen_string_literal: true
 
 def get_middle(str)
-  if str.length.even?
-    str[str.length / 2 - 1] + str[str.length / 2]
-
-  else
-    str[str.length / 2]
-
-  end
+  x = str.length / 2
+  str.slice(x - 1, x) if str.length.even?
 end
 
 def run_cli
   loop do
     p 'Enter your string: '
     text = gets.chomp
-    abort if text == 'exit!'
+    break if text == 'exit!'
+
     if text.empty?
       p "String can't be blank!"
     else
