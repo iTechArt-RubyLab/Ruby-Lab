@@ -56,15 +56,15 @@ exit!
 #### Задание 4.1
 1. Код с решением поместить в файл `my_array_rotate.rb` в папку с домашним заданием `hometask-4`.
 2. Рacширить класс `Array` методaми `lab_rotate` и `lab_rotate!`, которые реализуют циклический сдвиг.  
-Метод `lab_rotate` сдвигает без изменения объекта.  
-Метод `lab_rotate!` сдвигает c изменением объекта.  
+Метод `lab_rotate` циклически сдвигает массив без изменения объекта.  
+Метод `lab_rotate!` циклически сдвигает массив c изменением объекта.  
 В качестве аргумента метод принимает число элементов, на которое нужно сдвинуть массив.  
 Если число положительное, то массив циклически сдвигается влево.  
 Если число отрицательное, то массив циклически сдвигается вправо.  
 По умолчанию массив циклически сдвигается на 1 элемент влево.  
 Задание подразумевает самостоятельную реализацию циклического сдвига, т.е. использовать [Array#rotate](https://ruby-doc.org/core-3.0.2/Array.html#method-i-rotate) или [Array#rotate!](https://ruby-doc.org/core-3.0.2/Array.html#method-i-rotate-21) нельзя.  
 C ростом размера сдвига скорость циклического сдвига, реализованного в `Array#lab_rotate` и `Array#lab_rotate!`, не должна значительно отличаться от скорости сдвига, реализованного в `Array#rotate` или `Array#rotate!` соответственно.  
-С помощью модуля [Benchmark](https://ruby-doc.org/stdlib-2.5.3/libdoc/benchmark/rdoc/Benchmark.html) произвести сравнение производительностиеализованного в `Array#lab_rotate` и `Array#lab_rotate!`c `Array#rotate` и `Array#rotate!` соответственно.  
+С помощью модуля [Benchmark](https://ruby-doc.org/stdlib-2.5.3/libdoc/benchmark/rdoc/Benchmark.html) произвести сравнение производительности `Array#lab_rotate` и `Array#lab_rotate!` c `Array#rotate` и `Array#rotate!` соответственно.  
 Сравнение описать в файле `my_array_rotate_benchmark.rb`.
 
 Пример работы программы:
