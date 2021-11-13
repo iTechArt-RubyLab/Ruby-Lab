@@ -4,31 +4,6 @@
 STOP_WORD = "exit!"
 ERROR_MESSAGE = "String can not be blank!"
 
-def mean(town, strng)
-  if is_contain_town?(town, strng)
-    rainfalls = get_rainfalls(town, strng)
-    rainfalls.sum / rainfalls.length
-  else
-    -1
-  end
-end
-
-def variance(town, strng)
-  is_contain_town?(town, strng) ? get_rainfalls(town, strng).map { |x| (x - mean(town, strng)) ** 2 }.sum / 12 : -1
-end
-
-def is_contain_town?(town, str)
-  str.match(/^#{town}/)
-end
-
-def get_rainfalls(town, str)
-  parse_data(str)[town].scan(/\d+.\d+/).map(&:to_f)
-end
-
-def parse_data(data)
-  data.split("\n").map { |str| str.split(":") }.to_h
-end
-
 data =
   "Rome:Jan 81.2,Feb 63.2,Mar 70.3,Apr 55.7,May 53.0,Jun 36.4,Jul 17.5,Aug 27.5,Sep 60.9,Oct 117.7,Nov 111.0,Dec 97.9" + "\n" +
   "London:Jan 48.0,Feb 38.9,Mar 39.9,Apr 42.2,May 47.3,Jun 52.1,Jul 59.5,Aug 57.2,Sep 55.4,Oct 62.0,Nov 59.0,Dec 52.9" + "\n" +
@@ -44,17 +19,53 @@ data =
 towns = ["Rome", "London", "Paris", "NY", "Vancouver", "Sydney", "Bangkok", "Tokyo",
          "Beijing", "Lima", "Montevideo", "Caracas", "Madrid", "Berlin"]
 
+class RainfallController
+  attr_reader :town, :data
+
+  def initialize(town, data)
+    @town = town
+    @data = data
+  end
+
+  def get_average
+    get_rainfalls.sum / get_rainfalls.length
+  end
+
+  def is_data_contain_town?
+    str.match(/^#{town}/)
+  end
+
+  def get_rainfalls
+    parse_data(data)[town].scan(/\d+.\d+/).map(&:to_f)
+  end
+
+  private
+
+  def parse_data
+    data.split("\n").map { |str| str.split(":") }.to_h
+  end
+end
+
+def mean(rainfall)
+  rainfall.is_data_contain_town? ? rainfall.get_average : -1
+end
+
+def variance(rainfall)
+  rainfall.is_data_contain_town? ? rainfall.get_rainfalls.map { |element| (element - mean(rain)) ** 2 }.sum / get_rainfalls.length : -1
+end
+
 def run_cli
   loop do
     print "Enter city name: "
-    str = gets.chomp
-    if str == STOP_WORD
+    city_name = gets.chomp
+    if city_name == STOP_WORD
       exit!
-    elsif str.empty?
+    elsif city_name.empty?
       puts ERROR_MESSAGE
     else
-      puts "Rainfall mean: #{mean(str)}"
-      puts "Rainfall varince: #{variance(str)}"
+      rainfall_controller = RainfallController.new(city_name, data)
+      puts "Rainfall mean: #{mean(rainfall_controller)}"
+      puts "Rainfall varince: #{variance(rainfall_controller)}"
     end
   end
 end
