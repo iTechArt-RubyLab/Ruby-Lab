@@ -70,7 +70,7 @@ class RainfallController
   def monthes_with_rainfalls
     min_generated_value = random.rand(MIN_RAINFALLS_COUNT..MAX_RAINFALLS_COUNT)
     max_generated_value = min_generated_value * 1.5
-    town_info = Array.new
+    town_info = []
     MONTHES.each { |month|
       town_info << "#{month} #{random.rand(min_generated_value..max_generated_value).round(RAINFALL_ACCURACY)}"
     }
