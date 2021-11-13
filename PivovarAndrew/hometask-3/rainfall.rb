@@ -16,12 +16,16 @@ EXAMPLE_DATA =
   "Beijing:Jan 3.9,Feb 4.7,Mar 8.2,Apr 18.4,May 33.0,Jun 78.1,Jul 224.3,Aug 170.0,Sep 58.4,Oct 18.0,Nov 9.3,Dec 2.7" + "\n" +
   "Lima:Jan 1.2,Feb 0.9,Mar 0.7,Apr 0.4,May 0.6,Jun 1.8,Jul 4.4,Aug 3.1,Sep 3.3,Oct 1.7,Nov 0.5,Dec 0.7"
 
-TOWNS = ["Rome", "London", "Paris", "NY", "Vancouver", "Sydney", "Bangkok", "Tokyo",
-         "Beijing", "Lima", "Montevideo", "Caracas", "Madrid", "Berlin"]
-
-MONTHES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
 class RainfallController
+  TOWNS = ["Rome", "London", "Paris", "NY", "Vancouver", "Sydney", "Bangkok", "Tokyo",
+           "Beijing", "Lima", "Montevideo", "Caracas", "Madrid", "Berlin"]
+
+  MONTHES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+  MIN_RAINFALLS_COUNT = 0.0
+  MAX_RAINFALLS_COUNT = 100.0
+  RAINFALL_ACCURACY = 1
+
   attr_reader :town, :data
 
   def initialize(town, data)
@@ -29,16 +33,48 @@ class RainfallController
     @data = data
   end
 
-  def get_average
-    get_rainfalls.sum / get_rainfalls.length
+  def initialize
+    @town = String.new
+    @data = String.new
+  end
+
+  def town=(town)
+    @town = town
+  end
+
+  def generate_data
+    random = Random.new
+    TOWNS.each { |town|
+      @data << "#{town}:"
+      town_info = Array.new
+      MONTHES.each { |month|
+        town_info << "#{month} #{random.rand(MIN_RAINFALLS_COUNT..MAX_RAINFALLS_COUNT).round(RAINFALL_ACCURACY)}"
+      }
+      town_info << nil
+      @data << town_info.compact.join(",")
+      @data << "\n"
+    }
+    puts @data
+  end
+
+  def average
+    rainfalls.sum / rainfalls.length
   end
 
   def is_data_contain_town?
     data.match(/^#{town}/)
   end
 
-  def get_rainfalls
+  def rainfalls
     parse_data[town].scan(/\d+.\d+/).map(&:to_f)
+  end
+
+  def mean
+    is_data_contain_town? ? average : -1
+  end
+
+  def variance
+    is_data_contain_town? ? rainfalls.map { |element| (element - mean) ** 2 }.sum / rainfalls.length : -1
   end
 
   private
@@ -48,15 +84,9 @@ class RainfallController
   end
 end
 
-def mean(rainfall)
-  rainfall.is_data_contain_town? ? rainfall.get_average : -1
-end
-
-def variance(rainfall)
-  rainfall.is_data_contain_town? ? rainfall.get_rainfalls.map { |element| (element - mean(rainfall)) ** 2 }.sum / rainfall.get_rainfalls.length : -1
-end
-
 def run_cli
+  rainfall_controller = RainfallController.new
+  rainfall_controller.generate_data
   loop do
     print "Enter city name: "
     city_name = gets.chomp
@@ -65,9 +95,9 @@ def run_cli
     elsif city_name.empty?
       puts ERROR_MESSAGE
     else
-      rainfall_controller = RainfallController.new(city_name, EXAMPLE_DATA)
-      puts "Rainfall mean: #{mean(rainfall_controller)}"
-      puts "Rainfall varince: #{variance(rainfall_controller)}"
+      rainfall_controller.town = city_name
+      puts "Rainfall mean: #{rainfall_controller.mean}"
+      puts "Rainfall varince: #{rainfall_controller.variance}"
     end
   end
 end
