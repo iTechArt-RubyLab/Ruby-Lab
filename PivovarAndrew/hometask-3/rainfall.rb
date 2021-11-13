@@ -4,6 +4,7 @@
 STOP_WORD = "exit!"
 ERROR_MESSAGE = "String can not be blank!"
 
+# Controller for the implementation of operations related to rainfalls
 class RainfallController
   TOWNS = ["Rome", "London", "Paris", "NY", "Vancouver", "Sydney", "Bangkok", "Tokyo",
            "Beijing", "Lima", "Montevideo", "Caracas", "Madrid", "Berlin"]
