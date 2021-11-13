@@ -30,10 +30,9 @@ class RainfallController
   end
 
   def generate_data
-    random = Random.new
     TOWNS.each { |town|
       @data << "#{town}:"
-      @data << monthes_with_rainfalls.compact.join(",")
+      @data << self.generate_rainfalls.compact.join(",")
       @data << "\n"
     }
   end
@@ -43,39 +42,40 @@ class RainfallController
   end
 
   def average
-    rainfalls.sum / rainfalls.length
+    self.rainfalls.sum / self.rainfalls.length
   end
 
   def data_contain_town?
-    data.match(/^#{town}/)
+    self.data.match(/^#{self.town}/)
   end
 
   def rainfalls
-    parse_data[town].scan(/\d+.\d+/).map(&:to_f)
+    self.parse_data[self.town].scan(/\d+.\d+/).map(&:to_f)
   end
 
   def mean
-    is_data_contain_town? ? average : -1
+    self.data_contain_town? ? self.average : -1
   end
 
   def variance
-    is_data_contain_town? ? rainfalls.map { |element| (element - mean) ** 2 }.sum / rainfalls.length : -1
+    self.data_contain_town? ? self.rainfalls.map { |rainfall| (rainfall - self.mean) ** 2 }.sum / self.rainfalls.length : -1
   end
 
   private
 
   def parse_data
-    data.split("\n").map { |str| str.split(":") }.to_h
+    self.data.split("\n").map { |data_str| data_str.split(":") }.to_h
   end
 
-  def monthes_with_rainfalls
+  def generate_rainfalls
+    random = Random.new
     min_generated_value = random.rand(MIN_RAINFALLS_COUNT..MAX_RAINFALLS_COUNT)
     max_generated_value = min_generated_value * 1.5
-    town_info = []
+    rainfalls_info = []
     MONTHES.each { |month|
-      town_info << "#{month} #{random.rand(min_generated_value..max_generated_value).round(RAINFALL_ACCURACY)}"
+      rainfalls_info << "#{month} #{random.rand(min_generated_value..max_generated_value).round(RAINFALL_ACCURACY)}"
     }
-    town_info << nil
+    rainfalls_info << nil
   end
 end
 
