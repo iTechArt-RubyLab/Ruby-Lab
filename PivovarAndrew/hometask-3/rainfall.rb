@@ -15,7 +15,8 @@ class RainfallController
   RAINFALL_ACCURACY = 1
   DATA_FILE_NAME = "data.txt"
 
-  attr_reader :town, :data
+  attr_reader :data
+  attr_accessor :town
 
   def initialize(town, data)
     @town = town
@@ -25,10 +26,6 @@ class RainfallController
   def initialize
     @town = +""
     @data = +""
-  end
-
-  def town=(town)
-    @town = town
   end
 
   def generate_data
