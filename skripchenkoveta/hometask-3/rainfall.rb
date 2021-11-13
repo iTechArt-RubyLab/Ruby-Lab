@@ -44,6 +44,11 @@ def calculate_variance(town, str)
   varian / 12
 end
 
+def show_result(town)
+  puts "Rainfall mean: #{calculate_middle_rainfall(town, data_extraction)}"
+  puts "Rainfall variance: #{calculate_variance(town, data_extraction)}"
+end
+
 def run_cli
   loop do
     print 'Enter city name: '
@@ -53,7 +58,7 @@ def run_cli
     if str.empty?
       puts 'City name can not be blank!'
     else
-      puts "Rainfall mean: #{calculate_middle_rainfall(str, data_extraction)} Rainfall variance: #{calculate_variance(str, data_extraction)}"
+      show_result(str)
     end
   end
 end
