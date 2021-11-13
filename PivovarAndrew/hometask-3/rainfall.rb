@@ -42,29 +42,29 @@ class RainfallController
   end
 
   def average
-    self.rainfalls.sum / self.rainfalls.length
+    rainfalls.sum / rainfalls.length
   end
 
   def data_contain_town?
-    self.data.match(/^#{self.town}/)
+    data.match(/^#{town}/)
   end
 
   def rainfalls
-    self.parse_data[self.town].scan(/\d+.\d+/).map(&:to_f)
+    parse_data[town].scan(/\d+.\d+/).map(&:to_f)
   end
 
   def mean
-    self.data_contain_town? ? self.average : -1
+    data_contain_town? ? average : -1
   end
 
   def variance
-    self.data_contain_town? ? self.rainfalls.map { |rainfall| (rainfall - self.mean) ** 2 }.sum / self.rainfalls.length : -1
+    data_contain_town? ? rainfalls.map { |rainfall| (rainfall - mean) ** 2 }.sum / rainfalls.length : -1
   end
 
   private
 
   def parse_data
-    self.data.split("\n").map { |data_str| data_str.split(":") }.to_h
+    data.split("\n").map { |data_str| data_str.split(":") }.to_h
   end
 
   def generate_rainfalls
