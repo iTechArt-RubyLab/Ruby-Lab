@@ -2,27 +2,22 @@
 
 # frozen_string_literal: true
 
+ENTER_STRING = 'enter string'
+ERROR = 'String can not be blank!'
+EXIT = 'exit!'
+RESULT = 'Middle character:'
+def get_middle(str)
+  slen = (str.length - 1) / 2.0
+  str[slen.floor..slen.ceil]
+end
+
 def run_cli
   loop do
-    puts 'Enter string'
-    string = gets.chomp
-    break if string == 'exit!'
+    puts ENTER_STRING
+    st = gets.chomp
+    break if st == EXIT
 
-    if string.empty?
-      puts 'String can not be blank!'
-    else
-      puts "Middle character: #{get_middle(string)}"
-
-    end
+    st.empty? ? (puts 'String can not be blank!') : (puts RESULT + get_middle(st))
   end
 end
-
-def get_middle(str)
-  if str.length.even?
-    puts str[str.length / 2 - 1] + str[str.length / 2]
-  else
-    puts str[str.length / 2]
-  end
-end
-
 run_cli
