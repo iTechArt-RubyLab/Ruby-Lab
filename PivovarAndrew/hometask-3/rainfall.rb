@@ -6,11 +6,10 @@ ERROR_MESSAGE = "String can not be blank!"
 
 # Controller for the implementation of operations related to rainfalls
 class RainfallController
-  TOWNS = %w["Rome", "London", "Paris", "NY", "Vancouver", "Sydney", "Bangkok",
-             "Tokyo", "Beijing", "Lima", "Montevideo", "Caracas", "Madrid", "Berlin"]
+  TOWNS = %w[Rome London Paris NY Vancouver Sydney Bangkok
+             Tokyo Beijing Lima Montevideo Caracas Madrid Berlin]
 
-  MONTHES = %w["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  MONTHES = %w[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec]
 
   MIN_RAINFALLS_COUNT = 0.1
   MAX_RAINFALLS_COUNT = 300.0
