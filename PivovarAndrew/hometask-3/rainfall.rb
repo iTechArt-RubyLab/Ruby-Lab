@@ -34,15 +34,8 @@ class RainfallController
   def generate_data
     random = Random.new
     TOWNS.each { |town|
-      min_generated_value = random.rand(MIN_RAINFALLS_COUNT..MAX_RAINFALLS_COUNT)
-      max_generated_value = min_generated_value * 1.5
       @data << "#{town}:"
-      town_info = Array.new
-      MONTHES.each { |month|
-        town_info << "#{month} #{random.rand(min_generated_value..max_generated_value).round(RAINFALL_ACCURACY)}"
-      }
-      town_info << nil
-      @data << town_info.compact.join(",")
+      @data << monthes_with_rainfalls.compact.join(",")
       @data << "\n"
     }
   end
@@ -55,7 +48,7 @@ class RainfallController
     rainfalls.sum / rainfalls.length
   end
 
-  def is_data_contain_town?
+  def data_contain_town?
     data.match(/^#{town}/)
   end
 
@@ -75,6 +68,16 @@ class RainfallController
 
   def parse_data
     data.split("\n").map { |str| str.split(":") }.to_h
+  end
+
+  def monthes_with_rainfalls
+    min_generated_value = random.rand(MIN_RAINFALLS_COUNT..MAX_RAINFALLS_COUNT)
+    max_generated_value = min_generated_value * 1.5
+    town_info = Array.new
+    MONTHES.each { |month|
+      town_info << "#{month} #{random.rand(min_generated_value..max_generated_value).round(RAINFALL_ACCURACY)}"
+    }
+    town_info << nil
   end
 end
 
