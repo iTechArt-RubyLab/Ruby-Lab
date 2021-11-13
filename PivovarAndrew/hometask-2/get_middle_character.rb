@@ -17,9 +17,7 @@ def run_cli
       exit!
     elsif str.empty?
       puts ERROR_MESSAGE
-    else
-      puts "Middle character(s): #{get_middle(str)}"
-    end
+    else puts "Middle character(s): #{get_middle(str)}"     end
   end
 end
 
