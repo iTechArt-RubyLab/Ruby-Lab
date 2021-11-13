@@ -15,7 +15,7 @@ def run_cli
   loop do
     puts INPUT_PROMPT
     str = gets.chomp
-    break if str == EXIT_STRING
+    exit if str == EXIT_STRING
     if str.empty?
       puts ERROR_EMPTY
     else
