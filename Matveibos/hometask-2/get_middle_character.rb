@@ -17,7 +17,7 @@ def run_cli
     st = gets.chomp
     break if st == EXIT
 
-    st.empty? ? (puts 'String can not be blank!') : (puts RESULT + get_middle(st))
+    st.empty? ? (puts ERROR) : (puts "#{RESULT}  #{get_middle(st)}")
   end
 end
 run_cli
