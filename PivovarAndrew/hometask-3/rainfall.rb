@@ -23,8 +23,8 @@ class RainfallController
   end
 
   def initialize
-    @town = String.new
-    @data = String.new
+    @town = +""
+    @data = +""
   end
 
   def town=(town)
