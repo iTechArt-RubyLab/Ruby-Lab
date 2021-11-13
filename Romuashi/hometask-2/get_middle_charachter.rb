@@ -3,7 +3,7 @@
 
 def get_middle(str)
   middle_position = str.length / 2
-  str[(middle_position - 1)..middle_position]
+  str.length.odd? ? str[middle_position] : str[(middle_position - 1)..middle_position]
 end
 
 def run_cli
