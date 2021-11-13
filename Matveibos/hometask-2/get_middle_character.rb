@@ -6,6 +6,7 @@ ENTER_STRING = 'enter string'
 ERROR = 'String can not be blank!'
 EXIT = 'exit!'
 RESULT = 'Middle character:'
+
 def get_middle(str)
   slen = (str.length - 1) / 2.0
   str[slen.floor..slen.ceil]
