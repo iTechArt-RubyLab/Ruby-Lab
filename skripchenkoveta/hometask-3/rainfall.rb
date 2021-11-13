@@ -36,9 +36,9 @@ def calculate_variance(town, str)
   varian = 0.0
   return -1.0 unless str.include? town
 
-  arr_second = town_search(town, str)
-  arr_third = extracting_numbers(arr_second)
-  arr_third.each do |k|
+  str = town_search(town, str)
+  str = extracting_numbers(str)
+  str.each do |k|
     varian += (calculate_middle_rainfall(town, str) - k)**2
   end
   varian / 12
