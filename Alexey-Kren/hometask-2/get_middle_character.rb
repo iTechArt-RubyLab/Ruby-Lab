@@ -6,8 +6,8 @@ empt = 'String can not be blank'
 
 
 def get_middle(str)
-  x = (str.length - 1)/ 2
-  str[x..-x.succ]
+  x = (str.length - 1) / 2
+  str[x.. - x.succ]
 end
 
 def run_cli
