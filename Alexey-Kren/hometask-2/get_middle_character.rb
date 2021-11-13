@@ -4,7 +4,7 @@
 INPUT_PROMPT = 'Enter string: '
 EXIT_STRING = 'exit!'
 ERROR_EMPTY = 'String can not be blank'
-MESS_RESULT = 'Middle character(str)'
+MESS_RESULT = 'Middle character: '
 
 def get_middle(str)
   x = (str.length - 1) / 2
