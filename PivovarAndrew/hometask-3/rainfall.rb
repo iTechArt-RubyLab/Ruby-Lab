@@ -30,11 +30,11 @@ class RainfallController
   end
 
   def generate_data
-    TOWNS.each { |town|
+    TOWNS.each do |town|
       @data << "#{town}:"
       @data << self.generate_rainfalls.compact.join(",")
       @data << "\n"
-    }
+    end
   end
 
   def write_data_to_file
@@ -72,9 +72,9 @@ class RainfallController
     min_generated_value = random.rand(MIN_RAINFALLS_COUNT..MAX_RAINFALLS_COUNT)
     max_generated_value = min_generated_value * 1.5
     rainfalls_info = []
-    MONTHES.each { |month|
+    MONTHES.each do |month|
       rainfalls_info << "#{month} #{random.rand(min_generated_value..max_generated_value).round(RAINFALL_ACCURACY)}"
-    }
+    end
     rainfalls_info << nil
   end
 end
