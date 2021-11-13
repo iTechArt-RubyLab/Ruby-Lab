@@ -1,22 +1,26 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+inpt = 'Enter string: '
+ext = 'exit!'
+empt = 'String can not be blank'
+
 
 def get_middle(str)
-  x = str.length / 2
-  str.length.odd? ? str[x] : str[x - 1] + str[x]
+  x = (str.length - 1)/ 2
+  str[x..-x.succ]
 end
 
 def run_cli
   loop do
-    p 'Enter string: '
+    p inpt
     str = gets.chomp
 
-    break if str == 'exit!'
+    break if str == ext
 
     if str.empty?
-      p 'String can not be blank!'
+      p empt
     else
-      p "Middle character: #{get_middle(str)}"
+      p  "Middle character: #{get_middle(str)}"
     end
   end
 end
