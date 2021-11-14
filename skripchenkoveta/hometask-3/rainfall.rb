@@ -10,7 +10,7 @@ def rainfall_string
   file.read
 end
 
-def town_searching(town_rainfall, string_rainfall)
+def town_search(town_rainfall, string_rainfall)
   string_rainfall = string_rainfall.split("\n")
   string_rainfall.find { |value| value.include? town_rainfall }
 end
