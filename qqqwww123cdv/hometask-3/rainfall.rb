@@ -16,13 +16,13 @@ def weather_data(town, data)
 end
 
 def mean(town, data)
-  return -1.0 unless data.include? town
+  return -1 unless data.match "#{town}:"
 
   weather_data(town, data).sum / 12
 end
 
 def variance(town, data)
-  return -1.0 unless data.include? town
+  return -1 unless data.match "#{town}:"
 
   weather_data(town, data).map { |i| (mean(town, data) - i)**2 }.sum / 12
 end
