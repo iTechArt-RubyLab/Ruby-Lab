@@ -22,13 +22,13 @@ end
 def calculate_middle_rainfall(town, rainfall_string)
   return -1.0 unless rainfall_string.include? town
 
-  rainfall_average= 0.0
+  rainfall_average = 0.0
   rainfall_string = town_search(town, rainfall_string)
   rainfall_values = extract_numbers(rainfall_string)
   rainfall_values.each do |value|
-    rainfall_average+= value
+    rainfall_average += value
   end
-  rainfall_average/ MONTHS_IN_YEAR
+  rainfall_average / MONTHS_IN_YEAR
 end
 
 def calculate_variance(town, rainfall_string)
