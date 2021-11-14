@@ -1,26 +1,31 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+ENTER_MESSAGE = 'Enter city name: '
+ERROR_MESSAGE = 'City name can not be blank!'
+EXIT_MESSAGE = 'exit'
+MONTH = 12
+
 def data_extraction
   file = File.new('data.txt')
   file.read
 end
 
 def mean(town, data)
-  return -1.0 unless data.include? town
+  return -1 unless data.include?(town)
 
-  serch_town(town, data).sum / 12
+  search_town(town, data).sum / MONTH
 end
 
 def variance(town, data)
-  return -1.0 unless data.include? town
+  return -1 unless data.include?(town)
 
-  serch_town(town, data).map { |i| (mean(town, data) - i)**2 }.sum / 12
+  search_town(town, data).map { |city| (mean(town, data) - city)**2 }.sum / MONTH
 end
 
-def serch_town(town, data)
+def search_town(town, data)
   data.split("\n").each do |i|
-    if i.include? town
+    if i.include?(town)
       string = i.scan(/\d*\.\d/).map(&:to_f)
       return string
     end
@@ -29,11 +34,11 @@ end
 
 def run_cli
   loop do
-    puts 'Enter city name: '
+    puts ENTER_MESSAGE
     string = gets.chomp
-    break if string == 'exit'
+    exit if string == EXIT_MESSAGE
 
-    string.empty? ? puts('City name can not be blank!') : show_result(string)
+    string.empty? ? puts(ERROR_MESSAGE) : show_result(string)
   end
 end
 
