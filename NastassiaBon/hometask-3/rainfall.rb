@@ -3,7 +3,7 @@
 
 ENTER_MESSAGE = 'Enter city name: '
 ERROR_MESSAGE = 'City name can not be blank!'
-EXIT_MESSAGE = 'exit'
+EXIT_MESSAGE = 'exit!'
 NUMBER_OF_MONTHS = 12
 
 def data_extraction
