@@ -4,7 +4,7 @@
 ENTER_MESSAGE = 'Enter city name: '
 ERROR_MESSAGE = 'City name can not be blank!'
 EXIT_MESSAGE = 'exit'
-MONTH = 12
+NUMBER_OF_MONTHS = 12
 
 def data_extraction
   file = File.new('data.txt')
@@ -14,21 +14,18 @@ end
 def mean(town, data)
   return -1 unless data.include?(town)
 
-  search_town(town, data).sum / MONTH
+  search_town(town, data).sum / NUMBER_OF_MONTHS
 end
 
 def variance(town, data)
   return -1 unless data.include?(town)
 
-  search_town(town, data).map { |city| (mean(town, data) - city)**2 }.sum / MONTH
+  search_town(town, data).map { |city| (mean(town, data) - city)**2 }.sum / NUMBER_OF_MONTHS
 end
 
 def search_town(town, data)
-  data.split("\n").each do |i|
-    if i.include?(town)
-      string = i.scan(/\d*\.\d/).map(&:to_f)
-      return string
-    end
+  data.split("\n").each do |city|
+    return city.scan(/\d*\.\d/).map(&:to_f) if city.include?(town)
   end
 end
 
