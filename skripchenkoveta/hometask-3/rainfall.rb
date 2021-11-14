@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+ENTER_MESSAGE = 'Enter city name: '
+ERROR_MESSAGE = 'City name can not be blank!'
 EXIT_COMMAND = 'exit!'
+MONTHS_YEAR = 12
 
 def rainfall_string
   file = File.new('data.txt', 'r:UTF-8')
@@ -25,7 +28,7 @@ def calculate_middle_rainfall(town_rainfall, string_rainfall)
   values_rainfall.each do |value|
     average_rainfall += value
   end
-  average_rainfall / 12
+  average_rainfall / MONTHS_YEAR
 end
 
 def calculate_variance(town_rainfall, string_rainfall)
@@ -37,7 +40,7 @@ def calculate_variance(town_rainfall, string_rainfall)
   values_rainfall.each do |value|
     variance_rainfall += (calculate_middle_rainfall(town_rainfall, string_rainfall) - value)**2
   end
-  variance_rainfall / 12
+  variance_rainfall / MONTHS_YEAR
 end
 
 def show_result(town_rainfall)
@@ -47,12 +50,12 @@ end
 
 def run_cli
   loop do
-    print 'Enter city name: '
+    print ENTER_MESSAGE
     city = gets.chomp
     break if city == EXIT_COMMAND
 
     if city.empty?
-      puts 'City name can not be blank!'
+      puts ERROR_MESSAGE
     else
       show_result(city)
     end
