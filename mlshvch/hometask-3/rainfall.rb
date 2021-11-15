@@ -1,4 +1,9 @@
+#!/usr/bin/env ruby
+
 # frozen_string_literal: true
+
+EXIT_COMMAND = 'exit!'
+ERROR_MESSAGE = 'City name can not be blank!'
 
 def extract_data(strng)
   hash = {}
@@ -6,7 +11,7 @@ def extract_data(strng)
     array = []
     city, values = data.split(':')
     results = values.split(',')
-    results.each { |value| array.push(value.split(' ')[1]) } 
+    results.each { |value| array.push(value.split(' ')[1]) }
     hash[city] = array
   end
   hash
@@ -34,3 +39,17 @@ def variance(town, strng)
   end
   variance
 end
+
+def run_cli
+  loop do
+    puts 'Enter city name:'
+    input = gets.chomp
+    break if input == EXIT_COMMAND
+
+    success_message = "Rainfall mean: #{mean(input, '')}\nRainfall variance: #{variance(input, '')}"
+
+    puts input.empty? ? ERROR_MESSAGE : success_message
+  end
+end
+
+run_cli
