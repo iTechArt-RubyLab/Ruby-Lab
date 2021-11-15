@@ -4,7 +4,7 @@
 EXIT_STATE = 'Exit!'
 ERROR_MESSAGE = 'String can not be blank'
 NO_NUMBERS = -1
-MONTHS = 12
+NUMBER_OF_MONTHS = 12
 
 def extract_data
   file = File.new('data.txt', 'r:UTF-8')
@@ -21,15 +21,15 @@ def mean(town, strng)
   numbers = parse_data(town, strng)
   return NO_NUMBERS if numbers.nil?
 
-  numbers.sum / MONTHS
+  numbers.sum / NUMBER_OF_MONTHS
 end
 
 def variance(town, strng)
   numbers = parse_data(town, strng)
   return NO_NUMBERS if numbers.nil?
 
-  mean = numbers.sum / MONTHS
-  numbers.map { |num| (num - mean)**2 }.sum / MONTHS
+  mean = numbers.sum / NUMBER_OF_MONTHS
+  numbers.map { |num| (num - mean)**2 }.sum / NUMBER_OF_MONTHS
 end
 
 def show_results(in_city)
