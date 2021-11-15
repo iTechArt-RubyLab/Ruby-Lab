@@ -4,40 +4,40 @@
 module RunCli
   def run_cli
     loop do
-      input_town = users_input_town
+      input_town = town
 
       break if input_town == 'exit!'
 
-      input_year = users_input_year
+      input_year = year
 
       if input_town.empty?
         error
       else
-        input_year == '2020' ? show(input_town, LAST_YEAR) : show(input_town, THE_YEAR_BEFORE_LAST)
+        input_year == '2020' ? show(input_town, DATA) : show(input_town, DATA1)
       end
     end
   end
 
   private
 
-  def users_input_town
-    print 'Enter city name: '
+  def town
+    puts 'Enter city name: '
     gets.chomp
   end
 
-  def users_input_year
-    print 'Enter a year: '
+  def year
+    puts 'Enter a year (2020 or 2019): '
     gets.chomp
   end
 
   def error
-    puts "City/year name can not be blank!\n\n"
+    puts 'City/year name can not be blank!'
   end
 
   def show(input_town, input_year)
-    town = Rainfall.new(town: input_town, strng: input_year)
+    town = Rainfall.new(town: input_town, data: input_year)
 
     puts "Rainfall mean: #{town.mean}"
-    puts "Rainfall variance: #{town.variance}\n\n"
+    puts "Rainfall variance: #{town.variance}"
   end
 end

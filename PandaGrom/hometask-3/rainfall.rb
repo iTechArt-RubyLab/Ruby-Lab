@@ -5,44 +5,44 @@ require './data/rainfalls'
 require './data/towns'
 require './run'
 
-# This class calculate average and variance from town rainfalls
+# This class calculate the average and the variance of town rainfalls
 class Rainfall
   extend RunCli
-  attr_accessor :town, :strng
+  attr_accessor :town, :data
 
-  def initialize(town:, strng:)
+  def initialize(town:, data:)
     @town = town
-    @strng = strng
+    @data = data
   end
 
   def mean
-    return -1 unless find_town
+    return -1 if town_info.empty?
 
     average
   end
 
   def variance
-    return -1 unless find_town
+    return -1 if town_info.empty?
 
     calculating_variance
   end
 
   private
 
-  def find_town
-    strng.split(/\n/).find { |str| str.match?(town) }
+  def town_info
+    TOWNS.include?(town) ? data.split(/\n/).select { |str| str.include?(town) } : ''
   end
 
-  def parsing_values
-    find_town.scan(/\d+.\d+/).map(&:to_f)
+  def parsed_values
+    town_info[0].scan(/\d+.\d+/).map(&:to_f)
   end
 
   def average
-    parsing_values.sum.to_f / parsing_values.length
+    parsed_values.sum.to_f / parsed_values.length
   end
 
   def calculating_variance
-    parsing_values.reduce(0) { |y, x| y + (x - average)**2 / parsing_values.length.to_f }
+    parsed_values.reduce(0) { |y, x| y + (x - average)**2 / parsed_values.length.to_f }
   end
 end
 
