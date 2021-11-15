@@ -4,12 +4,12 @@
 INPUT_PROMPT = 'Enter city name:'
 ERROR_BLANK_STRING = 'City name can not be blank!'
 ERROR_FILE_READ_FAIL = 'Error: data file not found'
-ERROR_MOUNT_NUMBER = 'Error: something went wrong when counting months.'
+ERROR_MONTH_NUMBER = 'Error: something went wrong when counting months.'
 MEAN = 'Rainfall mean:'
 VARIANCE = 'Rainfall variance:'
 EXIT_STRING = 'exit!'
 TOWN_ERROR = -1
-MOUNTH_NUMBER = 12
+MONTH_NUMBER = 12
 CURRENT_FILE = 'data.txt'
 
 def file_reader(filename)
@@ -25,6 +25,10 @@ def file_reader(filename)
   end
 end
 
+# Looking for the specified city, determining its position in the line.
+# Since the city name is always at the beginning of the line, we check
+# that the previous character was a line feed or the beginning of a file.
+# If the city is not found - return false.
 def town_pos(town, strng)
   pos = /(^|\s)#{town}:/ =~ strng
   case pos
@@ -37,6 +41,9 @@ def town_pos(town, strng)
   end
 end
 
+# Form a substring with values belonging to the city.
+# Substring starts after city name and colon
+# and ends at newline or end of file 
 def form_substring(pos, strng)
   substr = ''
   loop do
@@ -47,6 +54,8 @@ def form_substring(pos, strng)
   substr
 end
 
+# Form an array of numbers from substring with town,
+# if the town was found.
 def form_array(town, strng)
   if town_pos(town, strng)
     start_search_pos = town_pos(town, strng) + town.size + 1
@@ -61,7 +70,7 @@ def mean(town, strng)
   array = form_array(town, strng)
   return TOWN_ERROR unless array
 
-  puts ERROR_MOUNT_NUMBER if array.size != MOUNTH_NUMBER
+  puts ERROR_MONTH_NUMBER if array.size != MONTH_NUMBER
   array.sum / array.size
 end
 
@@ -70,15 +79,10 @@ def variance(town, strng)
   return TOWN_ERROR unless array
 
   mean_val = mean(town, strng)
-  i = 0
-  sum = 0
-  while i < array.size
-    sum += (array[i] - mean_val)**2
-    i += 1
-  end
-  sum / array.size
+  array.inject(0) { |memo, n| memo + (n - mean_val)**2 } / array.size
 end
 
+# Analyzing user input
 def inp_selection(town, strng)
   case town
   when EXIT_STRING
