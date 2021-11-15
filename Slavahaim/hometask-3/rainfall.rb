@@ -3,35 +3,38 @@
 
 EXIT_STATE = 'Exit!'
 ERROR_MESSAGE = 'String can not be blank'
+M_ONE = -1
+MONTHS = 12
 
-def data_extract
+def extract_data
   file = File.new('data.txt', 'r:UTF-8')
   file.read
 end
 
 def parse_data(town, str)
-  match = str.match(/#{town}:Jan (.*)/)
+  town_pattern = /#{town}:Jan (.*)/
+  match = str.match(town_pattern)
   match.nil? ? [] : match[1].split(/,\w+\s/).map(&:to_f)
 end
 
 def mean(town, strng)
   numbers = parse_data(town, strng)
-  return -1 if numbers.nil?
+  return M_ONE if numbers.nil?
 
-  numbers.sum / 12
+  numbers.sum / MONTHS
 end
 
 def variance(town, strng)
   numbers = parse_data(town, strng)
-  return -1 if numbers.nil?
+  return M_ONE if numbers.nil?
 
-  mean = numbers.sum / 12
-  numbers.map { |num| (num - mean)**2 }.sum / 12
+  mean = numbers.sum / MONTHS
+  numbers.map { |num| (num - mean)**2 }.sum / MONTHS
 end
 
 def show_results(in_city)
-  puts "Rainfall mean: #{mean(in_city, data_extract)}"
-  puts "Rainfall variance: #{variance(in_city, data_extract)}"
+  puts "Rainfall mean: #{mean(in_city, extract_data)}"
+  puts "Rainfall variance: #{variance(in_city, extract_data)}"
 end
 
 def run_cli
