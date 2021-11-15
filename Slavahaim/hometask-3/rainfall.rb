@@ -3,7 +3,7 @@
 
 EXIT_STATE = 'Exit!'
 ERROR_MESSAGE = 'String can not be blank'
-M_ONE = -1
+NO_NUMBERS = -1
 MONTHS = 12
 
 def extract_data
@@ -19,14 +19,14 @@ end
 
 def mean(town, strng)
   numbers = parse_data(town, strng)
-  return M_ONE if numbers.nil?
+  return NO_NUMBERS if numbers.nil?
 
   numbers.sum / MONTHS
 end
 
 def variance(town, strng)
   numbers = parse_data(town, strng)
-  return M_ONE if numbers.nil?
+  return NO_NUMBERS if numbers.nil?
 
   mean = numbers.sum / MONTHS
   numbers.map { |num| (num - mean)**2 }.sum / MONTHS
