@@ -43,7 +43,7 @@ end
 
 # Form a substring with values belonging to the city.
 # Substring starts after city name and colon
-# and ends at newline or end of file 
+# and ends at newline or end of file.
 def form_substring(pos, strng)
   substr = ''
   loop do
