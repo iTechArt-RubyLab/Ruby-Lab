@@ -24,7 +24,7 @@ class Rainfall
   def variance
     return -1 if town_info.empty?
 
-    calculating_variance
+    parsed_values.reduce(0) { |y, x| y + (x - average)**2 / parsed_values.length.to_f }
   end
 
   private
@@ -38,11 +38,7 @@ class Rainfall
   end
 
   def average
-    parsed_values.sum.to_f / parsed_values.length
-  end
-
-  def calculating_variance
-    parsed_values.reduce(0) { |y, x| y + (x - average)**2 / parsed_values.length.to_f }
+    parsed_values.sum / parsed_values.length
   end
 end
 
