@@ -2,11 +2,17 @@
 
 # frozen_string_literal: true
 
+TEXT_SEPARATOR = "\n"
+NUM_OF_MONTHS = 12
+REGEXP_FOR_CITY = /\w+:/.freeze
+REGEXP_FOR_RAINFALL = /([0-9-]+\.[0-9])/.freeze
+FILE_NAME = 'take_data.txt'
+
 # get avg and var from rainfall
 class Rainfall
   def initialize
     @user_input = user_input
-    @city_and_values = {}
+    init_city_and_values
   end
 
   def run_cli
@@ -15,19 +21,20 @@ class Rainfall
     if @user_input.empty?
       puts 'Mistake!!!'
     else
-      puts "Rainfall mean: #{mean}"
-      puts "Rainfall variance: #{variance}"
+      puts process_city
+
     end
 
     repeat
   end
 
-  def take_data
-    data = File.new('take_data.txt', 'r:UTF-8')
-    @data = data.read
-  end
-
   private
+
+  def process_city
+    return -1 unless current_city
+
+    "Rainfall mean: #{mean}\nRainfall variance: #{variance}"
+  end
 
   def user_input
     puts 'Enter a string:'
@@ -36,30 +43,36 @@ class Rainfall
 
   def repeat
     @user_input = user_input
-
+    @current_city = nil
     run_cli
   end
 
-  def mean
+  def data
+    File.new(FILE_NAME).read
+  end
+
+  def init_city_and_values
+    @city_and_values = {}
     take_data
-    whole_string = @data.split("\n")
-    whole_string.each do |string|
-      city = /\w+:/.match(string).to_s.delete(':')
-      rainfall = string.scan(/([0-9-]+\.[0-9])/).flatten.map(&:to_f)
-      @city_and_values[city] = rainfall
+    data.split(TEXT_SEPARATOR).each do |string|
+      city = REGEXP_FOR_CITY.match(string).to_s.delete(':')
+      @city_and_values[city] = string.scan(REGEXP_FOR_RAINFALL).flatten.map(&:to_f)
     end
+  end
 
-    return -1 unless @city_and_values[@user_input]
+  def current_city
+    @current_city ||= @city_and_values[@user_input]
+  end
 
-    @city_and_values[@user_input].sum / 12
+  def mean
+    current_city.sum / NUM_OF_MONTHS
   end
 
   def variance
     avg = mean
-    return -1 unless @city_and_values[@user_input]
 
-    var = @city_and_values[@user_input].map { |city_value| (city_value - avg)**2 }
-    var.sum / 12
+    var = current_city.map { |city_value| (city_value - avg)**2 }
+    var.sum / NUM_OF_MONTHS
   end
 end
 
