@@ -24,7 +24,7 @@ def calculate_middle_rainfall(town, rainfall_string)
 
   rainfall_town_string = town_search(town, rainfall_string)
   rainfall_values = extract_numbers(rainfall_town_string)
-  rainfall_values.sum / MONTHS_IN_YEAR
+  calculate_rainfall_average(rainfall_values)
 end
 
 def calculate_variance(town, rainfall_string)
