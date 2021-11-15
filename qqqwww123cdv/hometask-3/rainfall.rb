@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-def getting_data
+def data
   file = File.new('data.txt', 'r:UTF-8')
   file.read
 end
@@ -30,8 +30,8 @@ def variance(town, data)
 end
 
 def show_mean_and_variance(town)
-  puts "Rainfall mean: #{mean(town, getting_data)}"
-  puts "Rainfall variance: #{variance(town, getting_data)}"
+  puts "Rainfall mean: #{mean(town, data)}"
+  puts "Rainfall variance: #{variance(town, data)}"
 end
 
 def run_cli
