@@ -1,27 +1,19 @@
 # !/usr/bin/env ruby
 # frozen_string_literal: false
 
-STOP_WORD = 'exit!'
-STOP_WORD.freeze
-ERROR_MESSAGE = 'String can not be blank!'
-ERROR_MESSAGE.freeze
+STOP_WORD = 'exit!'.freeze
+ERROR_MESSAGE = 'String can not be blank!'.freeze
 
 # Controller for the implementation of operations related to rainfalls
 class RainfallController
   TOWNS = %w[Rome London Paris NY Vancouver Sydney Bangkok
-             Tokyo Beijing Lima Montevideo Caracas Madrid Berlin]
-  TOWNS.freeze
-  MONTHES = %w[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec]
-  MONTHES.freeze
+             Tokyo Beijing Lima Montevideo Caracas Madrid Berlin].freeze
+  MONTHES = %w[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec].freeze
 
-  MIN_RAINFALLS_COUNT = 0.1
-  MIN_RAINFALLS_COUNT.freeze
-  MAX_RAINFALLS_COUNT = 300.0
-  MAX_RAINFALLS_COUNT.freeze
-  RAINFALL_ACCURACY = 1
-  RAINFALL_ACCURACY.freeze
-  DATA_FILE_NAME = 'data.txt'
-  DATA_FILE_NAME.freeze
+  MIN_RAINFALLS_COUNT = 0.1.freeze
+  MAX_RAINFALLS_COUNT = 300.0.freeze
+  RAINFALL_ACCURACY = 1.freeze
+  DATA_FILE_NAME = 'data.txt'.freeze
 
   attr_reader :data
   attr_accessor :town
