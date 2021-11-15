@@ -4,7 +4,7 @@
 
 TEXT_SEPARATOR = "\n"
 NUMB_OF_MONTHS = 12
-REGEXP_FOR_CITY =/\w+:/.freeze
+REGEXP_FOR_CITY = /\w+:/.freeze
 REGEXP_FOR_RAINFALL = /([0-9-]+\.[0-9])/.freeze
 FILE_NAME = 'take_data.txt'
 
