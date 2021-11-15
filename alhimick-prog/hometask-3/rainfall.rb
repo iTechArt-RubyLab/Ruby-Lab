@@ -8,7 +8,7 @@ MESSAGE_INCORRECT_MONTH_NUMBER = 'Warning: the number of months is not equal to 
 MEAN = 'Rainfall mean:'
 VARIANCE = 'Rainfall variance:'
 EXIT_STRING = 'exit!'
-TOWN_ERROR = -1
+TOWN_SEARCH_ERROR_NUMBER = -1
 MONTH_NUMBER = 12
 CURRENT_FILE = 'data.txt'
 
@@ -45,7 +45,7 @@ end
 
 def mean(town, strng)
   array = form_array(town, strng)
-  return TOWN_ERROR unless array
+  return TOWN_SEARCH_ERROR_NUMBER unless array
 
   puts MESSAGE_INCORRECT_MONTH_NUMBER if array.size != MONTH_NUMBER
   array.sum / array.size
@@ -53,7 +53,7 @@ end
 
 def variance(town, strng)
   array = form_array(town, strng)
-  return TOWN_ERROR unless array
+  return TOWN_SEARCH_ERROR_NUMBER unless array
 
   mean_val = mean(town, strng)
   array.inject(0) { |memo, n| memo + (n - mean_val)**2 } / array.size
