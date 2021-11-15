@@ -3,7 +3,8 @@
 # frozen_string_literal: true
 
 def data
-  @data = File.read('data', encoding: 'UTF-8')
+  data_path = File.expand_path('data', File.dirname(__FILE__))
+  @data = File.read(data_path, encoding: 'UTF-8')
 end
 
 def blank_error
