@@ -2,7 +2,9 @@
 # frozen_string_literal: false
 
 STOP_WORD = 'exit!'
+STOP_WORD.freeze
 ERROR_MESSAGE = 'String can not be blank!'
+ERROR_MESSAGE.freeze
 
 # Controller for the implementation of operations related to rainfalls
 class RainfallController
@@ -27,7 +29,7 @@ class RainfallController
   def generate_data
     TOWNS.each do |town|
       @data << "#{town}:"
-      @data << self.generate_rainfalls.compact.join(',')
+      @data << generate_rainfalls.compact.join(',')
       @data << "\n"
     end
   end
