@@ -1,35 +1,37 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-def data_get
-  file = File.new('data.txt')
+def getting_data
+  file = File.new('data.txt', 'r:UTF-8')
   file.read
 end
 
 def weather_data(town, data)
-  data.split("\n").each do |i|
-    if i.include? town
-      str = i.scan(/\d*\.\d/).map(&:to_f)
-      return str
+  data.split("\n").find do |value|
+    if value.include? town
+      monthly_rainfall = value.scan(/\d*\.\d/).map(&:to_f)
+      return monthly_rainfall
     end
   end
 end
 
 def mean(town, data)
-  return -1 unless data.match "#{town}:"
+  return -1.0 unless data.match "#{town}:"
 
-  weather_data(town, data).sum / 12
+  average_rainfall = weather_data(town, data)
+  average_rainfall.sum / 12
 end
 
 def variance(town, data)
-  return -1 unless data.match "#{town}:"
+  return -1.0 if mean(town, data) == -1
 
-  weather_data(town, data).map { |i| (mean(town, data) - i)**2 }.sum / 12
+  rainfall_values = mean(town, data)
+  weather_data(town, data).map { |data_row| (rainfall_values - data_row)**2 }.sum / 12
 end
 
-def show_result(town)
-  puts "Rainfall mean: #{mean(town, data_get)}"
-  puts "Rainfall variance: #{variance(town, data_get)}"
+def show_mean_and_variance(town)
+  puts "Rainfall mean: #{mean(town, getting_data)}"
+  puts "Rainfall variance: #{variance(town, getting_data)}"
 end
 
 def run_cli
@@ -41,7 +43,7 @@ def run_cli
     if str.empty?
       puts 'Error, line is empty!'
     else
-      show_result(str)
+      show_mean_and_variance(str)
     end
   end
 end
