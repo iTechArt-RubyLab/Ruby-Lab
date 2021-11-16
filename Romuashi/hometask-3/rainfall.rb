@@ -1,9 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+<<<<<<< HEAD
 
 ENTER_STRING = 'Enter your string: '
 BLANCK_STRING = 'String can not be blank!'
 EXIT = 'exit!'
+=======
+>>>>>>> parent of 70e274e (Update rainfall.rb)
 require 'colorize'
 
 def data
