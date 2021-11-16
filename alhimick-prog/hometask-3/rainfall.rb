@@ -25,9 +25,7 @@ end
 def form_array(town, strng)
   array = nil
   strng.each_line do |line|
-    if line.match(/^#{town}:/)
-      array = line.scan(/\d+\.*\d*/).map(&:to_f)
-    end
+    array = line.scan(/\d+\.*\d*/).map(&:to_f) if line.match(/^#{town}:/)
   end
   array
 end
