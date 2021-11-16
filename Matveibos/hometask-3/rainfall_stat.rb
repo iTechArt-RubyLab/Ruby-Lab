@@ -3,45 +3,42 @@
 # this class is used for calculate mean and variance values for town rainfall
 class RainfallStat
   SEPARATOR = ':'
-  REGULAR = /\d*\.\d/.freeze
-
-  def mean
-    create_hash
-
-    calc_mean
-  end
-
-  def variance
-    create_hash
-
-    calc_variance
-  end
-
-  private
+  CHOOSING_NUMBERS = /\d*\.\d/.freeze
 
   def initialize(town, data)
     @town = town
     @data = data
     @processed_data = {}
+    create_hash
   end
+
+  def mean
+    calc_mean
+  end
+
+  def variance
+    calc_variance
+  end
+
+  private
 
   def create_hash
     @data.each_line do |str|
       key = str.split(SEPARATOR).first
-      array = str.scan(REGULAR).map(&:to_f)
+      array = str.scan(CHOOSING_NUMBERS).map(&:to_f)
       @processed_data[key] = array
     end
   end
 
   def calc_mean
-    replace(@town).sum / replace(@town).size
+    rainfall_data_for(@town).sum / rainfall_data_for(@town).size
   end
 
   def calc_variance
-    replace(@town).inject(0) { |var, n| var + (n - calc_mean)**2 / replace(@town).size }
+    rainfall_data_for(@town).inject(0) { |var, n| var + (n - calc_mean)**2 / rainfall_data_for(@town).size }
   end
 
-  def replace(town)
+  def rainfall_data_for(town)
     @processed_data[town]
   end
 end

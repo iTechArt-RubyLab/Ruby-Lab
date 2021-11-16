@@ -13,7 +13,10 @@ class Cli
 
       break if input == EXIT_MESSAGE
 
-      input.empty? ? (puts ERROR_MESSAGE) : show_result(input)
+      input.empty? ? (puts ERROR_MESSAGE) : rainfall_statistics(input)
+
+      show(@rainfall_statistics)
+      show2(@rainfall_statistics)
     end
   end
 
@@ -23,13 +26,16 @@ class Cli
     @data ||= File.open('data.txt').read
   end
 
-  def show_result(input)
-    statistics = RainfallStat.new(input, data)
-    show(statistics)
+  def rainfall_statistics(input)
+    @rainfall_statistics ||= RainfallStat.new(input, data)
   end
 
   def show(statistics)
     puts "Rainfall mean: #{statistics.mean}"
     puts "Rainfall variance: #{statistics.variance}"
+  end
+
+  def show2(statistics)
+    puts "Mean: #{statistics.mean} Variance: #{statistics.variance}"
   end
 end
