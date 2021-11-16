@@ -16,7 +16,6 @@ class Cli
       input.empty? ? (puts ERROR_MESSAGE) : rainfall_statistics(input)
 
       show(@rainfall_statistics)
-      show2(@rainfall_statistics)
     end
   end
 
@@ -33,9 +32,5 @@ class Cli
   def show(statistics)
     puts "Rainfall mean: #{statistics.mean}"
     puts "Rainfall variance: #{statistics.variance}"
-  end
-
-  def show2(statistics)
-    puts "Mean: #{statistics.mean} Variance: #{statistics.variance}"
   end
 end
