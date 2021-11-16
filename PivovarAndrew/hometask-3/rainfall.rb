@@ -24,7 +24,7 @@ class GenerateRainfallData
   RAINFALL_ACCURACY = 1.freeze
 
   def generate_data
-    TOWNS.map.each_with_object(String.new) do |town, memo|
+    TOWNS.map.each_with_object('') do |town, memo|
       memo << "#{town}:#{generate_rainfalls.join(',')}"
       memo << "\n"
     end
