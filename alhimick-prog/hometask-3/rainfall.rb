@@ -2,10 +2,10 @@
 # frozen_string_literal: true
 
 INPUT_PROMPT = 'Enter city name:'
-ERROR_BLANK_STRING = 'City name can not be blank!'
-ERROR_FILE_READ_FAIL = 'Error: data file not found'
+BLANK_STRING_ERROR = 'City name can not be blank!'
+FILE_READ_ERROR = 'Error: data file not found'
 EMPTY_ARRAY_ERROR = 'No numeric values found'
-MESSAGE_INCORRECT_MONTH_NUMBER = 'Warning: the number of months is not equal to 12.'
+INCORRECT_MONTH_NUMBER_WARNING = 'Warning: the number of months is not equal to 12.'
 MEAN = 'Rainfall mean:'
 VARIANCE = 'Rainfall variance:'
 EXIT_STRING = 'exit!'
@@ -18,7 +18,7 @@ def file_reader(filename)
     file = File.new(filename, 'r')
     file.read(file.size)
   else
-    puts ERROR_FILE_READ_FAIL
+    puts FILE_READ_ERROR
     exit
   end
 end
@@ -36,7 +36,7 @@ def mean(town, strng)
   return TOWN_SEARCH_ERROR_NUMBER unless array
   return EMPTY_ARRAY_ERROR if array.empty?
 
-  puts MESSAGE_INCORRECT_MONTH_NUMBER if array.size != MONTH_NUMBER
+  puts INCORRECT_MONTH_NUMBER_WARNING if array.size != MONTH_NUMBER
   array.sum / array.size
 end
 
@@ -54,7 +54,7 @@ def inp_selection(town, strng)
   when EXIT_STRING
     exit
   when ''
-    puts ERROR_BLANK_STRING
+    puts BLANK_STRING_ERROR
   else
     puts "#{MEAN} #{mean(town, strng)}\n#{VARIANCE} #{variance(town, strng)}"
   end
