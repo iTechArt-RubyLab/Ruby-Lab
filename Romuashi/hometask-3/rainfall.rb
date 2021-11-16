@@ -1,9 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-ENTER_STRING = 'Enter your string: '
-BLANCK_STRING = 'String can not be blank!'
-EXIT = 'exit!'
 require 'colorize'
 
 def data
@@ -24,19 +21,19 @@ def variance(town, data)
 end
 
 def search_town(town, data)
-  enter_norm = "#{town}:Jan (.*)"
-  match = data.match(enter_norm)
-  match.nil? ? [] : match[1].split(/,\d+\d/).map(&:to_f)
+  data.split("\n").each do |line|
+    return line.scan(/\d*\.\d/).map(&:to_f) if line.include?(town)
+  end
 end
 
 def run_cli
   loop do
-    p ENTER_STRING
+    p 'Enter your string: '
     text = gets.chomp
-    break if text == EXIT
+    break if text == 'exit!'
 
     if text.empty?
-      p BLANCK_STRING
+      p "String can't be blank!"
     else
       show_result(text)
     end
