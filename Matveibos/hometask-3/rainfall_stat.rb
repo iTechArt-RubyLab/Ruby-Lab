@@ -9,15 +9,15 @@ class RainfallStat
     @town = town
     @data = data
     @processed_data = process_data
-    rainfall_data_for(town)
+
   end
 
   def mean
-    @rainfall_data_for.sum / @rainfall_data_for.size
+    rainfall_data_for(town).sum / rainfall_data_for(town).size
   end
 
   def variance
-    @rainfall_data_for.inject(0) { |var, n| var + (n - mean)**2 / @rainfall_data_for.size }
+    rainfall_data_for(town).inject(0) { |var, n| var + (n - mean)**2 / rainfall_data_for(town).size }
   end
 
   private
@@ -32,6 +32,5 @@ class RainfallStat
 
   def rainfall_data_for(town)
     @rainfall_data_for ||= @processed_data[town]
-    puts @rainfall_data_for.class
   end
 end
