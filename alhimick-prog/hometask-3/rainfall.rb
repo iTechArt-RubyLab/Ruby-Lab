@@ -4,7 +4,7 @@
 INPUT_PROMPT = 'Enter city name:'
 ERROR_BLANK_STRING = 'City name can not be blank!'
 ERROR_FILE_READ_FAIL = 'Error: data file not found'
-ERROR_EMPTY_ARRAY = 'No numeric values found'
+EMPTY_ARRAY_ERROR = 'No numeric values found'
 MESSAGE_INCORRECT_MONTH_NUMBER = 'Warning: the number of months is not equal to 12.'
 MEAN = 'Rainfall mean:'
 VARIANCE = 'Rainfall variance:'
@@ -23,27 +23,27 @@ def file_reader(filename)
   end
 end
 
-def form_array(town, strng)
-  array = nil
+def collector_of_numbers(town, strng)
+  collection = nil
   strng.each_line do |line|
-    array = line.scan(/\d+\.*\d*/).map(&:to_f) if line.match(/^#{town}:/)
+    collection = line.scan(/\d+\.*\d*/).map(&:to_f) if line.match(/^#{town}:/)
   end
-  array
+  collection
 end
 
 def mean(town, strng)
-  array = form_array(town, strng)
+  array = collector_of_numbers(town, strng)
   return TOWN_SEARCH_ERROR_NUMBER unless array
-  return ERROR_EMPTY_ARRAY if array.empty?
+  return EMPTY_ARRAY_ERROR if array.empty?
 
   puts MESSAGE_INCORRECT_MONTH_NUMBER if array.size != MONTH_NUMBER
   array.sum / array.size
 end
 
 def variance(town, strng)
-  array = form_array(town, strng)
+  array = collector_of_numbers(town, strng)
   return TOWN_SEARCH_ERROR_NUMBER unless array
-  return ERROR_EMPTY_ARRAY if array.empty?
+  return EMPTY_ARRAY_ERROR if array.empty?
 
   mean_val = mean(town, strng)
   array.inject(0) { |memo, n| memo + (n - mean_val)**2 } / array.size
