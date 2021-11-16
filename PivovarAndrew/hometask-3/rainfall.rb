@@ -19,9 +19,9 @@ class GenerateRainfallData
              Tokyo Beijing Lima Montevideo Caracas Madrid Berlin].freeze
   MONTHES = %w[Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec].freeze
 
-  MIN_RAINFALLS_COUNT = 0.1.freeze
-  MAX_RAINFALLS_COUNT = 300.0.freeze
-  RAINFALL_ACCURACY = 1.freeze
+  MIN_RAINFALLS_COUNT = 0.1
+  MAX_RAINFALLS_COUNT = 300.0
+  RAINFALL_ACCURACY = 1
 
   def generate_data
     TOWNS.map.each_with_object('') do |town, memo|
