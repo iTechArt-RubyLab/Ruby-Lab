@@ -24,8 +24,11 @@ class Cli
   end
 
   def show_result(input)
-    statistics = RainfallStatistics.new(input, data)
+    statistics = RainfallStat.new(input, data)
+    show(statistics)
+  end
 
+  def show(statistics)
     puts "Rainfall mean: #{statistics.mean}"
     puts "Rainfall variance: #{statistics.variance}"
   end
