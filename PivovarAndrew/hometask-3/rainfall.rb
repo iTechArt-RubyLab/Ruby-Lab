@@ -51,16 +51,8 @@ class Rainfall
     @data = data
   end
 
-  def average
-    rainfalls.sum / rainfalls.length
-  end
-
   def data_contain_town?
     data.match(/^#{town}/)
-  end
-
-  def rainfalls
-    parse_data[town].scan(/\d+.\d+/).map(&:to_f)
   end
 
   def mean
@@ -72,9 +64,16 @@ class Rainfall
   end
 
   private
+  def average
+    rainfalls.sum / rainfalls.length
+  end
 
   def parse_data
     data.split("\n").map { |data_str| data_str.split(':') }.to_h
+  end
+
+  def rainfalls
+    parse_data[town].scan(/\d+.\d+/).map(&:to_f)
   end
 end
 
