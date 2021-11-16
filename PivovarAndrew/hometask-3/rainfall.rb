@@ -1,11 +1,6 @@
 # !/usr/bin/env ruby
 # frozen_string_literal: false
 
-STOP_WORD = 'exit!'.freeze
-ERROR_MESSAGE = 'String can not be blank!'.freeze
-DATA_FILE_NAME = 'data.txt'.freeze
-ENTER_MESSAGE = 'Enter city name: '.freeze
-
 # Class for the implementation of operations related to files
 class FileService
   def write_data_to_file(data, file_name)
@@ -64,6 +59,7 @@ class Rainfall
   end
 
   private
+
   def average
     rainfalls.sum / rainfalls.length
   end
@@ -77,22 +73,29 @@ class Rainfall
   end
 end
 
-def run_cli
-  rainfall = Rainfall.new
-  FileService.new.write_data_to_file(rainfall.data, DATA_FILE_NAME)
-  loop do
-    print ENTER_MESSAGE
-    city_name = gets.chomp
-    if city_name == STOP_WORD
-      exit!
-    elsif city_name.empty?
-      puts ERROR_MESSAGE
-    else
-      rainfall.town = city_name
-      puts "Rainfall mean: #{rainfall.mean}"
-      puts "Rainfall varince: #{rainfall.variance}"
+class RunCli
+  STOP_WORD = 'exit!'.freeze
+  ERROR_MESSAGE = 'String can not be blank!'.freeze
+  DATA_FILE_NAME = 'data.txt'.freeze
+  ENTER_MESSAGE = 'Enter city name: '.freeze
+
+  def run_cli
+    rainfall = Rainfall.new
+    FileService.new.write_data_to_file(rainfall.data, DATA_FILE_NAME)
+    loop do
+      print ENTER_MESSAGE
+      city_name = gets.chomp
+      if city_name == STOP_WORD
+        exit!
+      elsif city_name.empty?
+        puts ERROR_MESSAGE
+      else
+        rainfall.town = city_name
+        puts "Rainfall mean: #{rainfall.mean}"
+        puts "Rainfall varince: #{rainfall.variance}"
+      end
     end
   end
 end
 
-run_cli
+RunCli.new.run_cli
