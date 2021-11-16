@@ -8,34 +8,29 @@ class RainfallStat
   def initialize(town, data)
     @town = town
     @data = data
-    @processed_data = {}
-    create_hash
+    @processed_data = process_data
   end
 
   def mean
-    calc_mean
+    rainfall_data_for(@town).sum / rainfall_data_for(@town).size
   end
 
   def variance
-    calc_variance
+    rainfall_data_for(@town).inject(0) { |var, n| var + (n - mean)**2 / rainfall_data_for(@town).size }
   end
 
   private
 
-  def create_hash
+  attr_reader :town, :data
+
+  def process_data
+    hash = {}
     @data.each_line do |str|
-      key = str.split(SEPARATOR).first
-      array = str.scan(CHOOSING_NUMBERS).map(&:to_f)
-      @processed_data[key] = array
+      city_name = str.split(SEPARATOR).first
+      precipitation = str.scan(CHOOSING_NUMBERS).map(&:to_f)
+      hash[city_name] = precipitation
     end
-  end
-
-  def calc_mean
-    rainfall_data_for(@town).sum / rainfall_data_for(@town).size
-  end
-
-  def calc_variance
-    rainfall_data_for(@town).inject(0) { |var, n| var + (n - calc_mean)**2 / rainfall_data_for(@town).size }
+    hash
   end
 
   def rainfall_data_for(town)

@@ -13,9 +13,7 @@ class Cli
 
       break if input == EXIT_MESSAGE
 
-      input.empty? ? (puts ERROR_MESSAGE) : rainfall_statistics(input)
-
-      show(@rainfall_statistics)
+      input.empty? ? (puts ERROR_MESSAGE) : show(rainfall_statistics(input))
     end
   end
 
