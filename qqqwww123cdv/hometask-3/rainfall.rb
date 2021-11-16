@@ -8,21 +8,24 @@ end
 
 def weather_data(town, data)
   monthly_rainfall = data.split("\n").find { |data_row| data_row.match "#{town}:" }
-  return monthly_rainfall.scan(/\d*\.\d/).map(&:to_f) unless monthly_rainfall.nil?
+  return if monthly_rainfall.nil?
+
+  monthly_rainfall.scan(/\d*\.\d/).map(&:to_f)
 end
 
 def mean(town, data)
   rainfall_values = weather_data(town, data)
-  return -1.0 unless data.match "#{town}:"
+  return -1.0 if rainfall_values.nil?
 
   rainfall_values.sum / rainfall_values.length
 end
 
 def variance(town, data)
-  rainfall_values = mean(town, data)
-  return -1.0 if mean(town, data) == -1
+  average_rainfall = mean(town, data)
+  return -1.0 if average_rainfall == -1
 
-  weather_data(town, data).map { |data_row| (rainfall_values - data_row)**2 }.sum / 12
+  rainfall_values = weather_data(town, data)
+  rainfall_values.map { |data_row| (average_rainfall - data_row)**2 }.sum / rainfall_values.length
 end
 
 def show_mean_and_variance(town)
