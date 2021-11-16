@@ -9,7 +9,6 @@ class RainfallStat
     @town = town
     @data = data
     @processed_data = process_data
-
   end
 
   def mean
