@@ -2,8 +2,8 @@
 # frozen_string_literal: true
 
 def get_middle(str)
-  len = str.length / 2
-  str.length.even? ? str[(len - 1)..len] : str[len]
+  len = (str.length - 1) / 2.0
+  str[len.floor..len.ceil]
 end
 
 def run_cli
