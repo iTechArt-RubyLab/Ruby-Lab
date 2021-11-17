@@ -1,13 +1,9 @@
 #!/usr/bin/env ruby
-
 # frozen_string_literal: true
 
 def get_middle(str)
-  if str.length.even?
-    str[str.length / 2 - 1] + str[str.length / 2]
-  else
-    str[str.length / 2]
-  end
+  len = str.length / 2
+  str.length.even? ? str[(len - 1)..len] : str[len]
 end
 
 def run_cli
