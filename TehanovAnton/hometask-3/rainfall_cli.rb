@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './rainfall_statistics'
+require_relative 'rainfall_statistics'
 
 # RainfallCli designed to initialize data for run_cli method
 class RainfallCli
@@ -16,6 +16,7 @@ class RainfallCli
       break if input == 'exit!'
 
       show_error_message if input.empty?
+
       show_result(input)
     end
   end
