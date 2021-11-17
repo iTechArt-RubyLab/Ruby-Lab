@@ -1,15 +1,15 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+# Extension for native class Array
 class Array
-
-  def lab_rotate(n=1)
-    check_before_rotate(self, n)
+  def lab_rotate(shift = 1)
+    check_before_rotate(self, shift)
   end
 
-  def lab_rotate!(n=1)
-    new_order = check_before_rotate(self, n)
-    self.each_index do |i|
+  def lab_rotate!(shift = 1)
+    new_order = check_before_rotate(self, shift)
+    each_index do |i|
       self[i] = new_order[i]
     end
     self
@@ -17,40 +17,20 @@ class Array
 
   private
 
-  def check_before_rotate(array, n)
+  def check_before_rotate(array, shift)
     return [] if array.empty?
-    return array if n.zero?
-    return array if n >= array.size && array.size % n == 0
+    return array if shift.zero?
+    return array if shift >= array.size && (array.size % shift).zero?
 
-    n = n % array.size if n > array.size
-    itself_rotate(array, n)
+    shift = shift % array.size if shift > array.size
+    itself_rotate(array, shift)
   end
 
-  def itself_rotate(array, n)
+  def itself_rotate(array, shift)
     new_order = []
-    start_point = n > 0 ? n : array.size + n
+    start_point = shift.positive? ? shift : array.size + shift
     array[start_point...array.size].each { |n| new_order.push(n) }
     array[0...start_point].each { |n| new_order.push(n) }
     new_order
   end
-
 end
-
-
-=begin
-arr = [1, 2, 3, 4, 5, 6, 7]
-puts "Start arr: #{arr}"
-puts "ID: #{arr.object_id}"
-puts "Rotate(): #{arr.lab_rotate}"
-puts "After: #{arr}"
-puts "ID: #{arr.object_id}"
-puts "Rotate(10): #{arr.lab_rotate(10)}"
-puts "After: #{arr}"
-puts "#{arr.object_id}"
-puts "Rotate!(): #{arr.lab_rotate!}"
-puts "After: #{arr}"
-puts "#{arr.object_id}"
-puts "Rotate!(-5): #{arr.lab_rotate!(-5)}"
-puts "After: #{arr}"
-puts "#{arr.object_id}"
-=end
