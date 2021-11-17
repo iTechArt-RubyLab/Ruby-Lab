@@ -4,7 +4,7 @@
 require './rainfall_cli'
 
 def run_cli
-  RainfallCli.new.run_cli
+  RainfallCli.new('rainfall_data').run_cli
 end
 
 run_cli

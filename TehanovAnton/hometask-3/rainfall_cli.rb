@@ -2,8 +2,12 @@
 
 require './rainfall_statistics'
 
-# RainfallCli designed to initialise data for run_cli method
+# RainfallCli designed to initialize data for run_cli method
 class RainfallCli
+  def initialize(data_file)
+    @data_file = data_file
+  end
+
   def run_cli
     loop do
       puts 'Enter city name:'
@@ -29,6 +33,6 @@ class RainfallCli
   end
 
   def data
-    @data ||= File.open('rainfall_data').read
+    @data ||= File.open(@data_file).read
   end
 end
