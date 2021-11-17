@@ -22,8 +22,8 @@ class RainfallCli
     puts "City name can't be blank"
   end
 
-  def show_result(input)
-    statistics = RainfallStatistics.new(input, data)
+  def show_result(city)
+    statistics = RainfallStatistics.new(city, data)
     puts "Rainfall mean: #{statistics.mean}"
     puts "Rainfall variance: #{statistics.variance}"
   end
