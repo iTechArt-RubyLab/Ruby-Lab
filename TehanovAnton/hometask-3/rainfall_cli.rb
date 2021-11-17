@@ -11,7 +11,8 @@ class RainfallCli
 
       break if input == 'exit!'
 
-      input.empty? ? show_error_message : show_result(input)
+      show_error_message if input.empty?
+      show_result(input)
     end
   end
 
