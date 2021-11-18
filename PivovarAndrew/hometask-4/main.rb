@@ -9,7 +9,7 @@ class Main
   MIN_VALUE_ARRAY_ELEMENT = 1
   MAX_VALUE_ARRAY_ELEMENT = 9
   ROTATES_COUNT = -4
-  ARRAY_OUTPUT_SEPARATOR = ', '.freeze
+  ARRAY_OUTPUT_SEPARATOR = ', '
 
   def run_cli
     # run_task_one
