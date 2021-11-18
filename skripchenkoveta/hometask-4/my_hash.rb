@@ -13,7 +13,7 @@ class MyHash
   end
 
   def [](key)
-    myhash[key]
+    get(key)[1]
   end
 
   def []=(key, value)
@@ -21,13 +21,15 @@ class MyHash
   end
 
   def delete(key)
-    @myhash = reject { |value| value.include? key }
-    @myhash
+    @myhash.delete(get(key))
   end
 
   def clear
     @myhash = reject { |value| value }
-    @myhash
+  end
+
+  def get(key)
+    @myhash.find { |item, _| item == key } || []
   end
 
   def memory_size
