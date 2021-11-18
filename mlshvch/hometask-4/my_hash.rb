@@ -16,7 +16,7 @@ class MyHash
     sha = Digest::SHA2.hexdigest(key)
     hash = 0
     4.times do |index|
-      hash += sha[index].ord * 10**(6 - index * 2)
+      hash += sha[index].ord * 10 ** (6 - index * 2)
     end
     hash
   end
@@ -36,6 +36,11 @@ class MyHash
     return @hash_table[hash_value][1] if !@hash_table[hash_value].nil? && @hash_table[hash_value].include?(key)
 
     'key not found'
+  end
+
+  def delete(key)
+    hash_value = calculate_hash_value(key)
+    @hash_table.delete_at(hash_value)
   end
 
   def clear
