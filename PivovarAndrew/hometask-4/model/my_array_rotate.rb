@@ -6,12 +6,11 @@ class Array
   DEFAULT_ROTATE_QTY = 1
 
   def lab_rotate(rotate_qty = nil)
-    rotated_array = dup
-    rotated_array.push(rotated_array.slice!(0, rotate_qty.nil? ? DEFAULT_ROTATE_QTY : calc_rotate_qty(rotate_qty)))
+    dup.lab_rotate!(rotate_qty).flatten!
   end
 
   def lab_rotate!(rotate_qty = nil)
-    push(slice!(0, rotate_qty.nil? ? DEFAULT_ROTATE_QTY : calc_rotate_qty(rotate_qty)))
+    push(slice!(0, rotate_qty.nil? ? DEFAULT_ROTATE_QTY : calc_rotate_qty(rotate_qty))).flatten!
   end
 
   private

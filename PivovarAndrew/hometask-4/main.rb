@@ -12,8 +12,8 @@ class Main
   ARRAY_OUTPUT_SEPARATOR = ', '
 
   def run_cli
-    # run_task_one
-    # run_task_two
+    run_task_one
+    run_task_two
   end
 
   private
