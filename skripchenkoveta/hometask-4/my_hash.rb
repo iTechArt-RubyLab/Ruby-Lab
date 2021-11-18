@@ -26,7 +26,7 @@ class MyHash
   end
 
   def clear
-    @myhash = reject { |el| el }
+    @myhash = reject { |value| value }
     @myhash
   end
 
