@@ -3,7 +3,6 @@
 # frozen_string_literal: true
 
 # class My Hash task 4.2
-
 class MyHash
   include Enumerable
 
