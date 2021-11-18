@@ -3,6 +3,7 @@
 # frozen_string_literal: true
 
 # class My Hash task 4.2
+
 class MyHash
   include Enumerable
 
@@ -23,11 +24,11 @@ class MyHash
   end
 
   def pair(key)
-    @keys.find { |key_value| key_value == key } []
+    @keys.find { |key_value| key_value == key } || []
   end
 
   def delete(key)
-    @key.delete(pair(key))
+    @keys.delete(pair(key))
   end
 
   def clear

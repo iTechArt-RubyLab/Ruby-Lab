@@ -7,7 +7,7 @@ class Array
   def lab_rotate(value = 1)
     my_shift = value % size
 
-    if my_shift.zero
+    if my_shift.zero?
       self
     else
       last(size - my_shift) + first(my_shift)
@@ -17,7 +17,7 @@ class Array
   def lab_rotate!(value = 1)
     my_shift = value % size
 
-    if my_shift.zero
+    if my_shift.zero?
       self
     else
       my_shift.times do |_step|

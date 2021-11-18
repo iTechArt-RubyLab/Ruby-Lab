@@ -10,12 +10,12 @@ Benchmark.bm do |x|
   hash = {}
   x.report { 100.times { |el| hash[el] = el } }
   x.report { hash.delete(6) }
-  x.report { hash.length }
+  x.report { hash.size }
   x.report { hash.clear }
   puts '1000 items'
   x.report { 1000.times { |el| hash[el] = el } }
   x.report { hash.delete(65) }
-  x.report { hash.length }
+  x.report { hash.size }
   x.report { hash.clear }
 
   puts 'MyHash: 100 items'
@@ -23,10 +23,10 @@ Benchmark.bm do |x|
   x.report { 100.times { |el| my_hash[el] = el } }
   x.report { my_hash.delete(6) }
   x.report { my_hash.clear }
-  x.report { my_hash.length }
+  x.report { my_hash.size }
   puts '1000 items'
   x.report { 1000.times { |el| my_hash[el] = el } }
   x.report { my_hash.delete(65) }
   x.report { my_hash.clear }
-  x.report { my_hash.length }
+  x.report { my_hash.size }
 end
