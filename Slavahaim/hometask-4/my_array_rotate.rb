@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# realisation of Array
+# Array Implementation
 class Array
-  def lab_rotate(slip = 1)
-    midpoint = slip % length
-    if slip.zero? || (slip == length)
+  def lab_rotate(offset = 1)
+    midpoint = offset % length
+    if offset.zero? || (offset == length)
       self
     else
       num = length - midpoint
@@ -13,9 +13,9 @@ class Array
     end
   end
 
-  def lab_rotate!(slip = 1)
-    midpoint = slip % length
-    if slip.zero? || (slip == length)
+  def lab_rotate!(offset = 1)
+    midpoint = offset % length
+    if offset.zero? || (offset == length)
       self
     else
       num = length - midpoint
