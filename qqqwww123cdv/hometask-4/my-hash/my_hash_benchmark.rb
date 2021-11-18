@@ -7,23 +7,25 @@ require './my_hash'
 Benchmark.bm do |x|
   puts 'MyHash'
   my_hash = MyHash.new
-  x.report { 100.times { |value| my_hash[value] = value } }
-  x.report { 100.times { |value| my_hash[value] = value } }
-  x.report { my_hash.delete(1) }
-  x.report { my_hash.delete(8) }
-  x.report { my_hash.clear }
-  x.report { my_hash.clear }
-  x.report { my_hash.length }
-  x.report { my_hash.length }
+  x.report('10000') { 10000.times { |value| my_hash[value] = value } }
+  my_hash.clear
+  x.report('10000') { 10000.times { |value| my_hash[value] = value } }
+  my_hash.clear
+  x.report('delete') { my_hash.delete(9) }
+  x.report('delete') { my_hash.delete(9) }
+  x.report('clear') { my_hash.clear }
+  x.report('clear') { my_hash.clear }
+  x.report('length') { my_hash.length }
+  x.report('length') { my_hash.length }
 
   puts 'Hash'
   hash = {}
-  x.report { 100.times { |value| hash[value] = value } }
-  x.report { 100.times { |value| hash[value] = value } }
-  x.report { hash.delete(1) }
-  x.report { hash.delete(1) }
-  x.report { hash.length }
-  x.report { hash.length }
-  x.report { hash.clear }
-  x.report { hash.clear }
+  x.report('10000') { 10000.times { |value| hash[value] = value } }
+  x.report('10000') { 10000.times { |value| hash[value] = value } }
+  x.report('delete') { hash.delete(9) }
+  x.report('delete') { hash.delete(9) }
+  x.report('clear') { hash.clear }
+  x.report('clear') { hash.clear }
+  x.report('length') { hash.length }
+  x.report('length') { hash.length }
 end

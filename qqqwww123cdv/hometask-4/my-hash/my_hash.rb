@@ -3,16 +3,16 @@
 
 # realisation of Hash
 class MyHash
-  attr_reader :myhash
+  attr_accessor :myhash
 
   include Enumerable
 
-  def initialize
+  def initialize 
     @hash = []
   end
 
   def [](key)
-    myhash[key]
+    myhash(key)
   end
 
   def []=(key, value)
@@ -20,7 +20,7 @@ class MyHash
   end
 
   def clear
-    @hash = reject { |value| value }
+    @hash = []
   end
 
   def delete(key)
