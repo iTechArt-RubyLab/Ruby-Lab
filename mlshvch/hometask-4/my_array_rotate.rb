@@ -5,7 +5,6 @@
 # class Array is extended with methods lab_rotate and lab_rotate! methods
 # with the Array.rotate and Array.rotate! functionality respectively
 class Array
-
   def lab_rotate(shift = 1)
     @shift = shift.to_i % length
     if @shift.positive?
