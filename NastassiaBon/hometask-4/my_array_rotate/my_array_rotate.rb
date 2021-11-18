@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'shift.rb'
+require_relative 'shift'
 
 def show
   [].lab_rotate
