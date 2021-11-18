@@ -71,6 +71,7 @@ class MyHash
     raise_nill_key if key.nil?
     raise "Key #{key} doesnt exist in hash." unless contain_key?(key)
     items.map { |item| return item if item.key == key }
+
   end
 
   def add(key, value)

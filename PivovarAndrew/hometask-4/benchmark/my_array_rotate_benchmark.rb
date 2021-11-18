@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require 'benchmark'
-require './model/my_array_rotate.rb'
+require './model/my_array_rotate'
 
 # Array benchmark
 class ArrayBenchmark

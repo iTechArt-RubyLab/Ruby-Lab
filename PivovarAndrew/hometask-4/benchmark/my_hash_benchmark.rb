@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require 'benchmark'
-require './model/my_hash.rb'
+require './model/my_hash'
 
 # Hash benchmark
 class HashBenchmark
