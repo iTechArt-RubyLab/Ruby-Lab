@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Extension of the Array class for task 4.1
 class Array
   def lab_rotate(value = 1)
     step = value % length

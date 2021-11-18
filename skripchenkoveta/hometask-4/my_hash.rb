@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'objspace'
-# Implementation of the MyHash class of task 4.2
 
+# Implementation of the MyHash class of task 4.2
 class MyHash
   attr_reader :myhash
 
@@ -21,13 +21,13 @@ class MyHash
   end
 
   def delete(key)
-   @myhash=self.reject {|value| value.include? key }
-   return @myhash
+    @myhash = reject { |value| value.include? key }
+    @myhash
   end
 
   def clear
-    @myhash= self.reject { |el| el}
-    return @myhash
+    @myhash = reject { |el| el }
+    @myhash
   end
 
   def memory_size
