@@ -6,7 +6,6 @@ class MyHash
 
   def initialize
     @arr = []
-    @indicator = []
   end
 
   def [](key)
@@ -14,12 +13,12 @@ class MyHash
   end
 
   def []=(key, value)
-    find_in_array(key)
-    @indicator == [] ? @arr.push([key, value]) : @indicator[1] = value
+    indicator = find_in_array(key)
+    indicator == [] ? @arr.push([key, value]) : indicator[1] = value
   end
 
   def find_in_array(key)
-    @indicator = @arr.find { |findkey, _value| findkey == key } || []
+    @arr.find { |findkey, _value| findkey == key } || []
   end
 
   def clear
