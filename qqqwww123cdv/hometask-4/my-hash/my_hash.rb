@@ -7,7 +7,7 @@ class MyHash
 
   include Enumerable
 
-  def initialize 
+  def initialize
     @hash = []
   end
 
