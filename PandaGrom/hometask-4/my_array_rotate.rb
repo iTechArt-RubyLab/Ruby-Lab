@@ -2,23 +2,23 @@
 
 # This class implements the rotate method
 class Array
-  def lab_rotate!(n = 1)
-    lab_rotate_logic(self, n)
+  def lab_rotate!(num = 1)
+    lab_rotate_logic(self, num)
   end
 
-  def lab_rotate(n = 1)
-    lab_rotate_logic(self.dup, n)
+  def lab_rotate(num = 1)
+    lab_rotate_logic(dup, num)
   end
 
   private
 
-  def lab_rotate_logic(arr, n)
-    if n >= 0 
-      n.times do
+  def lab_rotate_logic(arr, num)
+    if num >= 0
+      num.times do
         arr.push(arr.shift)
       end
-    else 
-      (n * -1).times do
+    else
+      (num * -1).times do
         arr.unshift(arr.pop)
       end
     end
