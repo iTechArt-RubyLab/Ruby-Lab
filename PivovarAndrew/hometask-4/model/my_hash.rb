@@ -29,7 +29,7 @@ class MyHash
     @items = []
   end
 
-  def each(&block)
+  def each_items(&block)
     @items.each(&block)
   end
 

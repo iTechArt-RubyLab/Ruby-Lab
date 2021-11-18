@@ -9,7 +9,6 @@ class Main
   MIN_VALUE_ARRAY_ELEMENT = 1
   MAX_VALUE_ARRAY_ELEMENT = 9
   ROTATES_COUNT = -4
-  ARRAY_OUTPUT_SEPARATOR = ', '
 
   def run_cli
     run_task_one
@@ -20,11 +19,11 @@ class Main
 
   def run_task_one
     array = (MIN_VALUE_ARRAY_ELEMENT..MAX_VALUE_ARRAY_ELEMENT).to_a
-    puts "Initial array: #{array.join(ARRAY_OUTPUT_SEPARATOR)}"
+    puts "Initial array: #{array}"
     array.lab_rotate
-    puts "Array after 'lab rotate': #{array.join(ARRAY_OUTPUT_SEPARATOR)}"
-    array.lab_rotate!(-4)
-    puts "Array after 'lab rotate!': #{array.join(ARRAY_OUTPUT_SEPARATOR)}"
+    puts "Array after 'lab rotate': #{array}"
+    array.lab_rotate!(ROTATES_COUNT)
+    puts "Array after 'lab rotate!': #{array}"
   end
 
   def run_task_two
