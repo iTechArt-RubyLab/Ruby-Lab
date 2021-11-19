@@ -4,56 +4,58 @@
 require_relative 'my_hash'
 require 'benchmark'
 
-Benchmark.bm do |x|
-  hash = {}
-  my_hash = MyHash.new
+# Benchmarks for hash
+class HashBenchmark
+  attr_accessor :hash, :benchmark
 
-  puts 'Write'
-  puts '100'
-  x.report { 100.times { |el| hash[el] = el } }
-  x.report { 100.times { |el| my_hash[el] = el } }
-  hash.clear
-  my_hash.clear_all
+  def initialize(hash, benchmark)
+    @hash = hash
+    @benchmark = benchmark
+  end
 
-  puts '10_000'
-  x.report { 10_000.times { |el| hash[el] = el } }
-  x.report { 10_000.times { |el| my_hash[el] = el } }
-  hash.clear
-  my_hash.clear_all
+  def write_report(size)
+    benchmark.report("#{size} []=") { fill_hash(size) }
+    hash.clear
+  end
 
-  puts '1_000_000'
-  x.report { 1_000_000.times { |el| hash[el] = el } }
-  x.report { 1_000_000.times { |el| my_hash[el] = el } }
+  def search_report(size)
+    fill_hash(size)
+    benchmark.report("#{size} []") { hash[size] }
+    hash.clear
+  end
+
+  private
+
+  def fill_hash(size)
+    size.times { |el| hash[el] = el }
+  end
 end
 
-puts ''
 Benchmark.bm do |x|
-  hash = {}
-  my_hash = MyHash.new
+  hash_benchmark = HashBenchmark.new({}, x)
+  my_hash_benchmark = HashBenchmark.new(MyHash.new, x)
 
-  puts 'Search'
-  puts '100'
-  100.times { |el| hash[el] = el }
-  x.report { hash[100] }
-  hash.clear
+  hash_benchmark.write_report(100)
+  my_hash_benchmark.write_report(100)
+  puts ''
 
-  100.times { |el| my_hash[el] = el }
-  x.report { my_hash[100] }
-  my_hash.clear_all
+  hash_benchmark.write_report(10_000)
+  my_hash_benchmark.write_report(10_000)
+  puts ''
 
-  puts '10_000'
-  10_000.times { |el| hash[el] = el }
-  x.report { hash[10_000] }
-  hash.clear
+  hash_benchmark.write_report(1_000_000)
+  my_hash_benchmark.write_report(1_000_000)
+  puts ''
 
-  10_000.times { |el| my_hash[el] = el }
-  x.report { my_hash[10_000] }
-  my_hash.clear_all
+  hash_benchmark.search_report(100)
+  my_hash_benchmark.search_report(100)
+  puts ''
 
-  puts '1_000_000'
-  1_000_000.times { |el| hash[el] = el }
-  x.report { hash[1_000_000] }
+  hash_benchmark.search_report(10_000)
+  my_hash_benchmark.search_report(10_000)
+  puts ''
 
-  1_000_000.times { |el| my_hash[el] = el }
-  x.report { my_hash[1_000_000] }
+  hash_benchmark.search_report(1_000_000)
+  my_hash_benchmark.search_report(1_000_000)
+  puts ''
 end
