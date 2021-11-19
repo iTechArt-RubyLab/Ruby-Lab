@@ -1,17 +1,22 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Trying to make class MyHash look like the original class Hash
-class MyHash
-  include Enumerable
-
+module ConstantsForMyHash
   KEY_POS = 0
   VALEU_POS = 1
   START_SIZE = 13
   LOAD_FACTOR = 0.5
   START_POWER_OF_TWO = 16
-  START_ARRAY_OF_PRIME = [2, 3, 5, 7, 11, 13]
+  START_ARRAY_OF_PRIME = [2, 3, 5, 7, 11, 13].freeze
   KEY_IS_BUSY_ERROR = 'Key is busy!'
+end
+
+# Trying to make class MyHash look like the original class Hash
+class MyHash
+  include Enumerable
+  include ConstantsForMyHash
+
+  attr_reader :size
 
   def initialize
     @prime_numbers = START_ARRAY_OF_PRIME
@@ -35,7 +40,7 @@ class MyHash
   def []=(key, value)
     if pos_in_bucket_if_present_in_hash(key)
       @position = nil
-      return KEY_IS_BUSY_ERROR
+      return
     end
 
     insertion(key, value)
@@ -46,15 +51,11 @@ class MyHash
 
   def delete(key)
     pos_in_bucket = pos_in_bucket_if_present_in_hash(key)
-    if pos_in_bucket
-      @hash_array[@position].delete_at(pos_in_bucket)
-      @size -= 1
-      @position = nil
-    end
-  end
+    return unless pos_in_bucket
 
-  def size
-    @size
+    @hash_array[@position].delete_at(pos_in_bucket)
+    @size -= 1
+    @position = nil
   end
 
   def clear
@@ -81,11 +82,9 @@ class MyHash
 
   def define_pos(key)
     hash_value = key.hash
-    if hash_value.positive?
-      @position = hash_value % @current_size
-    else
-      @position = -hash_value % @current_size
-    end
+    return @position = hash_value % @current_size if hash_value.positive?
+
+    @position = -hash_value % @current_size
   end
 
   def pos_in_bucket_if_present_in_hash(key)
@@ -99,7 +98,7 @@ class MyHash
     prime_numb_generator
     array_of_pair
     @current_size = @prime_numbers.last
-    @hash_array = Array.new(@current_size) {Array.new}
+    @hash_array = Array.new(@current_size) { [] }
     reinsert
   end
 
@@ -107,7 +106,7 @@ class MyHash
     (@limiting_power_of_two...(@limiting_power_of_two *= 2)).each do |tested_number|
       is_prime = true
       @prime_numbers.each do |divider|
-        is_prime = false if tested_number % divider == 0
+        is_prime = false if (tested_number % divider).zero?
       end
       @prime_numbers.push(tested_number) if is_prime
     end
