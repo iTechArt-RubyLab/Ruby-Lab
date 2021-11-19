@@ -11,13 +11,13 @@ class MyHash
   end
 
   def [](key)
-    ident = key.hash % 1000000
+    ident = key.hash % 1_000_000
     ident.negative? ? ident *= -1 : ident
     @arr[ident]
   end
 
   def []=(key, value)
-    ident = key.hash % 1000000
+    ident = key.hash % 1_000_000
     puts ident
     ident.negative? ? ident *= -1 : ident
     puts ident
@@ -53,11 +53,3 @@ class MyHash
     @arr.delete(find_in_array(key))
   end
 end
-
-h = MyHash.new
-h[''] = 'value1'
-h[''] = 'value2'
-h['key3'] = 'value3'
-h['key13'] = 'value4'
-print h['key3']
-print h['']
