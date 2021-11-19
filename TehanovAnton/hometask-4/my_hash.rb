@@ -5,29 +5,25 @@ class MyHash
   include Enumerable
 
   LOAD_FACTOR = 0.7
+  DEFAULT_SIZE = 10
 
   def initialize
-    @size = 10
-    @slots = Array.new(size) { [] }
-    @pair_count = 0
+    initialize_hash!
   end
 
   def [](key)
-    collision = slot(key)
+    pair = pair(key)
 
-    key_value = collision.find { |k, _| k == key }
-
-    key_value&.last
+    pair&.last
   end
 
   def []=(key, value)
     resize! if resize?
 
-    collision = slot(key)
-    key_value = collision.find { |k, _| k == key }
+    slot = slot(key)
+    pair = pair(key, slot: slot)
 
-    add_pair(collision, [key, value]) if collision.empty? || key_value.nil?
-    key_value[1] = value if key_value
+    pair.nil? ? add_pair(key, value, slot: slot) : pair[1] = value
   end
 
   def delete(key)
@@ -35,9 +31,7 @@ class MyHash
   end
 
   def clear
-    @size = 10
-    @slots = Array.new(size) { [] }
-    @pair_count = 0
+    initialize_hash!
   end
 
   def length
@@ -50,35 +44,47 @@ class MyHash
 
   private
 
-  attr_reader :pair_count, :size, :slots
+  attr_reader :pair_count, :slots_count, :slots
 
-  def hash_key(key, hash_size: size)
+  def hash_key(key, hash_size: slots_count)
     key.hash % hash_size
   end
 
   def resize?
-    (pair_count + 1) >= size * LOAD_FACTOR
+    (pair_count + 1) > slots_count * LOAD_FACTOR
   end
 
   def resize!
-    old_key_values = slots
-    @pair_count = 0
+    old_slots = slots
+    initialize_hash!(slots_count: slots_count * 2)
 
-    @size *= 2
-    @slots = Array.new(size) { [] }
-
-    old_key_values.flatten.each_slice(2) do |k, v|
-      self[k] = v
+    old_slots.each do |slot|
+      slot.each do |key, value|
+        self[key] = value
+      end
     end
   end
 
   def slot(key)
-    slot = hash_key(key)
-    @slots[slot]
+    slots[hash_key(key)]
   end
 
-  def add_pair(collision, pair)
-    collision.push(pair)
+  def pair(key, slot: slot(key))
+    slot.find { |k, _| k == key }
+  end
+
+  def add_pair(key, value, slot: slot(key))
+    slot.push([key, value])
     @pair_count += 1
+  end
+
+  def initialize_hash!(slots_count: DEFAULT_SIZE)
+    @slots_count = slots_count
+    @pair_count = 0
+    initialize_slots
+  end
+
+  def initialize_slots
+    @slots = Array.new(slots_count) { [] }
   end
 end
