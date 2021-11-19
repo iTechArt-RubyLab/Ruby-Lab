@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'benchmark'
+
 # the module
 class MyHash
   prepend Enumerable
@@ -9,17 +11,31 @@ class MyHash
   end
 
   def [](key)
-    find_in_array(key)[1]
+    ident = key.hash % 1000000
+    ident.negative? ? ident *= -1 : ident
+    @arr[ident]
   end
 
   def []=(key, value)
-    indicator = find_in_array(key)
-    indicator == [] ? @arr.push([key, value]) : indicator[1] = value
+    ident = key.hash % 1000000
+    puts ident
+    ident.negative? ? ident *= -1 : ident
+    puts ident
+    if @arr[ident].nil?
+      @arr[ident] = [key, value]
+    else
+      @arr[ident][0] == key ? @arr[ident] = [key, value] : colizion(key, value, ident)
+    end
   end
 
-  def find_in_array(key)
-    @arr.find { |findkey, _value| findkey == key } || []
+  def colizion(key, value, ident)
+    ident += 1
+    @arr[ident].nil? ? (@arr[ident] = [key, value]) : colizion(key, value, ident)
   end
+
+  # def find_in_array(key)
+  #   @arr.find { |findkey, _value| findkey == key } || []
+  # end
 
   def clear
     @arr.clear
@@ -39,29 +55,9 @@ class MyHash
 end
 
 h = MyHash.new
-h['key1'] = 'value1'
-h['key1'] = 'value3'
-h['key13'] = 'value1'
+h[''] = 'value1'
+h[''] = 'value2'
+h['key3'] = 'value3'
 h['key13'] = 'value4'
-puts h['key13']
-h.each { |k, v| puts "#{k} => #{v}" }
-# h.inspect
-# h.arr.each {|k, v| print "{#{k} => #{v}}" }
-# h['key1'] = 'value2'
-# print "#{h.arr}\n"
-# h['key2'] = 'value2'
-# print "#{h.arr}\n"
-# puts h.size
-#
-# h.arr.each do |k,v|
-#   print "{#{k} => #{v}}"
-# end
-#
-#  h['key3'] = 'value3'
-# print "#{h.arr}\n"
-#
-# h.delete_key('key2')
-# print "#{h.arr}\n"
-# #
-# h.delete_key_and_value
-# print "#{h.arr}\n"
+print h['key3']
+print h['']

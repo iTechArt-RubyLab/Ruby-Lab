@@ -9,14 +9,15 @@ Benchmark.bm do |x|
   hash = {}
   my_hash = MyHash.new
   puts '100'
-  x.report { 100.times { |el, al| hash[el] = al } }
-  x.report { 100.times { |el, al| my_hash[el] = al } }
+  x.report { 100.times { |el, _al| hash[el] = el } }
+  x.report { 100.times { |el, _al| my_hash[el] = el } }
   puts '1000'
+
   x.report { 1000.times { |el| hash[el] = el } }
   x.report { 1000.times { |el| my_hash[el] = el } }
   puts '10000'
-  x.report { 10_000.times { |el| hash[el] = el } }
-  x.report { 10_000.times { |el| my_hash[el] = el } }
+  x.report { 10000.times { |el| hash[el] = el } }
+  x.report { 10000.times { |el| my_hash[el] = el } }
   puts 'read'
   puts '100'
   x.report { hash[100] }
