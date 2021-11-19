@@ -5,52 +5,49 @@ class MyHash
   include Enumerable
 
   OCCUPANCY_LEVEL = 0.7
+  DEFAULT_DICTIONARY_SIZE = 10
 
   def initialize
-    @size = 10
-    @dictionary = Array.new(size) { [] }
-    @pair_count = 0
+    @size = DEFAULT_DICTIONARY_SIZE
+    reset_dictionary
   end
 
   def []=(key, value)
-    resize! if resize?
+    resize! if full_dictionary?
 
-    collision = dictionary[hash_key(key)]
-    key_value = hash_pair(collision, key)
+    slot = slot(2)
+    pair = hash_pair(slot, key)
 
-    add_hash(collision, key, value) if collision.empty? || key_value.nil?
+    add_hash(slot, key, value) if slot.empty? || pair.nil?
 
-    key_value && key_value[1] = value unless collision.empty?
+    pair[1] = value if pair && !slot.empty?
   end
 
   def [](key)
-    collision = dictionary[hash_key(key)]
+    collision = slot(key)
 
-    key_value = hash_pair(collision, key)
-    key_value&.last
+    hash_pair(collision, key)&.last
   end
 
   def delete(key)
     @pair_count -= 1
-    collision = dictionary[hash_key(key)]
-    deleted_pair = collision.dup - collision.delete_if { |pair| pair.first == key }
-    deleted_pair.flatten.last
-  end
 
-  def delete_all
-    @dictionary = Array.new(size) { [] }
-    @pair_count = 0
-  end
+    deleted_pair = slot(key).yield_self do |collision|
+      collision.dup - collision.delete_if { |k, _| k == key }
+    end.first
 
-  def length
-    pair_count
+    deleted_pair.last
   end
 
   private
 
-  attr_reader :pair_count, :size, :dictionary
+  attr_accessor :pair_count, :size, :dictionary
 
-  def resize?
+  def slot(key)
+    dictionary[hash_key(key)]
+  end
+
+  def full_dictionary?
     (pair_count + 1) > size * OCCUPANCY_LEVEL
   end
 
@@ -59,30 +56,37 @@ class MyHash
 
     @size *= 2
 
-    @dictionary = Array.new(size) { [] }
-    @pair_count = 0
+    reset_dictionary
 
     old_dictionary.each do |collision|
-      collision.each do |k, v|
-        self[k] = v
-      end
+      collision.each { |k, v| self[k] = v }
     end
   end
 
-  def hash_key(key, hash_size: size)
-    key.hash % hash_size
+  def hash_key(key)
+    key.hash % size
   end
 
-  def hash_pair(collision, key)
-    collision.find { |k, _| k == key }
+  def hash_pair(slot, key)
+    slot.find { |k, _| k == key }
   end
 
-  def add_hash(collision, key, value)
-    collision << [key, value]
+  def reset_dictionary
+    @pair_count = 0
+    @dictionary = Array.new(size) { [] }
+  end
+
+  def add_hash(slot, key, value)
     @pair_count += 1
+    slot << [key, value]
   end
 
   def each(&block)
     dictionary.each(&block)
   end
+
+  alias length pair_count
+  alias delete_all reset_dictionary
+
+  public :length, :delete_all
 end
