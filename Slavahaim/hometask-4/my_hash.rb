@@ -3,18 +3,22 @@
 
 # this class is extension for Hash
 class MyHash
+  attr_reader :my_hash
+
   include Enumerable
+
+  ONE = 1
   def initialize
     @my_hash = []
   end
 
   def [](input_key)
-    pair(input_key)[1]
+    pair(input_key)[ONE]
   end
 
   def []=(input_key, input_value)
     if self[input_key]
-      @my_hash.find { |key, _value| key == input_key }[1] = input_value
+      @my_hash.find { |key, _value| key == input_key }[ONE] = input_value
     else
       @my_hash << [input_key, input_value]
     end
