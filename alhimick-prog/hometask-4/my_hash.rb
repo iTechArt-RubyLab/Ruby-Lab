@@ -7,8 +7,6 @@ module ConstantsForMyHash
   START_SIZE = 13
   LOAD_FACTOR = 0.5
   START_POWER_OF_TWO = 16
-  START_ARRAY_OF_PRIME = [2, 3, 5, 7, 11, 13].freeze
-  KEY_IS_BUSY_ERROR = 'Key is busy!'
 end
 
 # Trying to make class MyHash look like the original class Hash
@@ -19,8 +17,8 @@ class MyHash
   attr_reader :size
 
   def initialize
-    @start_array_of_prime = [2, 3, 5, 7, 11, 13]
-    @prime_numbers = @start_array_of_prime
+    @start_array_of_prime_numbers = [2, 3, 5, 7, 11, 13]
+    @prime_numbers = @start_array_of_prime_numbers
     @current_size = START_SIZE
     @limiting_power_of_two = START_POWER_OF_TWO
     @hash_array = Array.new(@current_size) { [] }
@@ -38,7 +36,7 @@ class MyHash
   end
 
   def []=(key, value)
-    return KEY_IS_BUSY_ERROR if pos_in_bucket_if_present_in_hash(key)
+    return if pos_in_bucket_if_present_in_hash(key)
 
     insertion(key, value)
     @size += 1
@@ -54,7 +52,7 @@ class MyHash
   end
 
   def clear
-    @prime_numbers = @start_array_of_prime
+    @prime_numbers = @start_array_of_prime_numbers
     @current_size = START_SIZE
     @limiting_power_of_two = START_POWER_OF_TWO
     @hash_array = Array.new(@current_size) { [] }
