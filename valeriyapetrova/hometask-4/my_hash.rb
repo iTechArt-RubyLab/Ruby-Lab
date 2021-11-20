@@ -5,39 +5,67 @@
 # looks like an hash
 class MyHash
   include Enumerable
+  DEFAULT_MY_HASH_SIZE = 10
+  INIT_MY_HASH_COUNT = 0
+  CAPACITY = 0.7
+  KEY = 0
+  VALUE = 1
 
   def initialize
-    @current_custom_hash = []
+    @size = DEFAULT_MY_HASH_SIZE
+    @count = INIT_MY_HASH_COUNT
+    @current_custom_hash = Array.new(DEFAULT_MY_HASH_SIZE) { [] }
   end
 
   def []=(key_input, value_input)
-    @current_custom_hash << [key_input, value_input]
-    @current_custom_hash.uniq!
+    resize if (@count.to_f / @size) > CAPACITY
+
+    pair = pair(key_input)
+    if pair
+      pair[VALUE] = value_input
+    else
+      @count += 1
+      @current_custom_hash[slot(key_input)] << [key_input, value_input]
+    end
   end
 
-  def keys
-    @current_custom_hash.map { |a| a[0] }
+  def [](key_input)
+    pair = pair(key_input)
+
+    pair ? pair[VALUE] : nil
   end
 
-  def values
-    @current_custom_hash.map { |b| b[1] }
-  end
+  def delete(key_input)
+    pair = pair(key_input)
+    return unless pair
 
-  def [](value)
-    pair = @current_custom_hash.find { |b| b[value] }
-    pair ? pair[1] : nil
-  end
-
-  def delete(key)
-    value = @current_custom_hash[key]
-    @current_custom_hash = @current_custom_hash.delete([key, value])
+    @count -= 1
+    @current_custom_hash[slot(key_input)].delete(pair)
   end
 
   def size_of_my_hash
-    @current_custom_hash.size
+    @count
   end
 
   def cleaning
     @current_custom_hash.clear
+    initialize
+  end
+
+  private
+
+  def pair(key_input)
+    @current_custom_hash[slot(key_input)]&.find do |another_key|
+      another_key[KEY] == key_input
+    end
+  end
+
+  def slot(key_input)
+    key_input.hash % @size
+  end
+
+  def resize
+    @current_custom_hash.concat(Array.new(@size) { [] })
+    @size *= 2
   end
 end
