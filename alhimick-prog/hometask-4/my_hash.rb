@@ -19,7 +19,8 @@ class MyHash
   attr_reader :size
 
   def initialize
-    @prime_numbers = START_ARRAY_OF_PRIME
+    @start_array_of_prime = [2, 3, 5, 7, 11, 13]
+    @prime_numbers = @start_array_of_prime
     @current_size = START_SIZE
     @limiting_power_of_two = START_POWER_OF_TWO
     @hash_array = Array.new(@current_size) { [] }
@@ -33,18 +34,13 @@ class MyHash
     @hash_array[define_pos(key)].each do |item|
       value = item[VALEU_POS] if item[KEY_POS].equal?(key)
     end
-    @position = nil
     value
   end
 
   def []=(key, value)
-    if pos_in_bucket_if_present_in_hash(key)
-      @position = nil
-      return
-    end
+    return KEY_IS_BUSY_ERROR if pos_in_bucket_if_present_in_hash(key)
 
     insertion(key, value)
-    @position = nil
     @size += 1
     increase_hash_array if @size > @current_size * 0.5
   end
@@ -55,11 +51,10 @@ class MyHash
 
     @hash_array[@position].delete_at(pos_in_bucket)
     @size -= 1
-    @position = nil
   end
 
   def clear
-    @prime_numbers = START_ARRAY_OF_PRIME
+    @prime_numbers = @start_array_of_prime
     @current_size = START_SIZE
     @limiting_power_of_two = START_POWER_OF_TWO
     @hash_array = Array.new(@current_size) { [] }
@@ -68,16 +63,16 @@ class MyHash
     @position = nil
   end
 
-  private
-
-  def insertion(key, value)
-    @hash_array[@position].push([key, value])
-  end
-
   def each(&block)
     @hash_array.each do |line_of_pair|
       line_of_pair.each(&block)
     end
+  end
+
+  private
+
+  def insertion(key, value)
+    @hash_array[@position].push([key, value])
   end
 
   def define_pos(key)
@@ -89,9 +84,11 @@ class MyHash
 
   def pos_in_bucket_if_present_in_hash(key)
     define_pos(key)
+    pos_in_bucket = false
     @hash_array[@position].each_with_index do |item, index|
-      return index if item[KEY_POS].equal?(key)
+      pos_in_bucket = index if item[KEY_POS].equal?(key)
     end
+    pos_in_bucket
   end
 
   def increase_hash_array
