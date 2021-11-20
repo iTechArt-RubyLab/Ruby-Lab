@@ -4,13 +4,16 @@
 # Extension for native class Array
 class Array
   def lab_rotate(shift = 1)
-    check_before_rotate(self, shift)
+    return self unless check_before_rotate(self, shift)
+
+    itself_rotate(self, shift)
   end
 
   def lab_rotate!(shift = 1)
-    new_order = check_before_rotate(self, shift)
-    each_index do |i|
-      self[i] = new_order[i]
+    return self unless check_before_rotate(self, shift)
+
+    itself_rotate(self, shift).each_with_index do |val, ind|
+      self[ind] = val
     end
     self
   end
@@ -18,19 +21,20 @@ class Array
   private
 
   def check_before_rotate(array, shift)
-    return [] if array.empty?
-    return array if shift.zero?
-    return array if shift >= array.size && (array.size % shift).zero?
+    return false if array.empty? || array.size == 1
+    return false if shift.zero?
 
-    shift = shift % array.size if shift > array.size
-    itself_rotate(array, shift)
+    shift_modulus = shift.positive? ? shift : -shift
+    return false if shift_modulus >= array.size && (shift_modulus % array.size).zero?
+
+    true
   end
 
   def itself_rotate(array, shift)
-    new_order = []
-    start_point = shift.positive? ? shift : array.size + shift
-    array[start_point...array.size].each { |n| new_order.push(n) }
-    array[0...start_point].each { |n| new_order.push(n) }
-    new_order
+    shift_is_positive = shift.positive?
+    shift = -shift unless shift_is_positive
+    shift %= array.size
+    start_point = shift_is_positive ? shift : array.size - shift
+    array[start_point...array.size] + array[0...start_point]
   end
 end
