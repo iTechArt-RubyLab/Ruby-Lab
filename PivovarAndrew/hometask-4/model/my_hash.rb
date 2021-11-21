@@ -24,12 +24,13 @@ class MyHash
 
   NIL_KEY_MESSAGE = 'Key cannot be nil.'
   ITEMS_SEPARATOR = ', '
+  HASH_COEF = 300
 
   def initialize
     @items = []
   end
 
-  def each_items(&block)
+  def each(&block)
     @items.each(&block)
   end
 
@@ -50,7 +51,7 @@ class MyHash
   end
 
   def length
-    count
+    items.compact.count
   end
 
   def clear
@@ -58,25 +59,29 @@ class MyHash
   end
 
   def contain_key?(key)
-    items.any? { |item| item.key.equal?(key) }
+    items[calc_hash(key)] ? items[calc_hash(key)].key == key : false
   end
 
   private
 
   def to_s
-    items.map(&:to_s).join(ITEMS_SEPARATOR)
+    items.compact.map(&:to_s).join(ITEMS_SEPARATOR)
   end
 
   def get(key)
     raise_nill_key if key.nil?
     raise "Key #{key} doesnt exist in hash." unless contain_key?(key)
 
-    items.map { |item| return item if item.key == key }
+    items[calc_hash(key)]
   end
 
   def add(key, value)
     raise_nill_key if key.nil?
-    contain_key?(key) ? get(key).value = value : items.push(Item.new(key, value))
+    contain_key?(key) ? get(key).value = value : items[calc_hash(key)] = Item.new(key, value)
+  end
+
+  def calc_hash(key)
+    key.hash.abs / HASH_COEF
   end
 
   def raise_nill_key
