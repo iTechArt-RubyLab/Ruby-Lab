@@ -28,14 +28,14 @@ class Main
 
   def run_task_two
     my_hash = MyHash.new
-    my_hash["abc"] = 123
-    my_hash["bva"] = 57
-    my_hash["daf"] = 9212
+    my_hash['abc'] = 123
+    my_hash['bva'] = 57
+    my_hash['daf'] = 9212
     puts my_hash
-    my_hash["daf"] = 1234
-    my_hash["abc"] = "foo"
+    my_hash['daf'] = 1234
+    my_hash['abc'] = "foo"
     puts my_hash
-    my_hash.remove("abc")
+    my_hash.remove('abc')
     puts my_hash
   end
 end
