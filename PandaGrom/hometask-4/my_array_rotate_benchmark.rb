@@ -19,10 +19,10 @@ Benchmark.bm do |x|
   x.report('custom') { (1..1000).to_a.lab_rotate(-356) }
   x.report('native') { (1..1000).to_a.rotate(-356) }
   puts '1000000'
-  x.report('custom') { (1..1000000).to_a.lab_rotate(10) }
-  x.report('native') { (1..1000000).to_a.rotate(10) }
-  x.report('custom') { (1..1000000).to_a.lab_rotate(99) }
-  x.report('native') { (1..1000000).to_a.rotate(99) }
-  x.report('custom') { (1..1000000).to_a.lab_rotate(999999) }
-  x.report('native') { (1..1000000).to_a.rotate(999999) }
+  x.report('custom') { (1..1_000_000).to_a.lab_rotate(10) }
+  x.report('native') { (1..1_000_000).to_a.rotate(10) }
+  x.report('custom') { (1..1_000_000).to_a.lab_rotate(99) }
+  x.report('native') { (1..1_000_000).to_a.rotate(99) }
+  x.report('custom') { (1..1_000_000).to_a.lab_rotate(999_999) }
+  x.report('native') { (1..1_000_000).to_a.rotate(999_999) }
 end
