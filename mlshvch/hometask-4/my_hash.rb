@@ -3,65 +3,92 @@
 # frozen_string_literal: true
 
 require 'digest'
-
 # class MyHash with custom implementation of Hash Table
 class MyHash
+  include Enumerable
+  EMPTY_HASH_TABLE_SIZE = 10
+
   def initialize
-    @hash_table_size = 10_000_000
-    @hash_table = Array.new(@hash_table_size, nil)
-    @number_of_entries = 0
+    create_empty_hash
   end
 
-  def calculate_hash_value(key)
-    sha = Digest::SHA2.hexdigest(key)
-    hash = 0
-    4.times do |index|
-      hash += sha[index].ord * 10 ** (6 - index * 2)
-    end
-    hash
+  def create_empty_hash
+    @hash_table_size = EMPTY_HASH_TABLE_SIZE
+    @hash_table = Array.new(EMPTY_HASH_TABLE_SIZE, [])
+    @number_of_entries = 0.0
+    self
   end
 
-  def add(key, value)
-    hash_value = calculate_hash_value(key)
-    if !@hash_table[hash_value].nil?
-      @hash_table[hash_value] << [key, value]
-    else
-      @hash_table[hash_value] = [key, value]
-    end
+  def calculate_hash_table_index(key)
+    # sha = Digest::SHA2.hexdigest(key.to_s)
+    # hash = ''
+    # 10.times do |index|
+    #   hash += sha[index].ord.to_s
+    # end
+    # hash.to_i % @hash_table_size
+    key.hash % @hash_table_size
+  end
+
+  def []=(key, value)
     @number_of_entries += 1
+    # rehash_table
+    index = calculate_hash_table_index(key)
+    @hash_table[index] = if @hash_table[index].to_a.empty? || @hash_table[index].to_a.assoc(key)
+                           [[key, value]]
+                         else
+                           @hash_table[index].to_a.append([key, value])
+                         end
   end
 
-  def get(key)
-    hash_value = calculate_hash_value(key)
-    return @hash_table[hash_value][1] if !@hash_table[hash_value].nil? && @hash_table[hash_value].include?(key)
-
-    'key not found'
+  def [](key)
+    index = calculate_hash_table_index(key)
+    @hash_table[index].to_a.assoc(key).last unless @hash_table[index].to_a.empty?
   end
 
   def delete(key)
-    hash_value = calculate_hash_value(key)
-    @hash_table.delete_at(hash_value)
+    @number_of_entries -= 1
+    index = calculate_hash_table_index(key)
+    @hash_table[index].each_with_index do |elem, bucket_index|
+      return @hash_table[index].delete_at(bucket_index).last if elem[0] == key
+    end
+    @number_of_entries += 1
+    nil
   end
 
-  def clear
-    initialize
+  def clean
+    create_empty_hash
+  end
+
+  def load_factor
+    @number_of_entries / @hash_table_size
+  end
+
+  def show
+    @hash_table
   end
 
   def size
     @number_of_entries
   end
 
-  def exists?(key)
-    !@hash_table[calculate_hash_value(key)].nil?
+  def length
+    @hash_table_size
   end
 
-  def show
-    @hash_table.each do |value|
-      pp value unless value.nil?
+  def rehash_table
+    return unless load_factor > 0.7
+
+    @hash_table_size *= 2
+    @hash_table.each_index do |index|
+      @hash_table[index].each do |key_value_pair|
+        key = key_value_pair[0]
+        value = key_value_pair[1]
+        puts key, value
+      end
     end
   end
 
-  def load_factor
-    @number_of_entries.to_f / @hash_table_size
-  end
+
+  alias store []=
+
 end
