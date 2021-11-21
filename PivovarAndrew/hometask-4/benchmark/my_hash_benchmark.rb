@@ -7,7 +7,7 @@ require './model/my_hash'
 # Hash benchmark
 class HashBenchmark
   include Benchmark
-  ELEMENTS_COUNT = 200000
+  ELEMENTS_COUNT = 200_000
 
   def hash_operations_benchmark
     hash = {}

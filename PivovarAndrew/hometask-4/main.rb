@@ -33,7 +33,7 @@ class Main
     my_hash['daf'] = 9212
     puts my_hash
     my_hash['daf'] = 1234
-    my_hash['abc'] = "foo"
+    my_hash['abc'] = 'foo'
     puts my_hash
     my_hash.remove('abc')
     puts my_hash
