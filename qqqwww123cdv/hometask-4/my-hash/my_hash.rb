@@ -3,8 +3,6 @@
 
 # realisation of Hash
 class MyHash
-  attr_accessor :myhash
-
   include Enumerable
 
   def initialize
@@ -12,11 +10,15 @@ class MyHash
   end
 
   def [](key)
-    myhash(key)
+    find(key)[1]
   end
 
   def []=(key, value)
     @hash.push([key, value])
+  end
+
+  def find(key)
+    @hash.find { |keys, _| keys == key } || []
   end
 
   def clear
@@ -24,7 +26,7 @@ class MyHash
   end
 
   def delete(key)
-    @hash = reject { |value| value.include? key }
+    @hash.delete(find(key))
   end
 
   def length
