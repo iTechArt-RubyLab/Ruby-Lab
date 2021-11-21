@@ -1,11 +1,17 @@
 # frozen_string_literal: true
 
-require 'benchmark'
-
 # the module extends the class Array
-module A
+module Addition
   def lab_rotate(num = -1)
     arr = clone
+    moving(arr, num)
+  end
+
+  def lab_rotate!(num = -1)
+    replace moving(self, num)
+  end
+
+  def moving(arr, num)
     separator = -num % arr.size
     if separator.zero?
       self
@@ -15,20 +21,9 @@ module A
       section2 + section1
     end
   end
-
-  def lab_rotate!(num = -1)
-    separator = -num % size
-    if separator.zero?
-      self
-    else
-      section1 = self[0..separator - 1]
-      section2 = self[separator..size]
-      replace(section2 + section1)
-    end
-  end
 end
 
 # this class Array is ordered
 class Array
-  prepend A
+  prepend Addition
 end
