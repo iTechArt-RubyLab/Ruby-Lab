@@ -2,17 +2,74 @@
 # frozen_string_literal: true
 
 require 'benchmark'
-require './my_hash_rotate'
-
-HOW_TIMES_MASSIVE = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1_024, 2_048,
-                     4_096, 8_192, 16_384, 32_768, 65_536, 131_072, 262_144,
-                     524_288, 1_048_576].freeze
-
+require './my_hash'
 
 native_hash = {}
 my_hash = MyHash.new
 
-HOW_TIMES_MASSIVE.each do |how_times|
-  how_times.report("Native Hash insertion #{how_times}:") { (1..how_times) native_hash[:how_times] = how_times }
-  how_times.report("MyHash insertion #{how_times}:") { (1..how_times) my_hash[:how_times] = how_times }
+Benchmark.bm do |x|
+  puts 'Creation:'
+  x.report('native') { native_hash = {} }
+  x.report('custom') { my_hash = MyHash.new }
+end
+
+Benchmark.bm do |x|
+  native_hash = {}
+  my_hash = MyHash.new
+  puts 'Insertion:'
+  puts '<<<<<Size: 1000>>>>>'
+  x.report('native') do
+    1000.times { |i| native_hash["#{i}"] = "it's #{i}" }
+  end
+  x.report('custom') do
+    1000.times { |i| my_hash["#{i}"] = "it's #{i}" }
+  end
+  puts '<<<<<Size: 1000 to 1_000_000>>>>>'
+  x.report('native') do
+    1_000_000.times { |i| native_hash["#{i}"] = "it's #{i}" }
+  end
+  x.report('custom') do
+    1_000_000.times { |i| my_hash["#{i}"] = "it's #{i}" }
+  end
+end
+
+Benchmark.bm do |x|
+  native_hash = {}
+  my_hash = MyHash.new
+  1_000_000.times { |i| native_hash["#{i}"] = "it's #{i}" }
+  1_000_000.times { |i| my_hash["#{i}"] = "it's #{i}" }
+  puts 'Reading when 1_000_000 pairs:'
+  puts '<<<<<Count: 10>>>>>'
+  x.report('native') do
+    10.times do
+      i = rand(0..999_999)
+      native_hash["#{i}"]
+    end
+  end
+  x.report('custom') do
+    10.times do
+      i = rand(0..999_999)
+      my_hash["#{i}"]
+    end
+  end
+  puts '<<<<<Count: 1_000_000>>>>>'
+  x.report('native') do
+    1_000_000.times { |i| native_hash["#{i}"] }
+  end
+  x.report('custom') do
+    1_000_000.times { |i| my_hash["#{i}"] }
+  end
+end
+
+Benchmark.bm do |x|
+  native_hash = {}
+  my_hash = MyHash.new
+  1_000_000.times { |i| native_hash["#{i}"] = "it's #{i}" }
+  1_000_000.times { |i| my_hash["#{i}"] = "it's #{i}" }
+  puts 'Counting size when 1_000_000 pairs:'
+  x.report('native') { native_hash.size }
+  x.report('custom') { my_hash.size }
+  puts 'Clear when 1_000_000 pairs:'
+  x.report('native') { native_hash.clear }
+  x.report('custom') { my_hash.clear }
 end

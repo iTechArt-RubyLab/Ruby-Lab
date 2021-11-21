@@ -41,7 +41,6 @@ class MyHash
 
   def delete(key)
     pos_in_bucket = pos_in_bucket_if_present_in_hash(key)
-    puts "pos_in_bucket: #{pos_in_bucket}, pos: #{@position}"
     return unless pos_in_bucket
 
     @hash_array[@position].delete_at(pos_in_bucket)
