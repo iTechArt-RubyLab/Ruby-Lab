@@ -5,26 +5,60 @@
 require 'benchmark'
 require './my_array_rotate'
 
-EXIT_MESSAGE = 'exit!'
+puts "\n100"
+Benchmark.bm(12) do |x|
+  x.report('rotate:') { (1..100).to_a.rotate(16) }
+  x.report('lab_rotate:') { (1..100).to_a.lab_rotate(16) }
+  x.report('rotate:') { (1..100).to_a.rotate(-64) }
+  x.report('lab_rotate:') { (1..100).to_a.lab_rotate(-64) }
+  x.report('rotate:') { (1..100).to_a.rotate(128) }
+  x.report('lab_rotate:') { (1..100).to_a.lab_rotate(128) }
 
-def run_benchmark(shift)
-  array = (1..100_000).map { rand * 100 }
-  Benchmark.bm(7) do |x|
-    x.report('rotate:') { array.rotate(shift) }
-    x.report('lab_rotate:') { array.lab_rotate(shift) }
-    x.report('rotate!:') { array.rotate!(shift) }
-    x.report('lab_rotate!') { array.lab_rotate!(shift) }
-  end
+  puts "\n"
+
+  x.report('rotate!:') { (1..100).to_a.rotate!(10) }
+  x.report('lab_rotate!:') { (1..100).to_a.lab_rotate!(10) }
+  x.report('rotate!:') { (1..100).to_a.rotate!(-64) }
+  x.report('lab_rotate!:') { (1..100).to_a.lab_rotate!(-64) }
+  x.report('rotate!:') { (1..100).to_a.rotate!(128) }
+  x.report('lab_rotate!:') { (1..100).to_a.lab_rotate!(128) }
 end
 
-def run_cli
-  loop do
-    print 'Enter number of elements to be shifted: '
-    shift = gets.chomp
-    break if shift == EXIT_MESSAGE
+puts "\n10_000"
+Benchmark.bm(12) do |x|
+  x.report('rotate:') { (1..10_000).to_a.rotate(16) }
+  x.report('lab_rotate:') { (1..10_000).to_a.lab_rotate(16) }
+  x.report('rotate:') { (1..10_000).to_a.rotate(-64) }
+  x.report('lab_rotate:') { (1..10_000).to_a.lab_rotate(-64) }
+  x.report('rotate:') { (1..10_000).to_a.rotate(16_384) }
+  x.report('lab_rotate:') { (1..10_000).to_a.lab_rotate(16_384) }
 
-    run_benchmark(shift.to_i)
-  end
+  puts "\n"
+
+  x.report('rotate!:') { (1..10_000).to_a.rotate!(-16) }
+  x.report('lab_rotate!:') { (1..100).to_a.lab_rotate!(-16) }
+  x.report('rotate!:') { (1..100).to_a.rotate!(-64) }
+  x.report('lab_rotate!:') { (1..100).to_a.lab_rotate!(-64) }
+  x.report('rotate!:') { (1..100).to_a.rotate!(16_384) }
+  x.report('lab_rotate!:') { (1..100).to_a.lab_rotate!(16_384) }
 end
 
-run_cli
+puts "\n1_000_000"
+Benchmark.bm(12) do |x|
+  x.report('rotate:') { (1..1_000_000).to_a.rotate(16) }
+  x.report('lab_rotate:') { (1..1_000_000).to_a.lab_rotate(16) }
+  x.report('rotate:') { (1..1_000_000).to_a.rotate(-64) }
+  x.report('lab_rotate:') { (1..1_000_000).to_a.lab_rotate(-64) }
+  x.report('rotate:') { (1..1_000_000).to_a.rotate(999_998) }
+  x.report('lab_rotate:') { (1..1_000_000).to_a.lab_rotate(999_998) }
+
+  puts "\n"
+
+  x.report('rotate!:') { (1..1_000_000).to_a.rotate!(16) }
+  x.report('lab_rotate!:') { (1..1_000_000).to_a.lab_rotate!(16) }
+  x.report('rotate!:') { (1..1_000_000).to_a.rotate!(-64) }
+  x.report('lab_rotate!:') { (1..1_000_000).to_a.lab_rotate!(-64) }
+  x.report('rotate!:') { (1..1_000_000).to_a.rotate!(999_998) }
+  x.report('lab_rotate!:') { (1..1_000_000).to_a.lab_rotate!(999_998) }
+
+end
