@@ -1,4 +1,3 @@
 UPDATE film
-   SET length = 136
- WHERE title = 'Матрица';
- 
+SET length = 136
+WHERE title = 'Матрица';
