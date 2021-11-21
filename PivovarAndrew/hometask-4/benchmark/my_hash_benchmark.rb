@@ -17,8 +17,6 @@ class HashBenchmark
       operation.report('My hash elements add: ') { ELEMENTS_COUNT.times { |counter| my_hash[counter] = counter } }
       operation.report('Ruby hash read: ') { hash[ELEMENTS_COUNT - 10] }
       operation.report('My hash read: ') { my_hash[ELEMENTS_COUNT - 10] }
-      operation.report('Ruby hash clear: ') { hash.clear }
-      operation.report('My hash clear: ') { my_hash.clear }
     end
   end
 end
