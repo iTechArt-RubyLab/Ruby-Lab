@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # frozen_string_literal: true
 
 require_relative 'my_hash'
@@ -37,25 +36,25 @@ Benchmark.bm do |x|
 
   hash_benchmark.write_report(100)
   my_hash_benchmark.write_report(100)
-  puts ''
+  puts
 
   hash_benchmark.write_report(10_000)
   my_hash_benchmark.write_report(10_000)
-  puts ''
+  puts
 
   hash_benchmark.write_report(1_000_000)
   my_hash_benchmark.write_report(1_000_000)
-  puts ''
+  puts
 
   hash_benchmark.search_report(100)
   my_hash_benchmark.search_report(100)
-  puts ''
+  puts
 
   hash_benchmark.search_report(10_000)
   my_hash_benchmark.search_report(10_000)
-  puts ''
+  puts
 
   hash_benchmark.search_report(1_000_000)
   my_hash_benchmark.search_report(1_000_000)
-  puts ''
+  puts
 end

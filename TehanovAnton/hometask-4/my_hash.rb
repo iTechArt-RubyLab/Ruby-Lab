@@ -4,7 +4,7 @@
 class MyHash
   include Enumerable
 
-  LOAD_FACTOR = 0.9
+  LOAD_FACTOR = 0.7
   DEFAULT_SIZE = 10
 
   def initialize
