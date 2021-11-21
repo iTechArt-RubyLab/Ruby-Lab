@@ -4,9 +4,8 @@
 module ConstantsForMyHash
   KEY_POS = 0
   VALEU_POS = 1
-  START_SIZE = 13
+  START_SIZE = 16
   LOAD_FACTOR = 0.5
-  START_POWER_OF_TWO = 16
 end
 
 # Trying to make class MyHash look like the original class Hash
@@ -17,13 +16,10 @@ class MyHash
   attr_reader :size
 
   def initialize
-    @start_array_of_prime_numbers = [2, 3, 5, 7, 11, 13]
-    @prime_numbers = @start_array_of_prime_numbers
     @current_size = START_SIZE
-    @limiting_power_of_two = START_POWER_OF_TWO
     @hash_array = Array.new(@current_size) { [] }
     @size = 0
-    @temp_array = []
+    @old_array = nil
     @position = nil
   end
 
@@ -40,11 +36,12 @@ class MyHash
 
     insertion(key, value)
     @size += 1
-    increase_hash_array if @size > @current_size * 0.5
+    increase_hash_array if @size >= @current_size * LOAD_FACTOR
   end
 
   def delete(key)
     pos_in_bucket = pos_in_bucket_if_present_in_hash(key)
+    puts "pos_in_bucket: #{pos_in_bucket}, pos: #{@position}"
     return unless pos_in_bucket
 
     @hash_array[@position].delete_at(pos_in_bucket)
@@ -52,12 +49,10 @@ class MyHash
   end
 
   def clear
-    @prime_numbers = @start_array_of_prime_numbers
     @current_size = START_SIZE
-    @limiting_power_of_two = START_POWER_OF_TWO
     @hash_array = Array.new(@current_size) { [] }
     @size = 0
-    @temp_array = []
+    @old_array = nil
     @position = nil
   end
 
@@ -84,42 +79,24 @@ class MyHash
     define_pos(key)
     pos_in_bucket = false
     @hash_array[@position].each_with_index do |item, index|
-      pos_in_bucket = index if item[KEY_POS].equal?(key)
+      pos_in_bucket = index if item[KEY_POS].eql?(key)
     end
     pos_in_bucket
   end
 
   def increase_hash_array
-    prime_numb_generator
-    array_of_pair
-    @current_size = @prime_numbers.last
-    @hash_array = Array.new(@current_size) { [] }
+    @old_array = @hash_array
+    @hash_array = Array.new(@current_size *= 2) { [] }
     reinsert
-  end
-
-  def prime_numb_generator
-    (@limiting_power_of_two...(@limiting_power_of_two *= 2)).each do |tested_number|
-      is_prime = true
-      @prime_numbers.each do |divider|
-        is_prime = false if (tested_number % divider).zero?
-      end
-      @prime_numbers.push(tested_number) if is_prime
-    end
-  end
-
-  def array_of_pair
-    @hash_array.each do |line_of_pair|
-      line_of_pair.each do |pair|
-        @temp_array.push(pair) if pair
-      end
-    end
   end
 
   def reinsert
     @size = 0
-    @temp_array.each do |pair|
-      self[pair[KEY_POS]] = pair[VALEU_POS]
+    @old_array.each do |line_of_pair|
+      line_of_pair.each do |pair|
+        self[pair[KEY_POS]] = pair[VALEU_POS] if pair
+      end
     end
-    @temp_array = []
+    @old_array = nil
   end
 end
