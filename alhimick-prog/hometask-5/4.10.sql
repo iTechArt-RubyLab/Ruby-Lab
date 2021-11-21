@@ -1,0 +1,1 @@
+ALTER TABLE film ADD COLUMN random_column TEXT DEFAULT 'Extra column';

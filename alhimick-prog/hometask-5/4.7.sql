@@ -1,0 +1,1 @@
+UPDATE film SET description = 'Two beings arrive in 1984 Los Angeles, having time travelled from 2029. One is a cyborg assassin known as a Terminator hunting a woman named Sarah Connor. The other is a human soldier named Kyle Reese intent on stopping it.' WHERE title = 'Terminator';
