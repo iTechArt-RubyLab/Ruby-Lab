@@ -2,54 +2,84 @@
 
 require 'benchmark'
 
-# the module
+# this class is Hash
 class MyHash
-  prepend Enumerable
+  include Enumerable
+
+  attr_reader :pair_count, :size, :arr
+
+  LOAD_FACTOR = 0.5
+  SIZE = 10
 
   def initialize
-    @arr = []
+    initialize_hash
   end
 
   def [](key)
-    ident = key.hash % 1_000_000
-    ident.negative? ? ident *= -1 : ident
-    @arr[ident]
+    ident = key.hash % @size
+    arr[ident].find { |k, _| k == key }&.last
   end
 
   def []=(key, value)
-    ident = key.hash % 1_000_000
-    puts ident
-    ident.negative? ? ident *= -1 : ident
-    puts ident
-    if @arr[ident].nil?
-      @arr[ident] = [key, value]
+    resize if (pair_count) > @size * LOAD_FACTOR
+    ident = key.hash % @size
+    pair = arr[ident].find { |k, _| k == key }
+    if pair.nil?
+      push_pair(ident, key, value)
+    elsif pair[0] == key
+      pair[1] = value
     else
-      @arr[ident][0] == key ? @arr[ident] = [key, value] : colizion(key, value, ident)
+      push_pair(ident, key, value)
     end
   end
 
-  def colizion(key, value, ident)
-    ident += 1
-    @arr[ident].nil? ? (@arr[ident] = [key, value]) : colizion(key, value, ident)
+  def push_pair(ident, key, value)
+    arr[ident].push([key, value])
+    @pair_count += 1
   end
 
-  # def find_in_array(key)
-  #   @arr.find { |findkey, _value| findkey == key } || []
-  # end
+  def delete(key)
+    ident = key.hash % @size
+    arr[ident].delete_if { |k, _| k == key }
+  end
 
   def clear
-    @arr.clear
+    initialize_hash
   end
 
-  def size
-    @arr.size
+  def length
+    @pair_count
   end
 
   def each(&block)
     @arr.each(&block)
   end
 
-  def delete(key)
-    @arr.delete(find_in_array(key))
+  def resize
+    old_slots = arr
+    initialize_hash(size: size * 4)
+    old_slots.each do |slot|
+      slot.each do |key, value|
+        self[key] = value
+      end
+    end
+  end
+
+  def initialize_hash(size: SIZE)
+    @size = size
+    @pair_count = 0
+    initialize_slots
+  end
+
+  def initialize_slots
+    @arr = Array.new(@size) { [] }
   end
 end
+
+h = MyHash.new
+h['key1'] = 'value1'
+h['key1'] = 'value2'
+h['key3'] = 'value3'
+h['key3'] = 'value4'
+print h['key1']
+print h['key3']
