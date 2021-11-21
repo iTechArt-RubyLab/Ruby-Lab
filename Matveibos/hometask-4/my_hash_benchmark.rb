@@ -1,31 +1,52 @@
 # frozen_string_literal: true
 
+require_relative 'my_hash'
 require 'benchmark'
-require './hash3'
+
+# Benchmarks for hash
+class HashBenchmark
+  attr_accessor :hash, :benchmark
+
+  def initialize(hash, benchmark)
+    @hash = hash
+    @benchmark = benchmark
+  end
+
+  def write(size)
+    benchmark.report("#{size} write") { hashe(size) }
+    hash.clear
+  end
+
+  def search(size)
+    hashe(size)
+    benchmark.report("#{size} search") { hash[size] }
+    hash.clear
+  end
+
+  def hashe(size)
+    size.times { |el| hash[el] = el }
+  end
+end
 
 Benchmark.bm do |x|
-  hash = {}
-  my_hash = MyHash.new
-  puts '100'
-  x.report { 100.times { |el| hash[el] = el } }
-  x.report { 100.times { |el| my_hash[el] = el } }
-  my_hash.clear
-  puts '1000'
-  x.report { 1000.times { |el| hash[el] = el } }
-  x.report { 1000.times { |el| my_hash[el] = el } }
-  my_hash.clear
-  puts '1_000_000'
-  x.report { 1_000_000.times { |el| hash[el] = el } }
-  x.report { 1_000_000.times { |el| my_hash[el] = el } }
-  my_hash.clear
-  puts 'read'
-  puts '100'
-  x.report { hash[100] }
-  x.report { my_hash[100] }
-  puts '1000'
-  x.report { hash[1000] }
-  x.report { my_hash[1000] }
-  puts '100000'
-  x.report { hash[1_000_000] }
-  x.report { my_hash[1_000_000] }
+  hash = HashBenchmark.new({}, x)
+  my_hash = HashBenchmark.new(MyHash.new, x)
+
+  hash.write(100)
+  my_hash.write(100)
+
+  hash.write(10_000)
+  my_hash.write(10_000)
+
+  hash.write(1_000_000)
+  my_hash.write(1_000_000)
+
+  hash.search(100)
+  my_hash.search(100)
+
+  hash.search(10_000)
+  my_hash.search(10_000)
+
+  hash.search(1_000_000)
+  my_hash.search(1_000_000)
 end

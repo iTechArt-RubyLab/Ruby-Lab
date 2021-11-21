@@ -76,10 +76,10 @@ class MyHash
   end
 end
 
-h = MyHash.new
-h['key1'] = 'value1'
-h['key1'] = 'value2'
-h['key3'] = 'value3'
-h['key3'] = 'value4'
-print h['key1']
-print h['key3']
+# h = MyHash.new
+# h['key1'] = 'value1'
+# h['key1'] = 'value2'
+# h['key3'] = 'value3'
+# h['key3'] = 'value4'
+# print h['key1']
+# print h['key3']
