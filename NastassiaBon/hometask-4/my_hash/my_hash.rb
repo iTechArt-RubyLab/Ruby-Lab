@@ -19,7 +19,7 @@ class MyHash
   end
 
   def pair(key)
-    @keys.find { |key_value, _| key_value == key } || []
+    @keys.find { |key_value| key_value == key } || []
   end
 
   def delete(key)
