@@ -5,7 +5,7 @@
 require 'benchmark'
 require './my_array_rotate'
 
-puts "\n100"
+puts "\nBenchmarking with 100-element array"
 Benchmark.bm(12) do |x|
   x.report('rotate:') { (1..100).to_a.rotate(16) }
   x.report('lab_rotate:') { (1..100).to_a.lab_rotate(16) }
@@ -24,7 +24,7 @@ Benchmark.bm(12) do |x|
   x.report('lab_rotate!:') { (1..100).to_a.lab_rotate!(128) }
 end
 
-puts "\n10_000"
+puts "\nBenchmarking with 10_000-element array"
 Benchmark.bm(12) do |x|
   x.report('rotate:') { (1..10_000).to_a.rotate(16) }
   x.report('lab_rotate:') { (1..10_000).to_a.lab_rotate(16) }
@@ -43,7 +43,7 @@ Benchmark.bm(12) do |x|
   x.report('lab_rotate!:') { (1..100).to_a.lab_rotate!(16_384) }
 end
 
-puts "\n1_000_000"
+puts "\nBenchmarking with 1_000_000-element array"
 Benchmark.bm(12) do |x|
   x.report('rotate:') { (1..1_000_000).to_a.rotate(16) }
   x.report('lab_rotate:') { (1..1_000_000).to_a.lab_rotate(16) }
