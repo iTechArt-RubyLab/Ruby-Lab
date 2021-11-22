@@ -1,2 +1,2 @@
 DELETE FROM film
-WHERE title = ' The Звуздные войны';
+WHERE title = ' The Star-Wars';
