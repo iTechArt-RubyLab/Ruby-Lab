@@ -1,3 +1,3 @@
-SELECT CONCAT(first_name, ' ', last_name) AS actors
+SELECT *
 FROM actor
 WHERE last_name = 'Zellweger';

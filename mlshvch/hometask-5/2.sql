@@ -1,5 +1,4 @@
-SELECT f.title, l.name
-FROM film f
-         LEFT JOIN language l
-                   ON f.language_id = l.language_id
-WHERE l.name IN ('English', 'Italian', 'German');
+SELECT film.title, lang.name
+FROM film
+LEFT JOIN language lang ON film.language_id = lang.language_id
+WHERE lang.name IN ('English', 'Italian', 'German');

@@ -7,5 +7,5 @@ DROP CONSTRAINT film_category_film_id_fkey;
 ALTER TABLE inventory
 DROP CONSTRAINT inventory_film_id_fkey;
 
-delete from film
-where length > 150;
+DELETE FROM film
+WHERE length > 150;

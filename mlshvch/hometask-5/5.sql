@@ -1,6 +1,4 @@
-SELECT l.name, COUNT(f.film_id)
-FROM film f
-         LEFT JOIN language l
-                   ON f.language_id = l.language_id
-
-GROUP BY l.name;
+SELECT lang.name, COUNT(film.film_id)
+FROM film
+LEFT JOIN language lang ON film.language_id = lang.language_id
+GROUP BY lang.name;
