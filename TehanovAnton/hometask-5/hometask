@@ -10,7 +10,8 @@
 
 4) select rental_duration, count(rental_duration) count
 	from film
-	group by rental_duration;
+	group by rental_duration
+  order by rental_duration asc;
 
 5) select l.name as language, count(f.title)    
 	from language l inner join film f on l.language_id = f.language_id 
@@ -62,7 +63,7 @@ delete from film_category where category_id in (
 delete from film f
 where (select count(*) from film_category fc where fc.film_id = f.film_id) = 0;
 
-9) select a.first_name
+9) select a.first_name, a.last_name
   from actor a 
   where (select count(*) from film_actor fa where a.actor_id = fa.actor_id) > 2;
 
