@@ -1,0 +1,4 @@
+# frozen_string_literal: true
+
+gem 'benchmark'
+gem 'colorize', '~> 0.8.1'
