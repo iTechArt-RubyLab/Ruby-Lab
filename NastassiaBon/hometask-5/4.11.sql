@@ -1,2 +1,2 @@
 ALTER TABLE film
-DROP COLUMN comments
+DROP COLUMN comments;
