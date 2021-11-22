@@ -2,7 +2,7 @@
 
 # frozen_string_literal: true
 
-#My hash realization
+# My hash realization
 class MyHash
   include Enumerable
 

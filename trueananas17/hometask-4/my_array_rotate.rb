@@ -2,7 +2,7 @@
 
 # frozen_string_literal: true
 
-#Custom Array methods
+# Custom Array methods
 class Array
   def lab_rotate(shift = 1)
     shift %= length
