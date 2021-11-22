@@ -8,7 +8,7 @@ class MyHash
   KEY_POSITION = 0
   VALEU_POSITION = 1
   START_SIZE = 16
-  LOAD_FACTOR = 0.5
+  LOAD_FACTOR = 0.7
 
   attr_reader :size
 
@@ -79,7 +79,7 @@ class MyHash
 
   def increase_hash_array
     @old_array = @hash_array
-    @hash_array = Array.new(@current_size *= 2) { [] }
+    @hash_array = Array.new(@current_size *= 4) { [] }
     reinsert
   end
 

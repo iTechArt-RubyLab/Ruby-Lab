@@ -15,12 +15,19 @@ Benchmark.bm do |x|
   x.report('custom') do
     1000.times { |i| my_hash[i.to_s] = "it's #{i}" }
   end
-  puts '<<<<<Size: 1000 to 1_000_000>>>>>'
+  puts '<<<<<Size: 1000 to 10_000>>>>>'
   x.report('native') do
-    1_000_000.times { |i| native_hash[i.to_s] = "it's #{i}" }
+    (1000..9999).each { |i| native_hash[i.to_s] = "it's #{i}" }
   end
   x.report('custom') do
-    1_000_000.times { |i| my_hash[i.to_s] = "it's #{i}" }
+    (1000..9999).each { |i| my_hash[i.to_s] = "it's #{i}" }
+  end
+  puts '<<<<<Size: 10_000 to 1_000_000>>>>>'
+  x.report('native') do
+    (10_000..999_999).each { |i| native_hash[i.to_s] = "it's #{i}" }
+  end
+  x.report('custom') do
+    (10_000..999_999).each { |i| my_hash[i.to_s] = "it's #{i}" }
   end
 end
 
