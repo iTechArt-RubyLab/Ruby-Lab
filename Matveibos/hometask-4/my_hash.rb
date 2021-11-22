@@ -45,7 +45,7 @@ class MyHash
 
   private
 
-  attr_reader :pair_count, :arr
+  attr_reader :pair_count, :arr, :size
 
   def arr_find(ident, key)
     arr[ident].find { |k, _| k == key }
