@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 # the module extends the class Array
-module Addition
+module LabArrayRotate
   def lab_rotate(num = -1)
-    arr = clone
-    moving(arr, num)
+    moving(clone, num)
   end
 
   def lab_rotate!(num = -1)
@@ -25,5 +24,5 @@ end
 
 # this class Array is ordered
 class Array
-  prepend Addition
+  prepend LabArrayRotate
 end

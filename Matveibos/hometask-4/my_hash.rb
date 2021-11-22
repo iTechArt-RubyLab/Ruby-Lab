@@ -4,34 +4,31 @@
 class MyHash
   include Enumerable
 
-  attr_reader :pair_count, :arr
-
   LOAD_FACTOR = 0.7
   INITIAL_SIZE = 10
-  FOUR = 4
+  RESIZE_FACTOR = 4
+
   def initialize
     initialize_hash
   end
 
   def [](key)
-    ident = key_hash(key)
-    arr_find(ident, key)&.last
+    arr_find(key_hash(key), key)&.last
   end
 
   def []=(key, value)
     resize if pair_count > @size * LOAD_FACTOR
     ident = key_hash(key)
     pair = arr_find(ident, key)
-    if pair.nil?
-      push_pair(ident, key, value)
-    else
+    if pair
       pair[1] = value
+    else
+      push_pair(ident, key, value)
     end
   end
 
   def delete(key)
-    ident = key_hash(key)
-    arr[ident].delete_if { |k, _| k == key }
+    arr[key_hash(key)].delete_if { |k, _| k == key }
   end
 
   def clear
@@ -48,6 +45,8 @@ class MyHash
 
   private
 
+  attr_reader :pair_count, :arr
+
   def arr_find(ident, key)
     arr[ident].find { |k, _| k == key }
   end
@@ -63,7 +62,7 @@ class MyHash
 
   def resize
     old_slots = arr
-    initialize_hash(size: size * FOUR)
+    initialize_hash(size: size * RESIZE_FACTOR)
     old_slots.each do |old_slot|
       old_slot.each do |key, value|
         self[key] = value
