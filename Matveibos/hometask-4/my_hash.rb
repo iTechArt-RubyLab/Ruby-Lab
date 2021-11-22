@@ -17,7 +17,7 @@ class MyHash
   end
 
   def []=(key, value)
-    resize if pair_count > @size * LOAD_FACTOR
+    resize if pair_count > size * LOAD_FACTOR
     ident = key_hash(key)
     pair = arr_find(ident, key)
     if pair
@@ -52,7 +52,7 @@ class MyHash
   end
 
   def key_hash(key)
-    key.hash % @size
+    key.hash % size
   end
 
   def push_pair(ident, key, value)
