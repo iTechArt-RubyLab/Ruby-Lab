@@ -1,0 +1,1 @@
+DELETE FROM film CASCADE WHERE rating = 'PG-13'; 
