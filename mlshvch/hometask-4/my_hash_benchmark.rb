@@ -5,57 +5,50 @@
 require 'benchmark'
 require './my_hash'
 
-Benchmark.bm(7) do |x|
+Benchmark.bm(12) do |x|
   lab_hash = MyHash.new
   hash = {}
-  10.times do
-    lab_hash[rand] = rand
-    hash[rand] = rand
+  10.times do |index|
+    lab_hash[index] = rand
+    hash[index] = rand
   end
   puts '10 elements:'
-  puts 'MyHash write'
-  x.report { operations_number.times { |index| lab_hash.add(index.to_s, rand) } }
-  puts 'Hash write'
-  x.report { operations_number.times { |index| hash[index.to_s] = rand } }
-  puts 'MyHash read'
-  x.report { operations_number.times { |index| lab_hash.get(index.to_s) } }
-  puts 'Hash read'
-  x.report { operations_number.times { |index| hash[index.to_s] } }
+  x.report('MyHash write') { lab_hash['a1'] = rand }
+  x.report('Hash write') { hash['a1'] = rand }
+  x.report('MyHash read') { lab_hash['a1'] }
+  x.report('Hash read') { hash['a1'] }
+  x.report('MyHash delete') { lab_hash.delete('a1') }
+  x.report('Hash delete') { hash.delete('a1') }
 end
 
-Benchmark.bm(7) do |x|
+Benchmark.bm(12) do |x|
   lab_hash = MyHash.new
   hash = {}
-  1_000.times do
-    lab_hash[rand] = rand
-    hash[rand] = rand
+  1_000.times do |index|
+    lab_hash[index] = rand
+    hash[index] = rand
   end
-  puts '1000 elements:'
-  puts 'MyHash write'
-  x.report { operations_number.times { |index| lab_hash.add(index.to_s, rand) } }
-  puts 'Hash write'
-  x.report { operations_number.times { |index| hash[index.to_s] = rand } }
-  puts 'MyHash read'
-  x.report { operations_number.times { |index| lab_hash.get(index.to_s) } }
-  puts 'Hash read'
-  x.report { operations_number.times { |index| hash[index.to_s] } }
+  puts '1_000 elements:'
+  x.report('MyHash write') { lab_hash['a1'] = rand }
+  x.report('Hash write') { hash['a1'] = rand }
+  x.report('MyHash read') { lab_hash['a1'] }
+  x.report('Hash read') { hash['a1'] }
+  x.report('MyHash delete') { lab_hash.delete('a1') }
+  x.report('Hash delete') { hash.delete('a1') }
 end
 
-Benchmark.bm(7) do |x|
+Benchmark.bm(12) do |x|
   lab_hash = MyHash.new
   hash = {}
-  1_000_000.times do
-    lab_hash[rand] = rand
-    hash[rand] = rand
+  1_000_000.times do |index|
+    lab_hash[index] = rand
+    hash[index] = rand
   end
-  puts '1000 elements:'
-  puts 'MyHash write'
-  x.report { operations_number.times { |index| lab_hash.add(index.to_s, rand) } }
-  puts 'Hash write'
-  x.report { operations_number.times { |index| hash[index.to_s] = rand } }
-  puts 'MyHash read'
-  x.report { operations_number.times { |index| lab_hash.get(index.to_s) } }
-  puts 'Hash read'
-  x.report { operations_number.times { |index| hash[index.to_s] } }
+  puts '1_000_000 elements:'
+  x.report('MyHash write') { lab_hash['a1'] = rand }
+  x.report('Hash write') { hash['a1'] = rand }
+  x.report('MyHash read') { lab_hash['a1'] }
+  x.report('Hash read') { hash['a1'] }
+  x.report('MyHash delete') { lab_hash.delete('a1') }
+  x.report('Hash delete') { hash.delete('a1') }
 end
-

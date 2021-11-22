@@ -12,8 +12,8 @@ class MyHash
     create_empty_hash
   end
 
-  def create_empty_hash
-    @hash_table_size = EMPTY_HASH_TABLE_SIZE
+  def create_empty_hash(hash_table_size = EMPTY_HASH_TABLE_SIZE)
+    @hash_table_size = hash_table_size
     @hash_table = Array.new(EMPTY_HASH_TABLE_SIZE, [])
     @number_of_entries = 0.0
     self
@@ -30,14 +30,14 @@ class MyHash
   end
 
   def []=(key, value)
-    @number_of_entries += 1
-    # rehash_table
     index = calculate_hash_table_index(key)
     @hash_table[index] = if @hash_table[index].to_a.empty? || @hash_table[index].to_a.assoc(key)
                            [[key, value]]
                          else
                            @hash_table[index].to_a.append([key, value])
                          end
+    @number_of_entries += 1
+    rehash_table
   end
 
   def [](key)
@@ -48,7 +48,7 @@ class MyHash
   def delete(key)
     @number_of_entries -= 1
     index = calculate_hash_table_index(key)
-    @hash_table[index].each_with_index do |elem, bucket_index|
+    @hash_table[index].to_a.each_with_index do |elem, bucket_index|
       return @hash_table[index].delete_at(bucket_index).last if elem[0] == key
     end
     @number_of_entries += 1
@@ -64,31 +64,39 @@ class MyHash
   end
 
   def show
-    @hash_table
+    @hash_table.each_index do |index|
+      puts "#{index}: #{@hash_table[index]}"
+    end
   end
 
   def size
     @number_of_entries
   end
 
-  def length
-    @hash_table_size
-  end
-
   def rehash_table
     return unless load_factor > 0.7
 
-    @hash_table_size *= 2
-    @hash_table.each_index do |index|
-      @hash_table[index].each do |key_value_pair|
-        key = key_value_pair[0]
-        value = key_value_pair[1]
-        puts key, value
+    old_hash_table = Array.new(@hash_table_size, []).replace(@hash_table)
+    old_hash_table_size = @hash_table_size
+    create_empty_hash(old_hash_table_size * 2)
+    old_hash_table.each_index do |index|
+      next if old_hash_table[index].nil?
+      old_hash_table[index].each do |key_value_pair|
+        restore(key_value_pair[0], key_value_pair[1])
       end
     end
+    @hash_table
   end
 
+  private
 
-  alias store []=
-
+  def restore(key, value)
+    index = calculate_hash_table_index(key)
+    @hash_table[index] = if @hash_table[index].to_a.empty? || @hash_table[index].to_a.assoc(key)
+                           [[key, value]]
+                         else
+                           @hash_table[index].to_a.append([key, value])
+                         end
+    @number_of_entries += 1
+  end
 end
