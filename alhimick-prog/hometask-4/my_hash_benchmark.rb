@@ -7,55 +7,77 @@ require './my_hash'
 Benchmark.bm do |x|
   native_hash = {}
   my_hash = MyHash.new
-  puts 'Insertion:'
-  puts '<<<<<Size: 1000>>>>>'
+  10_000.times do |i|
+    native_hash[i] = i
+    my_hash[i] = i
+  end
+  puts '10 insertion when hash size is:'
+  puts '<<<<<Size: 10_000>>>>>'
   x.report('native') do
-    1000.times { |i| native_hash[i.to_s] = "it's #{i}" }
+    10.times { |i| native_hash[i.to_s] = i.to_s }
   end
   x.report('custom') do
-    1000.times { |i| my_hash[i.to_s] = "it's #{i}" }
+    10.times { |i| my_hash[i.to_s] = i.to_s }
   end
-  puts '<<<<<Size: 1000 to 10_000>>>>>'
+  (10_000..999_989).each do |i|
+    native_hash[i] = i
+    my_hash[i] = i
+  end
+  puts '<<<<<Size: 1_000_000>>>>>'
   x.report('native') do
-    (1000..9999).each { |i| native_hash[i.to_s] = "it's #{i}" }
+    (10..19).each { |i| native_hash[i.to_s] = i.to_s }
   end
   x.report('custom') do
-    (1000..9999).each { |i| my_hash[i.to_s] = "it's #{i}" }
-  end
-  puts '<<<<<Size: 10_000 to 1_000_000>>>>>'
-  x.report('native') do
-    (10_000..999_999).each { |i| native_hash[i.to_s] = "it's #{i}" }
-  end
-  x.report('custom') do
-    (10_000..999_999).each { |i| my_hash[i.to_s] = "it's #{i}" }
+    (10..19).each { |i| my_hash[i.to_s] = i.to_s }
   end
 end
 
 Benchmark.bm do |x|
   native_hash = {}
   my_hash = MyHash.new
-  1_000_000.times { |i| native_hash[i.to_s] = "it's #{i}" }
-  1_000_000.times { |i| my_hash[i.to_s] = "it's #{i}" }
-  puts 'Reading when 1_000_000 pairs:'
-  puts '<<<<<Count: 10>>>>>'
+  10_000.times do |i|
+    native_hash[i] = i
+    my_hash[i] = i
+  end
+  puts '10 reading when size is:'
+  puts '<<<<<Size: 10_000>>>>>'
+  x.report('native') do
+    10.times do
+      i = rand(0..9_999)
+      native_hash[i]
+    end
+  end
+  x.report('custom') do
+    10.times do
+      i = rand(0..9_999)
+      my_hash[i]
+    end
+  end
+  (10_000..999_999).each do |i|
+    native_hash[i] = i
+    my_hash[i] = i
+  end
+end
+
+Benchmark.bm do |x|
+  native_hash = {}
+  my_hash = MyHash.new
+  1_000_000.times do |i|
+    native_hash[i] = i
+    my_hash[i] = i
+  end
+  puts '<<<<<Size: 1_000_000>>>>>'
   x.report('native') do
     10.times do
       i = rand(0..999_999)
-      native_hash[i.to_s]
+      native_hash[i]
     end
   end
   x.report('custom') do
     10.times do
       i = rand(0..999_999)
-      my_hash[i.to_s]
+      my_hash[i]
     end
-  end
-  puts '<<<<<Count: 1_000_000>>>>>'
-  x.report('native') do
-    1_000_000.times { |i| native_hash[i.to_s] }
-  end
-  x.report('custom') do
-    1_000_000.times { |i| my_hash[i.to_s] }
   end
 end
 

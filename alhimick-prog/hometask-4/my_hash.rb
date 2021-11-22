@@ -6,9 +6,9 @@ class MyHash
   include Enumerable
 
   KEY_POSITION = 0
-  VALEU_POSITION = 1
+  VALUE_POSITION = 1
   START_SIZE = 16
-  LOAD_FACTOR = 0.7
+  LOAD_FACTOR = 0.5
 
   attr_reader :size
 
@@ -23,7 +23,7 @@ class MyHash
   def [](key)
     value = nil
     @hash_array[define_position(key)].each do |item|
-      value = item[VALEU_POSITION] if item[KEY_POSITION].equal?(key)
+      value = item[VALUE_POSITION] if item[KEY_POSITION].equal?(key)
     end
     value
   end
@@ -79,7 +79,7 @@ class MyHash
 
   def increase_hash_array
     @old_array = @hash_array
-    @hash_array = Array.new(@current_size *= 4) { [] }
+    @hash_array = Array.new(@current_size *= 2) { [] }
     reinsert
   end
 
@@ -87,7 +87,7 @@ class MyHash
     @size = 0
     @old_array.each do |line_of_pair|
       line_of_pair.each do |pair|
-        self[pair[KEY_POSITION]] = pair[VALEU_POSITION] if pair
+        self[pair[KEY_POSITION]] = pair[VALUE_POSITION] if pair
       end
     end
     @old_array = nil
