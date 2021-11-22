@@ -1,3 +1,3 @@
 DELETE 
 FROM film CASCADE
-WHERE release_year = '2013';
+WHERE film_id = 1 AND film_id = 5;
