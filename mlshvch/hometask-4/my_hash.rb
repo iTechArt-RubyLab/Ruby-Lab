@@ -81,9 +81,8 @@ class MyHash
     create_empty_hash(old_hash_table_size * 2)
     old_hash_table.each_index do |index|
       next if old_hash_table[index].nil?
-      old_hash_table[index].each do |key_value_pair|
-        restore(key_value_pair[0], key_value_pair[1])
-      end
+
+      old_hash_table[index].each { |key_value_pair| restore(key_value_pair[0], key_value_pair[1]) }
     end
     @hash_table
   end

@@ -60,5 +60,4 @@ Benchmark.bm(12) do |x|
   x.report('lab_rotate!:') { (1..1_000_000).to_a.lab_rotate!(-64) }
   x.report('rotate!:') { (1..1_000_000).to_a.rotate!(999_998) }
   x.report('lab_rotate!:') { (1..1_000_000).to_a.lab_rotate!(999_998) }
-
 end

@@ -21,7 +21,7 @@ class Array
       # method Array#append is not used because of Rubocop Assignment Condition Size Branch is too high
       self[shift..(length - 1)] + self[0..(shift - 1)]
     else
-      self[shift..-1] + self[0..(length + shift - 1)]
+      self[shift..] + self[0..(length + shift - 1)]
     end
   end
 
