@@ -4,23 +4,21 @@
 # Extension for native class Array
 class Array
   def lab_rotate(shift = 1)
-    return self unless check_before_rotate(self, shift)
+    return self unless check_before_rotate?(self, shift)
 
     itself_rotate(self, shift)
   end
 
   def lab_rotate!(shift = 1)
-    return self unless check_before_rotate(self, shift)
+    return self unless check_before_rotate?(self, shift)
 
-    itself_rotate(self, shift).each_with_index do |val, ind|
-      self[ind] = val
-    end
+    replace(itself_rotate(self, shift))
     self
   end
 
   private
 
-  def check_before_rotate(array, shift)
+  def check_before_rotate?(array, shift)
     return false if array.empty? || array.size == 1
     return false if shift.zero?
 
