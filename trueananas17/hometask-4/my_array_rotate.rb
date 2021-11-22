@@ -6,7 +6,7 @@
 class Array
   def lab_rotate(shift = 1)
     return if empty?
-    
+
     shift %= length
     first_part = self[0..shift - 1]
     second_part = self[shift..length - 1]
