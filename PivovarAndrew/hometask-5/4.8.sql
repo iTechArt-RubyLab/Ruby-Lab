@@ -1,2 +1,2 @@
 DELETE FROM film
-WHERE title = 'Матрица'
+WHERE title = 'Matrix'
