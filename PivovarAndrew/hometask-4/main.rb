@@ -3,6 +3,7 @@
 
 require './model/my_hash'
 require './model/my_array_rotate'
+require './benchmark/my_hash_benchmark'
 
 # Main class
 class Main

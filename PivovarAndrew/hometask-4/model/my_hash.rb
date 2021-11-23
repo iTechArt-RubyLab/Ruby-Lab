@@ -24,10 +24,12 @@ class MyHash
 
   NIL_KEY_MESSAGE = 'Key cannot be nil.'
   ITEMS_SEPARATOR = ', '
-  HASH_COEF = 300
+  INITIAL_SIZE = 50
+  FULNESS_COEF = 0.5
 
   def initialize
-    @items = []
+    @size = INITIAL_SIZE
+    @items = Array.new(INITIAL_SIZE)
   end
 
   def each(&block)
@@ -59,7 +61,7 @@ class MyHash
   end
 
   def contain_key?(key)
-    items[calc_hash(key)] ? items[calc_hash(key)].key == key : false
+    items[get_position(key)] ? items[get_position(key)].key == key : false
   end
 
   private
@@ -72,16 +74,26 @@ class MyHash
     raise_nill_key if key.nil?
     raise "Key #{key} doesnt exist in hash." unless contain_key?(key)
 
-    items[calc_hash(key)]
+    items[get_position(key)]
   end
 
   def add(key, value)
     raise_nill_key if key.nil?
-    contain_key?(key) ? get(key).value = value : items[calc_hash(key)] = Item.new(key, value)
+    resize if length.to_f / @size > FULNESS_COEF
+    contain_key?(key) ? get(key).value = value : items[get_position(key)] = Item.new(key, value)
   end
 
-  def calc_hash(key)
-    key.hash.abs / HASH_COEF
+  def get_position(key)
+    key.hash % @size
+  end
+
+  def resize
+    @size *= 2
+    new_items = Array.new(@size)
+    items.compact.each do |item|
+      new_items[get_position(item.key)] = Item.new(item.key, item.value)
+    end
+    @items = new_items
   end
 
   def raise_nill_key
