@@ -1,0 +1,14 @@
+GEM
+  specs:
+    benchmark (0.1.1)
+    colorize (0.8.1)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  benchmark
+  colorize (~> 0.8.1)
+
+BUNDLED WITH
+   2.2.23
