@@ -10,7 +10,7 @@ class MyHash
   HASH_LOAD_FACTOR = 0.7
 
   def initialize
-    create_empty_hash
+    clean
   end
 
   def []=(key, value)
@@ -47,19 +47,20 @@ class MyHash
   end
 
   def each(&block)
-    @hash_table.each(&block)
+    @hash_table.each { |bucket| bucket.each(&block) }
   end
 
   private
 
   def requires_resizing?
-    @number_of_entries.fdiv(@hash_table_size) > HASH_LOAD_FACTOR
+    @number_of_entries.fdiv(@hash_table_size) >= HASH_LOAD_FACTOR
   end
 
   def rehash_table
     tmp_hash_table = @hash_table
     @hash_table_size *= 2
     @hash_table = Array.new(@hash_table_size) { [] }
+    @number_of_entries = 0
     tmp_hash_table.each do |bucket|
       bucket.each { |pair| self[pair[0]] = pair.last }
     end
@@ -71,16 +72,14 @@ class MyHash
 
   def write_to_hash(index, key, value)
     bucket = @hash_table[index]
-    if bucket.assoc(key)
-      bucket.assoc(key)[1] = value
+    key_value_pair = bucket.assoc(key)
+    if key_value_pair
+      key_value_pair.last = value
     else
       bucket << [key, value]
       @number_of_entries += 1
     end
-    value
-  end
 
-  def create_empty_hash
-    clean
+    value
   end
 end
