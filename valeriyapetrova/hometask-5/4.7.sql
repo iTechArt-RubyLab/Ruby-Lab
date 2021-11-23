@@ -1,0 +1,1 @@
+ UPDATE film SET release_year = 2021, rental_rate = 10 WHERE film_id = 5;
