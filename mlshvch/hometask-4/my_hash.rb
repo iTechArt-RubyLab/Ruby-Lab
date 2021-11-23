@@ -2,8 +2,6 @@
 
 # frozen_string_literal: true
 
-require 'digest'
-
 # class MyHash with custom implementation of Hash Table
 class MyHash
   include Enumerable
@@ -19,7 +17,6 @@ class MyHash
     rehash_table if requires_resizing?
     index = calculate_hash_table_index(key)
     write_to_hash(index, key, value)
-    @hash_table[index].assoc(key)[1]
   end
 
   def [](key)
@@ -40,28 +37,31 @@ class MyHash
   end
 
   def clean
-    create_empty_hash
+    @hash_table_size = EMPTY_HASH_TABLE_SIZE
+    @hash_table = Array.new(EMPTY_HASH_TABLE_SIZE) { [] }
+    @number_of_entries = 0
   end
 
   def size
     @number_of_entries
   end
 
+  def each(&block)
+    @hash_table.each(&block)
+  end
+
   private
 
   def requires_resizing?
-    (@number_of_entries.to_f / @hash_table_size) > HASH_LOAD_FACTOR
+    @number_of_entries.fdiv(@hash_table_size) > HASH_LOAD_FACTOR
   end
 
   def rehash_table
-    @hash_table += Array.new(@hash_table_size, [])
+    tmp_hash_table = @hash_table
     @hash_table_size *= 2
-    @number_of_entries = 0
-    @hash_table.each_index do |index|
-      @hash_table[index].each_with_index do |key_value_pair, bucket_index|
-        @hash_table[index].delete_at(bucket_index)
-        self[key_value_pair[0]] = key_value_pair[1]
-      end
+    @hash_table = Array.new(@hash_table_size) { [] }
+    tmp_hash_table.each do |bucket|
+      bucket.each { |pair| self[pair[0]] = pair.last }
     end
   end
 
@@ -70,20 +70,17 @@ class MyHash
   end
 
   def write_to_hash(index, key, value)
-    if @hash_table[index].empty?
-      @hash_table[index] = [[key, value]]
-      @number_of_entries += 1
-    elsif @hash_table[index].assoc(key)
-      @hash_table[index].each { |bucket_elem| bucket_elem[1] = value if bucket_elem[0] == key }
+    bucket = @hash_table[index]
+    if bucket.assoc(key)
+      bucket.assoc(key)[1] = value
     else
-      @hash_table[index] << [key, value]
+      bucket << [key, value]
       @number_of_entries += 1
     end
+    value
   end
 
-  def create_empty_hash(hash_table_size = EMPTY_HASH_TABLE_SIZE)
-    @hash_table_size = hash_table_size
-    @hash_table = Array.new(EMPTY_HASH_TABLE_SIZE, [])
-    @number_of_entries = 0
+  def create_empty_hash
+    clean
   end
 end

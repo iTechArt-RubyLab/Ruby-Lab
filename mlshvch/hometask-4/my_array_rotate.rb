@@ -10,9 +10,9 @@ class Array
 
     shift = adjust_array_shift(shift, length)
     if shift.positive?
-      self[shift..(length - 1)] + self[..(shift - 1)]
+      self[shift..(length - 1)] + self[0..(shift - 1)]
     else
-      self[shift..] + self[..(length + shift - 1)]
+      self[shift..] + self[0..(length + shift - 1)]
     end
   end
 
