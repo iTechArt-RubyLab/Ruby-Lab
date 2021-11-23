@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'benchmark'
-require './my_array_rotate'
+require_relative './my_array_rotate'
 
 Benchmark.bm do |x|
   puts '100'

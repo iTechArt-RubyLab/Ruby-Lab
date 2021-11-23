@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'benchmark'
-require './my_hash'
+require_relative './my_hash'
 
 Benchmark.bm do |x|
   puts 'write Hash'
