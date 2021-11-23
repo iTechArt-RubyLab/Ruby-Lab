@@ -16,7 +16,6 @@ class Array
 
   def lab_rotate!(value = 1)
     my_shift = value % size
-    q
     if my_shift.zero?
       self
     else
