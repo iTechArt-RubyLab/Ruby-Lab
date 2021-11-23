@@ -13,34 +13,27 @@ class MyHash
   attr_reader :size
 
   def initialize
-    @current_size = START_SIZE
-    @hash_array = Array.new(@current_size) { [] }
-    @size = 0
-    @old_array = nil
-    @position = nil
+    clear
   end
 
   def [](key)
-    value = nil
-    @hash_array[define_position(key)].each do |item|
-      value = item[VALUE_POSITION] if item[KEY_POSITION].equal?(key)
-    end
-    value
+    slot = @hash_array[define_position(key)]
+    key_value = slot.find { |k, _| k == key }
+    key_value&.last
   end
 
   def []=(key, value)
-    return if position_in_bucket_if_present_in_hash(key)
-
-    insertion(key, value)
-    @size += 1
     increase_hash_array if @size >= @current_size * LOAD_FACTOR
+    slot = @hash_array[define_position(key)]
+    key_value = slot.find { |k, _| k == key }
+    key_value.nil? ? insertion(key, value, slot) : key_value[VALUE_POSITION] = value
   end
 
   def delete(key)
     position_in_bucket = position_in_bucket_if_present_in_hash(key)
     return unless position_in_bucket
 
-    @hash_array[@position].delete_at(position_in_bucket)
+    @hash_array[define_position(key)].delete_at(position_in_bucket)
     @size -= 1
   end
 
@@ -49,7 +42,6 @@ class MyHash
     @hash_array = Array.new(@current_size) { [] }
     @size = 0
     @old_array = nil
-    @position = nil
   end
 
   def each(&block)
@@ -60,17 +52,17 @@ class MyHash
 
   private
 
-  def insertion(key, value)
-    @hash_array[@position].push([key, value])
+  def insertion(key, value, slot)
+    slot.push([key, value])
+    @size += 1
   end
 
   def define_position(key)
-    @position = key.hash.abs % @current_size
+    key.hash.abs % @current_size
   end
 
   def position_in_bucket_if_present_in_hash(key)
-    define_position(key)
-    @hash_array[@position].each_with_index do |item, index|
+    @hash_array[define_position(key)].each_with_index do |item, index|
       return index if item[KEY_POSITION].eql?(key)
     end
 
