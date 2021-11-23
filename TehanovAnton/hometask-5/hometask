@@ -1,0 +1,74 @@
+1) select * from actor where last_name = 'Zellweger';
+
+2) select f.title, l.name
+	from film f inner join language l on f.language_id = l.language_id 
+	where l.name = 'English' or l.name = 'German' or l.name = 'Italian';
+
+3) select first_name || '-' || last_name
+	from actor
+	where first_name like 'W%' or last_name like '%h';
+
+4) select rental_duration, count(rental_duration) count
+	from film
+	group by rental_duration
+  order by rental_duration asc;
+
+5) select l.name as language, count(f.title)    
+	from language l inner join film f on l.language_id = f.language_id 
+	group by l.name;
+
+6) insert into film(title, language_id, fulltext)
+	values ('Pacific Rim', 1, 'pacific_rim'::tsvector);
+
+7) update film
+	set title = 'The Pacific Rim', language_id = 2
+	where title = 'Pacific Rim';
+
+8) select f.film_id
+  from film f inner join film_category fc on f.film_id = fc.film_id inner join category c on fc.category_id = c.category_id
+  where c.name = 'Music';
+
+select inventory_id from inventory where film_id in (select f.film_id
+from film f inner join film_category fc on f.film_id = fc.film_id inner join category c on fc.category_id = c.category_id
+where c.name = 'Music');
+
+select rental_id from rental where inventory_id in (select inventory_id from inventory where film_id in (select f.film_id
+from film f inner join film_category fc on f.film_id = fc.film_id inner join category c on fc.category_id = c.category_id
+where c.name = 'Music'));
+
+delete from payment where rental_id in (select rental_id from rental where inventory_id in (
+  select inventory_id from inventory where film_id in (select f.film_id
+  from film f inner join film_category fc on f.film_id = fc.film_id inner join category c on fc.category_id = c.category_id
+  where c.name = 'Music')));
+
+delete from rental where inventory_id in (select inventory_id from inventory where film_id in (
+  select f.film_id
+  from film f inner join film_category fc on f.film_id = fc.film_id inner join category c on fc.category_id = c.category_id
+  where c.name = 'Music'));
+
+delete from inventory where film_id in (
+  select f.film_id
+  from film f inner join film_category fc on f.film_id = fc.film_id inner join category c on fc.category_id = c.category_id 
+  where c.name = 'Music');
+
+delete from film_actor where film_id in (
+  select f.film_id                                                                          
+  from film f inner join film_category fc on f.film_id = fc.film_id inner join category c on fc.category_id = c.category_id 
+  where c.name = 'Music');
+
+delete from film_category where category_id in (
+  select category_id
+	from category where name = 'Music');
+
+delete from film f
+where (select count(*) from film_category fc where fc.film_id = f.film_id) = 0;
+
+9) select a.first_name, a.last_name
+  from actor a 
+  where (select count(*) from film_actor fa where a.actor_id = fa.actor_id) > 2;
+
+10) alter table film
+  add column impression char(200) default 'normal';
+
+11) alter table film
+  drop column impression;
