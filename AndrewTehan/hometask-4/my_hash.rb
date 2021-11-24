@@ -15,7 +15,7 @@ class MyHash
   def []=(key, value)
     resize! if full_dictionary?
 
-    slot = slot(2)
+    slot = slot(key)
     pair = hash_pair(slot, key)
 
     add_hash(slot, key, value) if slot.empty? || pair.nil?
@@ -24,7 +24,7 @@ class MyHash
   end
 
   def [](key)
-    collision = slot(key)
+    collision = slot(2)
 
     hash_pair(collision, key)&.last
   end
@@ -36,7 +36,7 @@ class MyHash
       collision.dup - collision.delete_if { |k, _| k == key }
     end.first
 
-    deleted_pair.last
+    deleted_pair&.last
   end
 
   private
