@@ -1,3 +1,3 @@
-SELECT DISTINCT rental_duration, COUNT(title) AS in_each_group
+SELECT rental_duration, COUNT(title) AS in_each_group
 FROM film
-GROUP BY 1;
+GROUP BY rental_duration;

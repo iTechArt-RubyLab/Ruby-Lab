@@ -1,5 +1,5 @@
-SELECT name, COUNT(film_id) AS number_of_films
+SELECT name, COUNT(film_id)
 FROM film
-RIGHT JOIN language
+JOIN language
 ON language.language_id = film.language_id
-GROUP BY 1;
+GROUP BY name;
