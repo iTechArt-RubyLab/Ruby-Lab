@@ -1,27 +1,37 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-def uploading_data
+def upload_data
   data = File.new('data.txt')
-  data.read
+  content = data.read
+  data.close
+  content
+end
+
+def string_search(town, _string)
+  val = upload_data.split("\n").find { |town_val| town_val.include? town }
+  x = ''
+  val.nil? ? x : val
+end
+
+def rainfall_average(town, string)
+  string_search(town, string).scan(/\d*\.\d/).map(&:to_f)
+end
+
+def city_validate(town, string)
+  string_search(town, string).include?(town)
 end
 
 def mean(town, string)
-  return -1 unless string.include?(town)
+  return -1 unless city_validate(town, string)
 
-  city_search(town, string).sum / 12
+  rainfall_average(town, string).sum / 12
 end
 
 def variance(town, string)
-  return -1 unless string.include?(town)
+  return -1 unless city_validate(town, string)
 
-  city_search(town, string).map { |x| (mean(town, string) - x)**2 }.sum / 12
-end
-
-def city_search(town, string)
-  string.split("\n").each do |city|
-    return city.scan(/\d*\.\d/).map(&:to_f) if city.include?(town)
-  end
+  rainfall_average(town, string).map { |x| (mean(town, string) - x)**2 }.sum / 12
 end
 
 def run_cli
@@ -39,8 +49,8 @@ def run_cli
 end
 
 def result(input)
-  puts "Mean: #{mean(input, uploading_data)}"
-  puts "Variance: #{variance(input, uploading_data)}"
+  puts "Mean: #{mean(input, upload_data)}"
+  puts "Variance: #{variance(input, upload_data)}"
 end
 
 run_cli
