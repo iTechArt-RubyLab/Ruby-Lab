@@ -1,1 +1,1 @@
-DELETE FROM film WHERE title = 'The Great Gatsby'; 
+DELETE FROM film CASCADE WHERE title = 'The Great Gatsby'; 
