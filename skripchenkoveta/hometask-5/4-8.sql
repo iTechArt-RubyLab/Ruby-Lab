@@ -1,1 +1,1 @@
-DELETE FROM film CASCADE WHERE rating = 'PG-13'; 
+DELETE FROM film WHERE title = 'The Great Gatsby'; 
