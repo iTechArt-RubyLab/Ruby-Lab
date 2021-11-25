@@ -4,44 +4,70 @@ require 'objspace'
 
 # Implementation of the MyHash class of task 4.2
 class MyHash
-  attr_reader :myhash
+  attr_reader :count, :myhash, :size
 
   include Enumerable
 
+  LOAD_FACTOR = 0.7
+
   def initialize
-    @myhash = []
+    @size = 10
+    @count = 0
+    @myhash = Array.new(@size) { [] }
   end
 
   def [](key)
-    get(key)[1]
+    get(key_hash(key), key)[1]
   end
 
   def []=(key, value)
-    @myhash.push([key, value])
+    resize if @count.to_f / @size > LOAD_FACTOR
+    index = key_hash(key)
+    pair = get(index, key)
+    if pair
+      pair[1] = value
+    else
+      @count += 1
+      @myhash[index].push([key, value])
+    end
   end
 
-  def delete(key)
-    @myhash.delete(get(key))
+  def get(index, key)
+    @myhash[index].find { |item, _| item == key }
   end
 
-  def clear
-    @myhash = reject { |value| value }
+  def key_hash(key)
+    key.hash % size
   end
 
-  def get(key)
-    @myhash.find { |item, _| item == key } || []
+  def resize
+    old_myhash = @myhash
+    @size *= 2
+    @myhash = Array.new(@size) { [] }
+    old_myhash.each do |array_item|
+      array_item.each do |key, value|
+        self[key] = value
+      end
+    end
   end
 
   def memory_size
     ObjectSpace.memsize_of(@myhash)
   end
 
+  def delete(key)
+    @myhash[key_hash(key)].delete_if { |item, _| item == key }
+  end
+
+  def clear
+    initialize
+  end
+
   def length
-    @myhash.count
+    @count
   end
 
   def each(&block)
     @myhash.each(&block)
-    self
   end
 end
