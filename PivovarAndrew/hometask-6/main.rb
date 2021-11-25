@@ -1,10 +1,6 @@
 # !/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "capybara"
-require "selenium-webdriver"
-require "capybara/rspec"
-require "csv"
 require "./model/my_hash"
 require "./model/data_parse"
 
