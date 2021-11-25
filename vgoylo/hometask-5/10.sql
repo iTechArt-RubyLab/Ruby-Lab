@@ -1,0 +1,2 @@
+ALTER TABLE film
+ADD COLUMN test TEXT DEFAULT 'test';
