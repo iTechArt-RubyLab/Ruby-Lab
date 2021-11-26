@@ -3,7 +3,7 @@
 
 require './model/my_hash'
 
-RSpec.describe MyHash do
+RSpec.describe MyHash do # rubocop:disable Metrics/ClassLength
   let(:my_hash) { described_class.new }
 
   before do
