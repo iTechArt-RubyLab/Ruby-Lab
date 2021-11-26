@@ -14,7 +14,7 @@ class Main
       IMG: 'picture img',
       P: '.b-tile-excerpt'
     }
-  }
+  }.freeze
 
   def run_cli
     run_onliner_scenario

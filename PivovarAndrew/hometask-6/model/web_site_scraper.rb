@@ -45,7 +45,7 @@ class WebSiteScraper
       memo << {
         title: element.find(page_selector.title_selector)[:innerText],
         image_url: element.find(page_selector.image_url_selector)[:src],
-        text: element.find(page_selector.text_selector)[:innerText][MIN_TEXT_LENGTH..MAX_TEXT_LENGTH],
+        text: element.find(page_selector.text_selector)[:innerText][MIN_TEXT_LENGTH..MAX_TEXT_LENGTH]
       }
     end
   end
