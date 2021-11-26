@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './my_hash'
 require 'pry'
 require 'rspec'
@@ -58,17 +60,17 @@ describe MyHash do
 
   describe '#delete' do
     before do
-      my_hash[:key] = 2
+      my_hash[:key] = 34
     end
 
-    context 'when the key exists' do
-      it 'deletes key-value pair' do
+    context 'when the key exist' do
+      it 'delete key-value' do
         subject.delete(:key)
         expect(my_hash[:key]).to eq(nil)
       end
 
-      context "when the key doesn't exist" do
-        it 'returns nil' do
+      context "when the key exist" do
+        it 'return []' do
           expect(subject.delete(:a)).to eq([])
         end
       end
@@ -82,16 +84,16 @@ describe MyHash do
   end
 
   describe 'clear method' do
-    it 'clear hash' do
-      my_hash[:a] = 5
+    it 'return []' do
+      my_hash[:a] = 82
       my_hash.clear
       expect(my_hash[:a]).to eq(nil)
     end
   end
 
   describe 'length and size methods' do
-    it 'length return hash key value pairs amount' do
-      my_hash[:a] = 5
+    it 'return length of hash' do
+      my_hash[:a] = 82
       expect(my_hash.length).to eq(1)
     end
   end
