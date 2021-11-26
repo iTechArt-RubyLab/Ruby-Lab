@@ -7,17 +7,17 @@ RSpec.describe MyHash do
   let(:my_hash) { described_class.new }
 
   before do
-    my_hash['abc'] = 12344
-    my_hash['def'] = 54327
-    my_hash['ghij'] = 12356
-    my_hash[8765] = "dsa"
-    my_hash[2307] = 3259
+    my_hash['abc'] = 12_344
+    my_hash['def'] = 54_327
+    my_hash['ghij'] = 12_356
+    my_hash[8765] = 'dsa'
+    my_hash[2307] = 3_259
   end
 
   describe 'add new item' do
     context 'when key is exisiting' do
       it 'value should overwritten' do
-        expect(my_hash["def"] = "new value").to eq "new value"
+        expect(my_hash['def'] = 'new value').to eq 'new value'
       end
     end
 
@@ -34,9 +34,9 @@ RSpec.describe MyHash do
 
   describe 'get item' do
     it 'value should equal' do
-      expect(my_hash["abc"].value).to eq 12344
-      expect(my_hash[8765].value).to eq "dsa"
-      expect(my_hash[2307].value).to eq 3259
+      expect(my_hash['abc'].value).to eq 12_344
+      expect(my_hash[8_765].value).to eq 'dsa'
+      expect(my_hash[2_307].value).to eq 3_259
     end
 
     context 'key doesnt exist' do
@@ -47,7 +47,7 @@ RSpec.describe MyHash do
 
     context 'key exist' do
       it 'raises RuntimeError' do
-        expect(my_hash).to include my_hash[8765]
+        expect(my_hash).to include my_hash[8_765]
       end
     end
   end
@@ -55,7 +55,7 @@ RSpec.describe MyHash do
   describe 'remove item' do
     context 'not exisiting item' do
       it 'raises RuntimeError' do
-        expect(my_hash.remove("mnb")).to raise_error(RuntimeError)
+        expect(my_hash.remove('mnb')).to raise_error(RuntimeError)
       end
     end
   end
