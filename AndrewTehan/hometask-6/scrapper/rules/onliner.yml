@@ -1,0 +1,13 @@
+url: 'https://www.onliner.by'
+sections:
+  people:
+    location: 'ul.b-opinions-main-2'
+    item_tag: 'li'
+    item_class: 'b-opinions-main-2__tile'
+    title_location: 'div.b-opinions-main-2__text'
+    
+  catalog:
+    location: 'div.b-catalog-layer'
+    item_tag: 'div'
+    item_class: 'b-tile'
+    title_location: 'h3.b-tile-header'
