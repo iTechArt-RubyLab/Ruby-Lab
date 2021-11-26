@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative './my_hash'
-require 'pry'
 require 'rspec'
 
 describe MyHash do
@@ -9,6 +8,8 @@ describe MyHash do
 
   describe '#[]=' do
     context 'when value does not exist' do
+      let(:my_hash) {my_hash = MyHash.new }
+
       it 'return pair key-value' do
         expect(my_hash[:key1] = '').to eq('')
         expect(my_hash[:key1]).to eq('')
@@ -22,8 +23,7 @@ describe MyHash do
 
       it 'replace value' do
         expect(my_hash[:key1]).to eq(54)
-        expect(my_hash[:key1] = 98).to eq(98)
-        expect(my_hash[:key1]).to eq(98)
+        expect { my_hash[:key1] = 98 }.to change { my_hash[:key1] }.to(98)
       end
     end
 
@@ -69,12 +69,6 @@ describe MyHash do
         expect(my_hash[:key]).to eq(nil)
       end
 
-      context 'when the key exist' do
-        it 'return []' do
-          expect(subject.delete(:a)).to eq([])
-        end
-      end
-
       context 'when the wrong number of parameters was passed' do
         it 'raises ArgumentError' do
           expect { subject.delete }.to raise_error(ArgumentError)
@@ -87,11 +81,11 @@ describe MyHash do
     it 'return []' do
       my_hash[:a] = 82
       my_hash.clear
-      expect(my_hash[:a]).to eq(nil)
+      expect(my_hash.length).to eq(0)
     end
   end
 
-  describe 'length and size methods' do
+  describe 'when the key exist' do
     it 'return length of hash' do
       my_hash[:a] = 82
       expect(my_hash.length).to eq(1)
