@@ -1,3 +1,3 @@
 Metrics/BlockLength:
-  IgnoredMethods: ['describe', 'context']
+  Max: 100
   
