@@ -69,7 +69,7 @@ describe MyHash do
         expect(my_hash[:key]).to eq(nil)
       end
 
-      context "when the key exist" do
+      context 'when the key exist' do
         it 'return []' do
           expect(subject.delete(:a)).to eq([])
         end
