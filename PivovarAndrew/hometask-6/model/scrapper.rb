@@ -4,14 +4,13 @@
 require 'capybara'
 require 'capybara/dsl'
 require './model/driver_setup'
+require './model/parser'
 
 # Class responsible for scrap and import required information from the web site
 class WebSiteScraper
   include Capybara::DSL
   attr_reader :data, :web_site_info
 
-  MIN_TEXT_LENGTH = 0
-  MAX_TEXT_LENGTH = 200
   WEB_SITE_INFO = {
     ADDRESS: 'https://www.onliner.by/',
     SECTION_SELECTOR: '.widget-item',
@@ -40,9 +39,9 @@ class WebSiteScraper
   def scrap_section(section_selector, title_selector, image_url_selector, text_selector)
     Capybara.all(section_selector).reduce([]) do |memo, element|
       memo << {
-        title: element.find(title_selector)[:innerText],
-        image_url: element.find(image_url_selector)[:src],
-        text: element.find(text_selector)[:innerText][MIN_TEXT_LENGTH..MAX_TEXT_LENGTH],
+        title: Parser::TitleParser.new(element, title_selector).parse_title,
+        image_url: Parser::ImageParser.new(element, image_url_selector).parse_image,
+        text: Parser::TextParser.new(element, text_selector).parse_text,
       }
     end
   end
