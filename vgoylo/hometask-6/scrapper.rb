@@ -19,7 +19,7 @@ driver = browser.driver.browser
 
 browser.visit('https://onliner.by')
 
-#TEHNOLOGY
+# #TEHNOLOGY
 browser.all('a', text: 'ТЕХНОЛОГИИ').first.click
 technology_links = browser.all('a', class: 'news-tiles__stub').map { |item| item['href'] }
 
@@ -34,7 +34,7 @@ technology_result =
   end
 
 
-#PEOPLE
+# #PEOPLE
 browser.all('a', text: 'ЛЮДИ').first.click
 people_links = browser.all('a', class: 'news-tiles__stub').map { |item| item['href'] }
 
@@ -48,38 +48,27 @@ people_result =
     [image, title, text]
   end
 
-p people_result
+#CATALOG
+browser.all('a', text: 'КАТАЛОГ').first.click
+columns = browser.find('div', class: 'tiles').all('div', class: 'tiles__column')
+catalogs_links = columns.map { |column| column.all('div', class: 'tiles__item').map { |item| item.find('a', class: 'b-tile-main')['href'] } }.flatten
 
-# titles = browser.all('div', class: 'news-tiles__subtitle').map(&:text)
-# pictures = browser.all('div', class: 'news-tiles__image').map { |item| item['style'].scan(/https:.+\.jpeg/).first }
-# texts = []
+catalogs_links =
+  catalogs_links.map do |catalog_links|
+    browser.visit(catalog_links)
 
-# binding.pry
-# browser.all('a', class: 'news-tiles__stub').each do |link|
-#   link.click
-#   texts << browser.find('.news-entry__speech').text[0...200]
-# end
+    items = browser.all('div', class: 'schema-product__group')
+    items.map do |item|
+      title = item.all('div', class: 'schema-product__title').first.text
+      text = item.find('div', class: 'schema-product__description').text[0...200]
 
-# p texts
+      image =
+        begin
+          item.find('img')['src']
+        rescue => Capybara::ElementNotFound
+          'no-image'
+        end
 
-# #CATALOG
-# browser.find('a', text: 'КАТАЛОГ').click
-# sleep 5
-
-# titles = browser.all('a', class: 'b-tile-main').map(&:text)
-# images = browser.all('picture img').map { |image| image['src'] }
-
-# links = browser.all('a', class: 'b-tile-main')
-
-
-# #PEOPLE
-# browser.find('a', text: 'ЛЮДИ').click
-
-# titles = browser.all('div', class: 'news-tiles__subtitle').map(&:text)
-# images = browser.all('div', class: 'news-tiles__image').map { |item| item['style'].scan(/https:.+\.jpeg/).first }
-
-
-# people_links = browser.all('a', class: 'news-tiles__stub')
-
-# puts titles
-# puts images
+      [image, title, text]
+    end
+  end
