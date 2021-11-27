@@ -1,48 +1,89 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'capybara'
-require 'capybara/dsl'
-require 'capybara/rspec'
-require 'capybara/mechanize'
-require 'rspec'
-require 'cucumber'
 require 'selenium-webdriver'
+require 'nokogiri'
+require 'capybara'
 
-=begin
-Capybara.default_driver = :selenium
-Capybara.default_driver = :webkit
-Capybara.run_server = false
-Capybara.current_driver = :selenium
-caps = Selenium::WebDriver::Remote::Capabilities.chrome
-caps.page_load_strategy = 'normal'
-Capybara.app_host = 'https://www.onliner.by/'
+class OnlinerScrapper
+  BEGIN_BLOCK_POSITION = 0
+  END_BLOCK_POSITION = 1
+  COUNTER_OF_END = 3
+  END_OF_BLOCK_SEQUENCE = '</div>'
 
-Capybara.register_driver :mechanize do |app|
-  Capybara::Mechanize::Driver.new(proc {})
-end
-session = Capybara::Session.new :mechanize
-session.visit 'https://www.onliner.by/'
-=end
-class OpenOnliner
-  include Capybara::DSL
-  Capybara.register_driver :mechanize do |app|
-    Capybara::Mechanize::Driver.new(proc {})
+  def initialize
+    @home_page = []
+    @all_links = []
+    @news_borders = []
+    @catalog_borders = []
+    @people_borders = []
+    @start_news_block_sequence = '<div class="b-tiles-outer ">'
+    @start_catalog_block_sequence = ''
+    @start_people_block_sequence = ''
   end
-  session = Capybara::Session.new :mechanize
-  session.visit('https://www.onliner.by/')
+
+  def scrapper()
+    initialize_capybara_and_webdriver
+    create_array_from_home_page
+    block_border_searcher(@start_news_block_sequence, @news_borders)
+    #block_border_searcher(@start_catalog_block_sequence, @catalog_borders)
+    #block_border_searcher(@start_people_block_sequence, @people_borders)
+    puts @news_borders
+  end
+
+  private
+
+  def initialize_capybara_and_webdriver
+    Capybara.register_driver :selenium do |app|  
+      Capybara::Selenium::Driver.new(app, browser: :chrome)
+    end
+    Capybara.javascript_driver = :chrome
+    Capybara.configure do |config|  
+      config.default_max_wait_time = 10
+      config.default_driver = :selenium
+    end
+  end
+
+  def create_array_from_home_page
+    browser = Capybara.current_session
+    driver = browser.driver.browser
+    browser.visit 'https://www.onliner.by/'
+    Nokogiri::HTML(driver.page_source).to_s.each_line do |line|
+      @home_page.push(line)
+    end
+  end
+
+  def block_border_searcher(begin_of_block_sequence, borders)
+    begin_of_block_searcher(begin_of_block_sequence, borders)
+    return unless borders[BEGIN_BLOCK_POSITION]
+
+    end_of_block_searcher(borders)
+  end
+
+  def begin_of_block_searcher(begin_of_block_sequence, borders)
+    @home_page.each_with_index do |line, index|
+      if /#{begin_of_block_sequence}/ =~ line
+        borders[BEGIN_BLOCK_POSITION] = index
+        break
+      end
+    end
+  end
+  
+  def end_of_block_searcher(borders)
+    @home_page[(borders[BEGIN_BLOCK_POSITION])...(@home_page.size)].each_with_index do |line, index|
+      counter = 0
+      if /#{END_OF_BLOCK_SEQUENCE}/ =~ line
+        @home_page[(index + borders[BEGIN_BLOCK_POSITION] - COUNTER_OF_END)...(index + borders[BEGIN_BLOCK_POSITION])].each do |previous_line|
+          counter += 1 if /#{END_OF_BLOCK_SEQUENCE}/ =~ previous_line
+        end
+      end
+      if counter == COUNTER_OF_END
+        borders[END_BLOCK_POSITION] = index + borders[BEGIN_BLOCK_POSITION]
+        break
+      end
+    end
+  end
 
 end
 
-test = OpenOnliner.new
-puts test
-puts test.page
-
-#visit('https://www.onliner.by/')
-=begin
-RSpec.describe 'Onliner' do
-  it 'start page of onliner' do
-    visit 'https://www.onliner.by/'
-    expect(page).to have_content('whatineed')
-  end
-=end
+OnlinerScrapper.new.scrapper
