@@ -51,10 +51,10 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
-  capybara
-  csv
-  rspec
-  selenium-webdriver
+  capybara (~> 3.36.0)
+  csv (~> 3.2.1)
+  rspec (~> 3.10.0)
+  selenium-webdriver (~> 4.1.0)
 
 BUNDLED WITH
    2.2.22

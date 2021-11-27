@@ -3,59 +3,47 @@
 
 require 'capybara'
 require 'capybara/dsl'
-require 'selenium-webdriver'
-require 'csv'
-require './model/page_selector'
+require './model/driver_setup'
 
 # Class responsible for scrap and import required information from the web site
 class WebSiteScraper
   include Capybara::DSL
   attr_reader :data, :web_site_info
 
-  CSV_DATA_PATH = './file/data.csv'
-  CSV_DATA_HEADER = %w[Title Image_URL Text].freeze
   MIN_TEXT_LENGTH = 0
   MAX_TEXT_LENGTH = 200
+  WEB_SITE_INFO = {
+    ADDRESS: 'https://www.onliner.by/',
+    SECTION_SELECTOR: '.widget-item',
+    H_SELECTOR: '.b-tile-header',
+    IMG_SELECTOR: 'picture img',
+    P_SELECTOR: '.b-tile-excerpt'
+  }.freeze
 
-  def initialize(web_site_info)
-    @web_site_info = web_site_info
+  def initialize
+    @web_site_info = WEB_SITE_INFO
     @data = []
     Capybara.ignore_hidden_elements = false
   end
 
   def scrap_web_site
-    driver_setup
+    DriverSetup.new.setup_driver
     Capybara.visit @web_site_info[:ADDRESS]
-    css_classes = @web_site_info[:CSS_CLASSES]
-    @data = scrap_section(PageSelector.new(css_classes[:SECTION], css_classes[:H], css_classes[:IMG], css_classes[:P]))
-    self
-  end
-
-  def import_to_csv
-    CSV.open(CSV_DATA_PATH, 'wb') do |csv|
-      csv << CSV_DATA_HEADER
-      @data.each do |section|
-        csv << [section[:title], section[:image_url], section[:text]]
-      end
-    end
+    @data = scrap_section(@web_site_info[:SECTION_SELECTOR],
+                          @web_site_info[:H_SELECTOR],
+                          @web_site_info[:IMG_SELECTOR],
+                          @web_site_info[:P_SELECTOR])
   end
 
   private
 
-  def scrap_section(page_selector)
-    Capybara.all(page_selector.section_selector).reduce([]) do |memo, element|
+  def scrap_section(section_selector, title_selector, image_url_selector, text_selector)
+    Capybara.all(section_selector).reduce([]) do |memo, element|
       memo << {
-        title: element.find(page_selector.title_selector)[:innerText],
-        image_url: element.find(page_selector.image_url_selector)[:src],
-        text: element.find(page_selector.text_selector)[:innerText][MIN_TEXT_LENGTH..MAX_TEXT_LENGTH]
+        title: element.find(title_selector)[:innerText],
+        image_url: element.find(image_url_selector)[:src],
+        text: element.find(text_selector)[:innerText][MIN_TEXT_LENGTH..MAX_TEXT_LENGTH],
       }
-    end
-  end
-
-  def driver_setup
-    Capybara.default_driver = :selenium
-    Capybara.register_driver :selenium do |app|
-      Capybara::Selenium::Driver.new(app, browser: :edge)
     end
   end
 end
