@@ -1,13 +1,22 @@
 url: 'https://www.onliner.by'
-sections:
+sections:    
+  sport:
+    location: 'div.b-parimatch-layer'
+    item_tag: 'div'
+    item_class: 'tiles-widget'
+    title_location: 'h3.b-tile-header'
+    symbols: 'a.b-tile-main'
+    
   people:
     location: 'ul.b-opinions-main-2'
     item_tag: 'li'
     item_class: 'b-opinions-main-2__tile'
     title_location: 'div.b-opinions-main-2__text'
+    symbols: 'div.b-opinions-main-2__inner'
     
   catalog:
     location: 'div.b-catalog-layer'
     item_tag: 'div'
     item_class: 'b-tile'
     title_location: 'h3.b-tile-header'
+    symbols: 'div.widget-item'

@@ -7,7 +7,7 @@ module Scrapper
   class FileWriter
     REPORTS_PATH = 'reports/'
     EXTENSION = '.csv'
-    HEADERS = ['Section', 'Title', 'Image URL'].freeze
+    HEADERS = ['Section', 'Title', 'Image URL', 'Symbols'].freeze
 
     attr_reader :report
 
@@ -16,16 +16,19 @@ module Scrapper
     end
 
     def call
-      file_name = Time.now.strftime('%d_%m_%Y_%H%M')
-      file_path = REPORTS_PATH + file_name + EXTENSION
-
-      CSV.open(file_path, 'wb') do |csv|
+      CSV.open(path_generator, 'wb') do |csv|
         csv << HEADERS
 
         report.each do |row|
           csv << row
         end
       end
+    end
+
+    private
+
+    def path_generator
+      REPORTS_PATH + Time.now.strftime('%d_%m_%Y_%H%M') + EXTENSION
     end
   end
 end
