@@ -58,5 +58,17 @@ describe MyHash do
       expect(my_hash.count).to eq 0
     end
   end
+
+  describe '#negativ' do
+    before do
+      my_hash[1] = 5
+    end
+
+    it 'rezult my hash negativ'do
+      expect(my_hash[1]).to eq 5
+      expect(my_hash[1]).not_to eq 5
+    end
+  end
+
 end
 # rubocop:enable Metrics/BlockLength
