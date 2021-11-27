@@ -41,7 +41,7 @@ class WebSiteScraper
       memo << {
         title: Parser::TitleParser.new(element, title_selector).parse_title,
         image_url: Parser::ImageParser.new(element, image_url_selector).parse_image,
-        text: Parser::TextParser.new(element, text_selector).parse_text,
+        text: Parser::TextParser.new(element, text_selector).parse_text
       }
     end
   end
