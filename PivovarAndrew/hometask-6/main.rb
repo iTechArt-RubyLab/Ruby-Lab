@@ -1,13 +1,13 @@
 # !/usr/bin/env ruby
 # frozen_string_literal: true
 
-require './model/web_site_scraper'
+require './model/scrapper'
 require 'rspec'
 
 # Main class
 class Main
   WEB_SITE_INFO = {
-    ADDRESS: 'https://onliner.by',
+    ADDRESS: 'https://www.onliner.by/',
     CSS_CLASSES: {
       SECTION: '.widget-item',
       H: '.b-tile-header',

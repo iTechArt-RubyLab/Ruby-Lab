@@ -2,16 +2,18 @@
 # frozen_string_literal: true
 
 require 'capybara'
+require 'capybara/dsl'
 require 'selenium-webdriver'
 require 'csv'
 require './model/page_selector'
 
 # Class responsible for scrap and import required information from the web site
 class WebSiteScraper
+  include Capybara::DSL
   attr_reader :data, :web_site_info
 
   CSV_DATA_PATH = './file/data.csv'
-  CSV_DATA_HEADER = %w[Title Image URL Text].freeze
+  CSV_DATA_HEADER = %w[Title Image_URL Text].freeze
   MIN_TEXT_LENGTH = 0
   MAX_TEXT_LENGTH = 200
 
