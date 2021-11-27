@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../my_hash'
-require 'pry'
 
 RSpec.describe MyHash do
   subject(:my_hash) { described_class.new }
@@ -9,20 +8,18 @@ RSpec.describe MyHash do
   describe '#[]=' do
     context 'when key is missing' do
       it 'adds new key-value pair' do
-        expect(subject[1] = :a).to eq(:a)
-        expect(subject[1]).to eq(:a)
+        expect(my_hash[1] = :a).to eq(:a)
+        expect(my_hash[1]).to eq(:a)
       end
     end
 
     context 'when key exists' do
-      before do
-        subject[1] = 1
-      end
+      before { my_hash[1] = 1 }
 
       it 'overriddes value' do
-        expect(subject[1]).to eq(1)
-        expect(subject[1] = 3).to eq(3)
-        expect(subject[1]).to eq(3)
+        expect(my_hash[1]).to eq(1)
+        expect(my_hash[1] = 3).to eq(3)
+        expect(my_hash[1]).to eq(3)
       end
     end
 
@@ -34,90 +31,82 @@ RSpec.describe MyHash do
   end
 
   describe '#[]' do
-    before do
-      subject[:key] = 2
-    end
+    before { my_hash[:key] = 2 }
 
     context 'when key exists' do
       it 'returns value' do
-        expect(subject[:key]).to eq(2)
+        expect(my_hash[:key]).to eq(2)
       end
     end
 
     context "when the key doesn't exist" do
       it 'returns nil' do
-        expect(subject[:a]).to eq(nil)
+        expect(my_hash[:a]).to be_nil
       end
     end
 
     context 'when wrong number of parameters was passed' do
       it 'raises ArgumentError' do
-        expect { subject[] }.to raise_error(ArgumentError)
+        expect { my_hash[] }.to raise_error(ArgumentError)
       end
     end
   end
 
   describe '#delete' do
-    before do
-      subject[:key] = 2
-    end
+    before { my_hash[:key] = 2 }
 
     context 'when the key exists' do
       it 'deletes key-value pair' do
-        expect { subject.delete(:key) }.to change { subject.length }.by(-1)
-        expect(subject[:key]).to eq(nil)
+        expect { my_hash.delete(:key) }.to change { my_hash.length }.by(-1)
+        expect(my_hash[:key]).to be_nil
       end
 
       it 'returns deleted value' do
-        expect(subject.delete(:key)).to eq(2)
+        expect(my_hash.delete(:key)).to eq(2)
       end
     end
 
     context "when the key doesn't exist" do
       it 'returns nil' do
-        expect(subject.delete(:a)).to eq(nil)
+        expect(my_hash.delete(:a)).to be_nil
       end
     end
 
     context 'when the wrong number of parameters was passed' do
       it 'raises ArgumentError' do
-        expect { subject.delete }.to raise_error(ArgumentError)
+        expect { my_hash.delete }.to raise_error(ArgumentError)
       end
     end
   end
 
   describe '#delete_all' do
     before do
-      subject[:a] = 1
-      subject[:b] = 2
-      subject[:c] = 3
+      my_hash[:a] = 1
+      my_hash[:b] = 2
+      my_hash[:c] = 3
     end
 
     context 'when my_hash includes pairs' do
       it 'returns number of pair' do
-        expect { subject.delete_all }.to change { subject.length }.to(0)
-        expect(subject[:a]).to eq(nil)
-        expect(subject[:b]).to eq(nil)
-        expect(subject[:c]).to eq(nil)
+        expect { my_hash.delete_all }.to change { my_hash.length }.to(0)
+        expect(my_hash[:a]).to be_nil
+        expect(my_hash[:b]).to be_nil
+        expect(my_hash[:c]).to be_nil
       end
     end
   end
 
   describe '#length' do
-    context 'when object is not blank' do
-      before do
-        subject[:a] = 1
-      end
+    subject(:hash_lenght) { my_hash.length }
 
-      it do
-        expect(subject.length).to eq(1)
-      end
+    context 'when object is not blank' do
+      before { my_hash[:a] = 1 }
+
+      it { is_expected.to eq(1) }
     end
 
-    context 'when object is not blank' do
-      it do
-        expect(subject.length).to eq(0)
-      end
+    context 'when object is blank' do
+      it { is_expected.to be_zero }
     end
   end
 end
