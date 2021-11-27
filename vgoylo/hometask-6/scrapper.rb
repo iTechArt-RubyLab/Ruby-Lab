@@ -2,6 +2,7 @@ require 'selenium-webdriver'
 require 'nokogiri'
 require 'capybara'
 require 'pry'
+require 'csv'
 
 # Configurations
 Capybara.register_driver :selenium do |app|
@@ -16,6 +17,32 @@ end
 browser = Capybara.current_session
 driver = browser.driver.browser
 
+
+#CATALOG
+browser.visit('https://onliner.by')
+browser.all('a', text: 'КАТАЛОГ').first.click
+columns = browser.find('div', class: 'tiles').all('div', class: 'tiles__column')
+catalogs_links = columns.map { |column| column.all('div', class: 'tiles__item').map { |item| item.find('a', class: 'b-tile-main')['href'] } }.flatten
+
+catalogs_result =
+  catalogs_links.map do |catalog_links|
+    browser.visit(catalog_links)
+
+    items = browser.all('div', class: 'schema-product__group')
+    items.map do |item|
+      title = item.all('div', class: 'schema-product__title').first.text
+      text = item.find('div', class: 'schema-product__description').text[0...200]
+
+      image =
+        begin
+          item.find('img')['src']
+        rescue => Capybara::ElementNotFound
+          'no-image'
+        end
+
+      [image, title, text]
+    end
+  end
 
 browser.visit('https://onliner.by')
 
@@ -35,6 +62,8 @@ technology_result =
 
 
 # #PEOPLE
+
+browser.visit('https://onliner.by')
 browser.all('a', text: 'ЛЮДИ').first.click
 people_links = browser.all('a', class: 'news-tiles__stub').map { |item| item['href'] }
 
@@ -48,27 +77,17 @@ people_result =
     [image, title, text]
   end
 
-#CATALOG
-browser.all('a', text: 'КАТАЛОГ').first.click
-columns = browser.find('div', class: 'tiles').all('div', class: 'tiles__column')
-catalogs_links = columns.map { |column| column.all('div', class: 'tiles__item').map { |item| item.find('a', class: 'b-tile-main')['href'] } }.flatten
 
-catalogs_links =
-  catalogs_links.map do |catalog_links|
-    browser.visit(catalog_links)
+  CSV.open('result.csv', 'w') do |csv|
+    technology_result.each do |row|
+      csv << row
+    end
 
-    items = browser.all('div', class: 'schema-product__group')
-    items.map do |item|
-      title = item.all('div', class: 'schema-product__title').first.text
-      text = item.find('div', class: 'schema-product__description').text[0...200]
+    people_result.each do |row|
+      csv << row
+    end
 
-      image =
-        begin
-          item.find('img')['src']
-        rescue => Capybara::ElementNotFound
-          'no-image'
-        end
-
-      [image, title, text]
+    catalogs_result.each do |row|
+      csv << row
     end
   end
