@@ -21,31 +21,65 @@ browser.visit('https://onliner.by')
 
 #TEHNOLOGY
 browser.all('a', text: 'ТЕХНОЛОГИИ').first.click
+technology_links = browser.all('a', class: 'news-tiles__stub').map { |item| item['href'] }
 
-titles = browser.all('div', class: 'news-tiles__subtitle').map(&:text)
-pictures = browser.all('div', class: 'news-tiles__image').map { |item| item['style'].scan(/https:.+\.jpeg/).first }
+technology_result =
+  technology_links.map do |technology_link|
+    browser.visit(technology_link)
+    image = browser.find('div', class: 'news-header__image')['style'].scan(/https:.+\.jpeg/).first
+    title =  browser.find('h1').text
+    text = browser.find('.news-text').text[0...200]
 
-links = browser.all('div', class: 'news-tiles__subtitle')
-
-
-#CATALOG
-browser.find('a', text: 'КАТАЛОГ').click
-sleep 5
-
-titles = browser.all('a', class: 'b-tile-main').map(&:text)
-images = browser.all('picture img').map { |image| image['src'] }
-
-links = browser.all('a', class: 'b-tile-main')
+    [image, title, text]
+  end
 
 
 #PEOPLE
-browser.find('a', text: 'ЛЮДИ').click
+browser.all('a', text: 'ЛЮДИ').first.click
+people_links = browser.all('a', class: 'news-tiles__stub').map { |item| item['href'] }
 
-titles = browser.all('div', class: 'news-tiles__subtitle').map(&:text)
-images = browser.all('div', class: 'news-tiles__image').map { |item| item['style'].scan(/https:.+\.jpeg/).first }
+people_result =
+  people_links.map do |people_link|
+    browser.visit(people_link)
+    image = browser.find('div', class: 'news-header__image')['style'].scan(/https:.+\.jpeg/).first
+    title =  browser.find('h1').text
+    text = browser.find('.news-text').text[0...200]
+
+    [image, title, text]
+  end
+
+p people_result
+
+# titles = browser.all('div', class: 'news-tiles__subtitle').map(&:text)
+# pictures = browser.all('div', class: 'news-tiles__image').map { |item| item['style'].scan(/https:.+\.jpeg/).first }
+# texts = []
+
+# binding.pry
+# browser.all('a', class: 'news-tiles__stub').each do |link|
+#   link.click
+#   texts << browser.find('.news-entry__speech').text[0...200]
+# end
+
+# p texts
+
+# #CATALOG
+# browser.find('a', text: 'КАТАЛОГ').click
+# sleep 5
+
+# titles = browser.all('a', class: 'b-tile-main').map(&:text)
+# images = browser.all('picture img').map { |image| image['src'] }
+
+# links = browser.all('a', class: 'b-tile-main')
 
 
-people_links = browser.all('a', class: 'news-tiles__stub')
+# #PEOPLE
+# browser.find('a', text: 'ЛЮДИ').click
 
-puts titles
-puts images
+# titles = browser.all('div', class: 'news-tiles__subtitle').map(&:text)
+# images = browser.all('div', class: 'news-tiles__image').map { |item| item['style'].scan(/https:.+\.jpeg/).first }
+
+
+# people_links = browser.all('a', class: 'news-tiles__stub')
+
+# puts titles
+# puts images
