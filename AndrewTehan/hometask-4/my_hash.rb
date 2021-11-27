@@ -24,7 +24,7 @@ class MyHash
   end
 
   def [](key)
-    collision = slot(2)
+    collision = slot(key)
 
     hash_pair(collision, key)&.last
   end
@@ -37,6 +37,10 @@ class MyHash
     end.first
 
     deleted_pair&.last
+  end
+
+  def each(&block)
+    dictionary.each(&block)
   end
 
   private
@@ -79,10 +83,6 @@ class MyHash
   def add_hash(slot, key, value)
     @pair_count += 1
     slot << [key, value]
-  end
-
-  def each(&block)
-    dictionary.each(&block)
   end
 
   alias length pair_count
