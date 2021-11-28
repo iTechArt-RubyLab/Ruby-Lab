@@ -1,0 +1,32 @@
+{
+  "host":"https://www.onliner.by",
+  "name":"onliner",
+  "headers":["section", "title", "text", "link", "img_src"],
+  "sections": {
+    "news": {
+      "path":"/",
+      "location":"div.b-tiles-outer > div.b-tiles.cfix",
+      "tag_name":"div",
+      "tag_class":"b-tile",
+      "url_regexp":"https:\/\/(tech|money|realt|people).onliner.by*",
+      "title_location":"h3.b-tile-header"
+    },
+    
+    "catalog":{
+      "path":"/",
+      "location":"div.catalog-offers__container > div.catalog-offers__list",
+      "tag_name":"div",
+      "tag_class":"catalog-offers__item",
+      "title_location":"div.catalog-offers__section"
+    },
+
+    "people":{
+      "path":"/",
+      "location":"ul.b-opinions-main-2",
+      "tag_name":"li",
+      "tag_class":"b-opinions-main-2__tile",
+      "url_regexp":"https:\/\/people.onliner.by*",
+      "title_location":"div.b-opinions-main-2__inner"
+    }
+  }
+}
