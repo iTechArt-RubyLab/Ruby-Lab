@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 gem 'capybara'
-gem 'rspec'
-gem 'cucumber'
-gem 'selenium-webdriver'
 gem 'capybara-selenium'
+gem 'cucumber'
 gem 'nokogiri'
 gem 'pry'
+gem 'rspec'
+gem 'selenium-webdriver'
