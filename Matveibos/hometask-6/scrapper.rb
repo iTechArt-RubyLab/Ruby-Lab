@@ -40,7 +40,7 @@ module Finder
     @answer << ["\n\n#{comment}:"]
     within(:xpath, path) do
       page.all(tag, class: style_class).each do |title|
-        @answer << ["#{title.text[0...200]}"]
+        @answer << [title.text[0...200].to_s]
       end
     end
   end

@@ -3,6 +3,7 @@
 require_relative './my_hash'
 require 'rspec'
 
+# rubocop:enable Metrics/BlockLength
 describe MyHash do
   describe '#[]=' do
     let!(:my_hash) { MyHash.new }
