@@ -33,7 +33,7 @@ class MyHash
     @pair_count -= 1
 
     deleted_pair = slot(key).yield_self do |collision|
-      collision.dup - collision.delete_if { |k, _| k == key }
+      collision.dup - collision.delete_if { |k| k == key }
     end.first
 
     deleted_pair&.last
@@ -72,7 +72,7 @@ class MyHash
   end
 
   def hash_pair(slot, key)
-    slot.find { |k, _| k == key }
+    slot.find { |k| k == key }
   end
 
   def reset_dictionary
