@@ -1,6 +1,11 @@
+# !/usr/bin/env ruby
+
+# frozen_string_literal: true
+
 require 'rspec/autorun'
 require_relative 'my_array_rotate'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Array do
   describe '#lab_rotate' do
     context 'whe array is empty' do
@@ -36,3 +41,4 @@ RSpec.describe Array do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
