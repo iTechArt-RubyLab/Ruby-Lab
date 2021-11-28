@@ -1,0 +1,5 @@
+Lint/ScriptPermission:
+  Enabled: false
+
+Metrics/BlockLength:
+  IgnoredMethods: ['describe', 'context'] 
