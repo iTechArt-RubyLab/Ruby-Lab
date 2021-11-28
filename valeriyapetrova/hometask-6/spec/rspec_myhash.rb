@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'my_hash'
+# rubocop:disable Metrics/BlockLength:
 RSpec.describe MyHash do
   let(:myhash) { MyHash.new }
 
@@ -83,3 +84,4 @@ RSpec.describe MyHash do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength:

@@ -1,76 +1,45 @@
-require_relative 'config.rb'
+# frozen_string_literal: true
 
-page = Config.new.config('https://onliner.by')
+require_relative 'config'
+
+require_relative 'constants'
+
+require 'csv'
+
+page = Config.new.config(ONLINER)
 
 doc = Nokogiri::HTML(page)
 
-REGEX_FOR_LINK = /http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+/
+# все ссылки на новости
 
-# первый блок новостей
+main_news_links =
 
-# название статей
+  doc.xpath(XPATH_FIRST_BLOCK_ONE).map(&:value),
+  doc.xpath(XPATH_FIRST_BLOCK_TWO).map(&:value),
+  doc.xpath(XPATH_FIRST_BLOCK_THREE).map(&:value),
+  doc.xpath(XPATH_FIRST_BLOCK_FOUR).map(&:value)
 
-all_news_from_first_block = doc.xpath("//*[@id='container']/div/div/div/div/div[2]") #ссылка на все новости первого блока
-titles_from_first_block = all_news_from_first_block.text # назване новости и непонятные символы, надо убрать через регулярки
-delete_all_spaces = titles_from_first_block.gsub("\n","") # удаление всех переносов
+second_block_links = doc.xpath(XPATH_SECOND_BLOCK).map(&:value)
 
-# картинки из первого блока
+third_block_links = doc.xpath(XPATH_THIRD_BLOCK).map(&:value)
 
-links_for_all_pictires_of_first_block =
-(doc.xpath("//*[@id='widget-1-1']").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='widget-5-1']").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='widget-9-1']").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='widget-2-1']").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='widget-6-1']").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='widget-10-1']").to_s).scan(REGEX_FOR_LINK).last
+CSV.open('file.csv', 'wb') do |csv|
+  # забрать название новости, картинки и текст
 
-#текст статьи из первого блока
+  csv << %w[title text image]
 
-#text_of_first_block_number_one = doc.xpath("//*[@id='container']/div/div[2]/div/div/div[4]/div[1]/div[1]/div/div/div/div[1]/div[2]/div[4]/div")
+  # переходим по ссылке на новость
+  [main_news_links, second_block_links, third_block_links].flatten.each do |link|
+    html_for_links = Nokogiri::HTML(Config.new.config(link))
 
-# второй блок новостей
+    title = html_for_links.xpath(TITLE).to_s # название новости
 
-# название новостей из второго раздела
+    text = html_for_links.xpath(TEXT)[0]&.text()
+    text = text ? text[0, 200] : ''
 
-all_titles_news_from_second_block =
-(doc.xpath (" //*[@id='widget-1-10']/div[2]/a/h3")).children.text,
-(doc.xpath (" //*[@id='widget-2-10']/div[2]/a/h3")).children.text,
-(doc.xpath (" //*[@id='widget-3-10']/div[2]/a/h3")).children.text,
-(doc.xpath (" //*[@id='widget-4-10']/div/a/h3")).children.text,
-(doc.xpath ("//*[@id='widget-5-10']/div[1]/a/h3")).children.text,
-(doc.xpath (" //*[@id='widget-1-10']/div[2]/a/h3")).children.text
+    image = html_for_links.xpath(IMAGE)[0]&.value
+    image = image ? image.scan(REGEX_FOR_LINK) : ''
 
-# картинки из второго блока
-
-links_for_all_pictires_of_second_block =
-(doc.xpath("//*[@id='widget-1-10']/div[1]/picture").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='widget-2-10']/div[1]/picture").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='widget-3-10']/div[1]/picture").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='widget-4-10']/div[1]/picture").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='widget-5-10']/div[1]/picture").to_s).scan(REGEX_FOR_LINK).last
-
-#текст статьи из второго блока
-
-____
-
-# третий блок новостей
-
-# название статей
-
-all_titles_news_from_third_block =
-(doc.xpath ("//*[@id='container']/div/div/div/div/div[5]/ul/li[1]/a/div/span[1]")).children.text,
-(doc.xpath ("//*[@id='container']/div/div/div/div/div[5]/ul/li[2]/a/div/span[1]")).children.text,
-(doc.xpath ("//*[@id='container']/div/div/div/div/div[5]/ul/li[3]/a/div/span[1]")).children.text,
-(doc.xpath ("//*[@id='container']/div/div/div/div/div[5]/ul/li[4]/a/div/span[1]")).children.text
-
-# картинки из третьего блока
-
-links_for_all_pictires_of_third_block =
-(doc.xpath("//*[@id='container']/div/div/div/div/div[5]/ul/li[1]/a/picture").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='container']/div/div/div/div/div[5]/ul/li[2]/a/picture").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='container']/div/div/div/div/div[5]/ul/li[3]/a/picture").to_s).scan(REGEX_FOR_LINK).last,
-(doc.xpath("//*[@id='container']/div/div/div/div/div[5]/ul/li[4]/a/picture").to_s).scan(REGEX_FOR_LINK).last
-
-# текст статьи из третьего блока
-# //*[@id='container']/div/div[2]/div/div/div[4]/div[1]/div[1]/div/div/div/div[1]/div[2]/div[4]/div/p
-# "//*[@id='container']"
+    csv << [title, text, image]
+  end
+end
