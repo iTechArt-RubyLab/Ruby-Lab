@@ -4,38 +4,36 @@
 require 'selenium-webdriver'
 require 'nokogiri'
 require 'capybara'
+require 'capybara/rspec'
+require 'capybara/dsl'
 
 class OnlinerScrapper
-  BEGIN_BLOCK_POSITION = 0
-  END_BLOCK_POSITION = 1
-  COUNTER_OF_END = 3
-  END_OF_BLOCK_SEQUENCE = '</div>'
+  include Capybara::DSL
+
+  HOME_PAGE_URL = 'https://www.onliner.by/'
 
   def initialize
-    @home_page = []
     @all_links = []
-    @news_borders = []
-    @catalog_borders = []
-    @people_borders = []
-    @start_news_block_sequence = '<div class="b-tiles-outer ">'
-    @start_catalog_block_sequence = ''
-    @start_people_block_sequence = ''
+    @required_blocks = ['.//div[@class="b-tiles-outer "]',
+                        './/div[@class="b-catalog-layer"]',
+                        './/ul[@class="b-opinions-main-2"]']
   end
 
   def scrapper()
     initialize_capybara_and_webdriver
-    create_array_from_home_page
-    block_border_searcher(@start_news_block_sequence, @news_borders)
-    #block_border_searcher(@start_catalog_block_sequence, @catalog_borders)
-    #block_border_searcher(@start_people_block_sequence, @people_borders)
-    puts @news_borders
+    open_home_page
+    @required_blocks.each { |block| link_collector(block) }
+    puts @all_links.size
+    itself_scrapper
   end
 
   private
 
   def initialize_capybara_and_webdriver
-    Capybara.register_driver :selenium do |app|  
-      Capybara::Selenium::Driver.new(app, browser: :chrome)
+    caps = Selenium::WebDriver::Remote::Capabilities.chrome('goog:chromeOptions' => {
+    args: ['start-maximized']})
+    Capybara.register_driver :selenium do |app|
+      Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: caps)
     end
     Capybara.javascript_driver = :chrome
     Capybara.configure do |config|  
@@ -44,44 +42,40 @@ class OnlinerScrapper
     end
   end
 
-  def create_array_from_home_page
+  def open_home_page
     browser = Capybara.current_session
     driver = browser.driver.browser
-    browser.visit 'https://www.onliner.by/'
+    browser.visit HOME_PAGE_URL
+    file = File.new('homepage', 'w')
     Nokogiri::HTML(driver.page_source).to_s.each_line do |line|
-      @home_page.push(line)
+      file.write(line)
     end
   end
 
-  def block_border_searcher(begin_of_block_sequence, borders)
-    begin_of_block_searcher(begin_of_block_sequence, borders)
-    return unless borders[BEGIN_BLOCK_POSITION]
-
-    end_of_block_searcher(borders)
-  end
-
-  def begin_of_block_searcher(begin_of_block_sequence, borders)
-    @home_page.each_with_index do |line, index|
-      if /#{begin_of_block_sequence}/ =~ line
-        borders[BEGIN_BLOCK_POSITION] = index
-        break
-      end
-    end
-  end
-  
-  def end_of_block_searcher(borders)
-    @home_page[(borders[BEGIN_BLOCK_POSITION])...(@home_page.size)].each_with_index do |line, index|
-      counter = 0
-      if /#{END_OF_BLOCK_SEQUENCE}/ =~ line
-        @home_page[(index + borders[BEGIN_BLOCK_POSITION] - COUNTER_OF_END)...(index + borders[BEGIN_BLOCK_POSITION])].each do |previous_line|
-          counter += 1 if /#{END_OF_BLOCK_SEQUENCE}/ =~ previous_line
+  def link_collector(block)
+    within(:xpath, block) do
+      all(:xpath, './/a').each do |elem|
+        if /https:\/\/.+\.onliner\.by\/.+/ =~ elem[:href]
+          need_to_be_pushed = true
+          @all_links.each { |i| need_to_be_pushed = false if i.eql?(elem[:href])}
+          @all_links.push(elem[:href]) if need_to_be_pushed
         end
       end
-      if counter == COUNTER_OF_END
-        borders[END_BLOCK_POSITION] = index + borders[BEGIN_BLOCK_POSITION]
-        break
-      end
     end
+  end
+
+  def itself_scrapper
+    results = File.new('onliner.csv', 'w')
+    browser = Capybara.current_session
+    driver = browser.driver.browser
+    @all_links.each do |link|
+      browser.visit link
+      results.write(extractor)
+    end
+  end
+
+  def extractor()
+    'something'
   end
 
 end
