@@ -1,0 +1,1 @@
+SELECT name, count(film_id) from film LEFT JOIN language ON language.language_id = film.language_id group by name;
