@@ -1,2 +1,0 @@
-Metrics/BlockLength:
-  IgnoredMethods: ['describe', 'context','it']

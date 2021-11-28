@@ -4,21 +4,18 @@ require_relative './my_hash'
 require 'rspec'
 
 describe MyHash do
-  subject(:my_hash) { described_class.new }
-
   describe '#[]=' do
+    let!(:my_hash) { MyHash.new }
     context 'when value does not exist' do
-      let(:my_hash) {my_hash = MyHash.new }
-
       it 'return pair key-value' do
-        expect(my_hash[:key1] = '').to eq('')
+        (my_hash[:key1] = '')
         expect(my_hash[:key1]).to eq('')
       end
     end
 
     context 'when value exist' do
       before do
-        subject[:key1] = 54
+        my_hash[:key1] = 54
       end
 
       it 'replace value' do
@@ -35,6 +32,7 @@ describe MyHash do
   end
 
   describe '#[]' do
+    let(:my_hash) { MyHash.new }
     before do
       my_hash[:key] = :value1
     end
@@ -59,26 +57,28 @@ describe MyHash do
   end
 
   describe '#delete' do
+    let(:my_hash) { MyHash.new }
     before do
       my_hash[:key] = 34
     end
 
     context 'when the key exist' do
       it 'delete key-value' do
-        subject.delete(:key)
+        my_hash.delete(:key)
         expect(my_hash[:key]).to eq(nil)
       end
 
       context 'when the wrong number of parameters was passed' do
         it 'raises ArgumentError' do
-          expect { subject.delete }.to raise_error(ArgumentError)
+          expect { my_hash.delete }.to raise_error(ArgumentError)
         end
       end
     end
   end
 
-  describe 'clear method' do
-    it 'return []' do
+  describe '#clear' do
+    let(:my_hash) { MyHash.new }
+    it 'return length = 0 ' do
       my_hash[:a] = 82
       my_hash.clear
       expect(my_hash.length).to eq(0)
@@ -86,6 +86,7 @@ describe MyHash do
   end
 
   describe 'when the key exist' do
+    let(:my_hash) { MyHash.new }
     it 'return length of hash' do
       my_hash[:a] = 82
       expect(my_hash.length).to eq(1)
