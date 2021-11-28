@@ -43,8 +43,8 @@ describe MyHash do
     it 'should return the correct items in the hash' do
       expect(hash.array).to contain_exactly('world', 'hello', 1, 2, 4237, 'code')
     end
-  
-  describe 'negative situations'
+
+    describe 'negative situations'
     it 'return false' do
       expect(hash.array.include?('arr')).to eq false
       expect(hash.array.empty?).to eq false
