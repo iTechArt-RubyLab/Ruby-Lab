@@ -30,6 +30,16 @@ RSpec.describe MyHash do
       expect(my_hash.length).to eq 3
     end
   end
+end
+
+RSpec.describe MyHash do
+  let(:my_hash) { described_class.new }
+
+  before do
+    my_hash['a'] = 1
+    my_hash['b'] = 2
+    my_hash['c'] = 3
+  end
 
   describe 'get item' do
     it 'value should equal' do
@@ -49,6 +59,16 @@ RSpec.describe MyHash do
         expect(my_hash).to include my_hash[1234]
       end
     end
+  end
+end
+
+RSpec.describe MyHash do
+  let(:my_hash) { described_class.new }
+
+  before do
+    my_hash['a'] = 1
+    my_hash['b'] = 2
+    my_hash['c'] = 3
   end
 
   describe 'remove item' do
