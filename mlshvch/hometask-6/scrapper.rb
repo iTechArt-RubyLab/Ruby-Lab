@@ -58,15 +58,26 @@ class Scraper
   end
 
   def extract_catalog_data
-    @html.search(CATALOG_CSS_SELECTOR)
+    @html.search(CATALOG_CSS_SELECTOR).each do |block|
+      title = block.at_css('.catalog-offers__title').text
+      # picture = block.css('img').attr('src')
+      # text = ''
+      # puts title
+      pp title
+    end
+  end
+
+  def write_to_csv
+    file = File.open('data.csv', 'w')
+    @result.each do |data|
+      file.write(data.join("\t").concat("\n"))
+    end
   end
 
   def scrape_data
     extract_html if @html.nil?
+    extract_news_data
     extract_catalog_data
+    write_to_csv
   end
-
 end
-
-scrap = Scraper.new
-scrap.scrape_data
