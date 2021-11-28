@@ -22,9 +22,14 @@ class Scraper
     configure_capybara
   end
 
-  def show
-    @result
+  def scrape_data
+    extract_html if @html.nil?
+    extract_news_data
+    extract_catalog_data
+    write_to_csv
   end
+
+  private
 
   def configure_capybara
     Capybara.register_driver(:selenium) { |app| Capybara::Selenium::Driver.new(app, browser: :firefox) }
@@ -59,11 +64,10 @@ class Scraper
 
   def extract_catalog_data
     @html.search(CATALOG_CSS_SELECTOR).each do |block|
-      title = block.at_css('.catalog-offers__title').text
-      # picture = block.css('img').attr('src')
-      # text = ''
-      # puts title
-      pp title
+      title = block.at_css('.catalog-offers__title').text.strip
+      picture = block.css('img').attr('src').text
+      text = ''
+      @result << [title, picture, text]
     end
   end
 
@@ -72,12 +76,5 @@ class Scraper
     @result.each do |data|
       file.write(data.join("\t").concat("\n"))
     end
-  end
-
-  def scrape_data
-    extract_html if @html.nil?
-    extract_news_data
-    extract_catalog_data
-    write_to_csv
   end
 end
