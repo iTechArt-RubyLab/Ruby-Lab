@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'selenium-webdriver'
 require 'nokogiri'
 require 'capybara'
@@ -15,14 +17,16 @@ Capybara.configure do |config|
 end
 # Visit
 browser = Capybara.current_session
-driver = browser.driver.browser
 
-
-#CATALOG
+# CATALOG
 browser.visit('https://onliner.by')
 browser.all('a', text: 'КАТАЛОГ').first.click
 columns = browser.find('div', class: 'tiles').all('div', class: 'tiles__column')
-catalogs_links = columns.map { |column| column.all('div', class: 'tiles__item').map { |item| item.find('a', class: 'b-tile-main')['href'] } }.flatten
+catalogs_links = columns.map do |column|
+  column.all('div', class: 'tiles__item').map do |item|
+    item.find('a', class: 'b-tile-main')['href']
+  end
+end.flatten
 
 catalogs_result =
   catalogs_links.map do |catalog_links|
@@ -36,7 +40,7 @@ catalogs_result =
       image =
         begin
           item.find('img')['src']
-        rescue => Capybara::ElementNotFound
+        rescue StandardError
           'no-image'
         end
 
@@ -54,12 +58,11 @@ technology_result =
   technology_links.map do |technology_link|
     browser.visit(technology_link)
     image = browser.find('div', class: 'news-header__image')['style'].scan(/https:.+\.jpeg/).first
-    title =  browser.find('h1').text
+    title = browser.find('h1').text
     text = browser.find('.news-text').text[0...200]
 
     [image, title, text]
   end
-
 
 # #PEOPLE
 
@@ -71,23 +74,22 @@ people_result =
   people_links.map do |people_link|
     browser.visit(people_link)
     image = browser.find('div', class: 'news-header__image')['style'].scan(/https:.+\.jpeg/).first
-    title =  browser.find('h1').text
+    title = browser.find('h1').text
     text = browser.find('.news-text').text[0...200]
 
     [image, title, text]
   end
 
-
-  CSV.open('result.csv', 'w') do |csv|
-    technology_result.each do |row|
-      csv << row
-    end
-
-    people_result.each do |row|
-      csv << row
-    end
-
-    catalogs_result.each do |row|
-      csv << row
-    end
+CSV.open('result.csv', 'w') do |csv|
+  technology_result.each do |row|
+    csv << row
   end
+
+  people_result.each do |row|
+    csv << row
+  end
+
+  catalogs_result.each do |row|
+    csv << row
+  end
+end

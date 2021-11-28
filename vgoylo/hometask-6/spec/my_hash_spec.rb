@@ -15,7 +15,7 @@ describe MyHash do
       expect(my_hash[1]).to eq 5
     end
 
-    it 'do not queal incorrect result'do
+    it 'do not queal incorrect result' do
       expect(my_hash[1]).not_to eq 6
       expect(my_hash.count).not_to be_nil
     end
