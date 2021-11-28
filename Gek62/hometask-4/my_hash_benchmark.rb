@@ -23,6 +23,6 @@ Benchmark.bm do |x|
   x.report('10000') { 10_000.times { |i| @hash[i] = i } }
   x.report('read(100)') { hash[100] }
   x.report('delete') { @hash.delete(100) }
-  x.report('delete_all'){@hash.clear}
+  x.report('delete_all') { @hash.clear }
   x.report('length') { @hash.length }
 end
