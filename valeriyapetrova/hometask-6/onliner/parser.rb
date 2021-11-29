@@ -12,16 +12,16 @@ doc = Nokogiri::HTML(page)
 
 # все ссылки на новости
 
-main_news_links =
+main_news =
 
-  doc.xpath(XPATH_FIRST_BLOCK_ONE).map(&:value),
-  doc.xpath(XPATH_FIRST_BLOCK_TWO).map(&:value),
-  doc.xpath(XPATH_FIRST_BLOCK_THREE).map(&:value),
-  doc.xpath(XPATH_FIRST_BLOCK_FOUR).map(&:value)
+  doc.xpath(MAIN_NEWS_ONE).map(&:value),
+  doc.xpath(MAIN_NEWS_TWO).map(&:value),
+  doc.xpath(MAIN_NEWS_THREE).map(&:value),
+  doc.xpath(MAIN_NEWS_FOUR).map(&:value)
 
-second_block_links = doc.xpath(XPATH_SECOND_BLOCK).map(&:value)
+catalog = doc.xpath(CATALOG).map(&:value)
 
-third_block_links = doc.xpath(XPATH_THIRD_BLOCK).map(&:value)
+money = doc.xpath(MONEY).map(&:value)
 
 CSV.open('file.csv', 'wb') do |csv|
   # забрать название новости, картинки и текст
@@ -29,15 +29,15 @@ CSV.open('file.csv', 'wb') do |csv|
   csv << %w[title text image]
 
   # переходим по ссылке на новость
-  [main_news_links, second_block_links, third_block_links].flatten.each do |link|
-    html_for_links = Nokogiri::HTML(Config.new.config(link))
+  [main_news, catalog, money].flatten.each do |link|
+    html = Nokogiri::HTML(Config.new.config(link))
 
-    title = html_for_links.xpath(TITLE).to_s # название новости
+    title = html.xpath(TITLE).to_s # название новости
 
-    text = html_for_links.xpath(TEXT)[0]&.text()
+    text = html.xpath(TEXT)[0]&.text()
     text = text ? text[0, 200] : ''
 
-    image = html_for_links.xpath(IMAGE)[0]&.value
+    image = html.xpath(IMAGE)[0]&.value
     image = image ? image.scan(REGEX_FOR_LINK) : ''
 
     csv << [title, text, image]

@@ -1,48 +1,32 @@
 # frozen_string_literal: true
 
-require_relative 'my_hash'
+require_relative './my_hash'
 # rubocop:disable Metrics/BlockLength:
 RSpec.describe MyHash do
   let(:myhash) { MyHash.new }
 
-  before do
-    myhash[:input_key] = :input_value
-  end
-
   describe '#[]=(key_input, value_input)' do
     context 'when add a pair of key/value' do
+      before do
+        myhash[:input_key] = :input_value
+      end
       let(:input_key) { 1 }
       let(:input_value) { 10 }
 
       it { expect(myhash[input_key] = input_value).to be_kind_of input_value.class }
-      it { expect(myhash).to_not eq([]) }
     end
   end
-
-  describe '#[](key_input)' do
-    context 'when search value by key' do
-      let(:input_key) { 1 }
-      let(:input_value) { 10 }
-
-      it { expect(%i[input_key input_value]).to match_array(%i[input_key input_value]) }
-    end
-  end
-
-  describe '#size_of_my_hash ' do
-    context 'size of MyHash when it is empty' do
-      it { expect(myhash.size_of_my_hash).to eq(1) }
-    end
-  end
-end
-
-RSpec.describe MyHash do
-  let(:myhash) { MyHash.new }
 
   before do
     myhash['learn'] = 'Ruby'
     myhash['Lera'] = 'Petrova'
     myhash[1] = 2
     myhash[3] = 4
+  end
+  describe '#size_of_my_hash ' do
+    context 'size of MyHash when it is empty' do
+      it { expect(myhash.size_of_my_hash).to eq(4) }
+    end
   end
   describe '#[]=(key_input, value_input)' do
     context 'when add a pair of key/value test 2' do
