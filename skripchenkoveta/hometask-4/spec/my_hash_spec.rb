@@ -50,7 +50,7 @@ RSpec.describe MyHash do
       it 'return error - ArgumentError' do
         expect { my_hash.delete }.to raise_error(ArgumentError)
         expect { my_hash.delete[1] }.to raise_error(ArgumentError)
-        expect { my_hash.delete() }.to raise_error(ArgumentError)
+        expect { my_hash.delete }.to raise_error(ArgumentError)
       end
     end
   end
@@ -71,7 +71,6 @@ RSpec.describe MyHash do
     it 'remove all elements from the hash' do
       my_hash.clear
       expect(my_hash.length).to eq 0
-    
     end
     context 'when pass the wrong number of arguments in a method' do
       it 'return error - ArgumentError' do
