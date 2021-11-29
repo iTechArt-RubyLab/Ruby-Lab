@@ -24,7 +24,7 @@ RSpec.describe MyHash do
     myhash[3] = 4
   end
   describe '#size_of_my_hash ' do
-    context 'size of MyHash when it is empty' do
+    context 'when test size of MyHash' do
       it { expect(myhash.size_of_my_hash).to eq(4) }
     end
   end
