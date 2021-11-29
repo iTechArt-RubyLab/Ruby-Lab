@@ -70,4 +70,8 @@ class MyHash
   def size
     @entry_count
   end
+
+  def array
+    @arr.flatten
+  end
 end

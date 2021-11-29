@@ -3,11 +3,12 @@
 
 # this class is extension for Hash
 class MyHash
-  attr_reader :my_hash
-
   include Enumerable
 
+  attr_reader :my_hash
+
   ONE = 1
+
   def initialize
     @my_hash = []
   end
@@ -36,11 +37,13 @@ class MyHash
     @my_hash.clear
   end
 
-  def pair(input_key)
-    @my_hash.find { |key, _value| key == input_key } || []
-  end
-
   def each(&block)
     @my_hash.each(&block)
+  end
+
+  private
+
+  def pair(input_key)
+    @my_hash.find { |key, _value| key == input_key } || []
   end
 end

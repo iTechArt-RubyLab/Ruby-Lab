@@ -1,0 +1,2 @@
+ALTER TABLE film 
+ADD COLUMN gek TEXT DEFAULT 'Some info';
