@@ -8,22 +8,22 @@ end
 
 def string_search(town, string)
   city = string.split("\n").find { |current_string| current_string.include? town }
-  return nil if city.nil?
+  return if city.nil?
 
   city.scan(/\d*\.\d/).map(&:to_f)
 end
 
 def mean(town, string)
-  return -1 if (average = string_search(town, string)).nil?
+  @average = string_search(town, string)
+  return -1 if @average.nil?
 
-  average.sum / 12
+  @mean = @average.sum / 12
 end
 
-def variance(town, string)
-  return -1 if (average = string_search(town, string)).nil?
+def variance
+  return -1 if @average.nil?
 
-  mean = average.sum / 12
-  average.map { |value| (mean - value)**2 }.sum / 12
+  @average.map { |value| (@mean - value)**2 }.sum / 12
 end
 
 def run_cli
@@ -42,7 +42,7 @@ end
 
 def result(input)
   data = upload_data
-  puts "Mean: #{mean(input, data)}\nVariance: #{variance(input, data)}"
+  puts "Mean: #{mean(input, data)}\nVariance: #{variance}"
 end
 
 run_cli
