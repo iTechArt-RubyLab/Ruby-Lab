@@ -8,8 +8,6 @@ module Scrapper
   class Parser
     include Capybara::DSL
 
-    attr_reader :results
-
     def initialize(site)
       load_rule(site)
 

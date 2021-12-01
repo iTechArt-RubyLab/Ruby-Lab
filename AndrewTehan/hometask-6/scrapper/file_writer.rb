@@ -19,9 +19,7 @@ module Scrapper
       CSV.open(path_generator, 'wb') do |csv|
         csv << HEADERS
 
-        report.each do |row|
-          csv << row
-        end
+        report.each { |row| csv << row }
       end
     end
 
