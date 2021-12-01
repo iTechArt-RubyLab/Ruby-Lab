@@ -1,0 +1,3 @@
+DELETE 
+FROM film CASCADE
+WHERE rental_rate BETWEEN 0.5 AND 1.0;
