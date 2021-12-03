@@ -1,23 +1,34 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-INPUT_MESSAGE = 'Enter string: '
-ERROR_MESSAGE = "String can't be blank"
-RESULT_MESSAGE = 'Middle character'
-EXIT_MESSAGE = 'exit!'
-
 def run_cli
   loop do
-    puts INPUT_MESSAGE
-    string = gets.chomp
-    break if string == EXIT_MESSAGE
+    input_message
+    word = gets.chomp
+    break if exit?(word)
 
-    if string.empty?
-      puts ERROR_MESSAGE
+    if word.empty?
+      error_message
     else
-      puts "#{RESULT_MESSAGE}: #{get_middle(string)}"
+      result_message(word)
     end
   end
+end
+
+def input_message
+  puts 'Enter string: '
+end
+
+def error_message
+  puts "String can't be blank"
+end
+
+def result_message(word)
+  puts "Middle character: #{get_middle(word)}"
+end
+
+def exit?(word)
+  word.eql?('exit!')
 end
 
 def middle(word)
