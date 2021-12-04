@@ -1,18 +1,16 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative 'lib/messenger'
-
 MONTHS = 12
 
 def run_cli
   loop do
-    Messenger.print_city_alert
+    puts 'Input city name:'
     city = gets.chomp
     break if exit?(city)
 
     if city.empty?
-      Messenger.print_empty_alert
+      puts 'City can not be blank!'
     else
       results(city)
     end
@@ -23,8 +21,8 @@ def results(city)
   data = data_parse(city)
   mean = calculate_mean(data)
   variance = calculate_variance(data)
-  Messenger.print_result_mean(mean)
-  Messenger.print_result_variance(variance)
+  puts "Rainfall mean:#{mean}"
+  puts "Rainfall variance:#{variance}"
 end
 
 def data_parse(city)
