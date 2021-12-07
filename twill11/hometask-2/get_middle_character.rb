@@ -9,9 +9,9 @@ class GetMiddleCharacter
   def result_of_middle
     @str.length.odd? ? @str[middle] : @str[(middle - 1)..middle]
   end
-  
-  private 
-  
+
+  private
+
   def middle
     @str.length / 2
   end
