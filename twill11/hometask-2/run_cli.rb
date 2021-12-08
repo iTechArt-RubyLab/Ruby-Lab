@@ -1,48 +1,47 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require './get_middle_character'
+require_relative 'get_middle_character'
 
-# Run program
 class RunCli
   def run_cli
     loop do
-      enter_string
+      input_string
       user_input
       break if exit?
 
-      call
+      conditional_call
     end
   end
 
   private
 
-  def enter_string
+  def input_string
     puts 'Enter your string: '
   end
 
   def user_input
-    @str = gets.chomp
+    @input = gets.chomp
   end
 
   def exit?
-    @str == 'exit!'
+    @input == 'exit!'
   end
 
   def empty_string
     puts 'String can not be blank!'
   end
 
-  def middle_charcter
-    GetMiddleCharacter.new(@str).result_of_middle
+  def middle_character
+    GetMiddleCharacter.new(@input).result_of_middle
   end
 
-  def call
-    @str.empty? ? empty_string : result
+  def conditional_call
+    @input.empty? ? empty_string : result
   end
 
   def result
-    puts "Middle character: #{middle_charcter}"
+    puts "Middle character: #{middle_character}"
   end
 end
 
