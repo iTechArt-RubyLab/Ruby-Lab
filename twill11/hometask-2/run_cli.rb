@@ -3,6 +3,7 @@
 
 require_relative 'get_middle_character'
 
+# Getting result of middle character
 class RunCli
   def run_cli
     loop do

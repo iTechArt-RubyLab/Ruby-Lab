@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Calculate middle character
 class GetMiddleCharacter
   def initialize(str)
     @str = str
