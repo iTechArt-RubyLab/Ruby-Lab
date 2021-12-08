@@ -2,47 +2,42 @@
 # frozen_string_literal: true
 
 require_relative 'get_middle_character'
+require_relative 'validator'
 
 # Getting result of middle character
 class RunCli
-  def run_cli
-    loop do
-      input_string
-      user_input
-      break if exit?
+  def run_cli(str = nil)
+    return if exit?(str)
 
-      conditional_call
-    end
+    puts 'Enter your string: '
+    str = user_input
+
+    print_result(str)
+
+    run_cli(str)
   end
 
   private
 
-  def input_string
-    puts 'Enter your string: '
-  end
-
   def user_input
-    @input = gets.chomp
+    gets.chomp
   end
 
-  def exit?
-    @input == 'exit!'
+  def exit?(str)
+    str == 'exit!'
   end
 
-  def empty_string
-    puts 'String can not be blank!'
+  def middle_character(str)
+    GetMiddleCharacter.new(str).result_of_middle
   end
 
-  def middle_character
-    GetMiddleCharacter.new(@input).result_of_middle
-  end
+  def print_result(str)
+    return if exit?(str)
 
-  def conditional_call
-    @input.empty? ? empty_string : result
-  end
+    validator = Validator.new(str)
+    validator.validate
 
-  def result
-    puts "Middle character: #{middle_character}"
+    puts validator.valid? ? "Middle character: #{middle_character(str)}" : validator.error_messages
   end
 end
 

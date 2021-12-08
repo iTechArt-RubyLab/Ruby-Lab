@@ -7,18 +7,22 @@ class GetMiddleCharacter
   end
 
   def result_of_middle
-    str.length.odd? ? str[middle] : twice_middle_character
+    str[middle_range]
   end
 
   private
 
   attr_reader :str
 
-  def middle
-    str.length / 2
+  def size
+    @size ||= str.size
   end
 
-  def twice_middle_character
-    str[(middle - 1)..middle]
+  def middle
+    @middle ||= size / 2
+  end
+
+  def middle_range
+    size.odd? ? middle : (middle - 1)..middle
   end
 end
