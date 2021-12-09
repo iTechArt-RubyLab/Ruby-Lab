@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+group :test do
+  gem 'capybara', '~> 3.35', '>= 3.35.3'
+end
+
+ruby '2.6.3'
