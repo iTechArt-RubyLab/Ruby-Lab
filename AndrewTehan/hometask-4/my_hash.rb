@@ -15,7 +15,7 @@ class MyHash
   def []=(key, value)
     resize! if full_dictionary?
 
-    slot = slot(2)
+    slot = slot(key)
     pair = hash_pair(slot, key)
 
     add_hash(slot, key, value) if slot.empty? || pair.nil?
@@ -36,7 +36,11 @@ class MyHash
       collision.dup - collision.delete_if { |k, _| k == key }
     end.first
 
-    deleted_pair.last
+    deleted_pair&.last
+  end
+
+  def each(&block)
+    dictionary.each(&block)
   end
 
   private
@@ -79,10 +83,6 @@ class MyHash
   def add_hash(slot, key, value)
     @pair_count += 1
     slot << [key, value]
-  end
-
-  def each(&block)
-    dictionary.each(&block)
   end
 
   alias length pair_count
