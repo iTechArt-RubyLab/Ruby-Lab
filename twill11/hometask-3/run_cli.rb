@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative './lib/rainfall'
+require_relative './lib/validator'
+
+# Getting result of rainfalls
+class RunCli
+  def run_cli(town = nil)
+    return if exit?(town)
+
+    puts 'Enter city name: '
+    town = user_input
+
+    print_result(town)
+
+    run_cli(town)
+  end
+
+  private
+
+  def user_input
+    gets.chomp
+  end
+
+  def exit?(town)
+    town == 'exit!'
+  end
+
+  def result_of_values(town)
+    print "Rainfall mean: #{rainfall.mean_result(town)}\n"
+    print "Rainfall variance: #{rainfall.variance_result(town)}"
+  end
+
+  def print_result(town)
+    return if exit?(town)
+
+    validator = Validator.new(town)
+    validator.validate
+
+    puts validator.valid? ? result_of_values(town) : validator.error_messages
+  end
+
+  def rainfall
+    @rainfall ||= Rainfall.new('data.txt')
+  end
+end
+
+RunCli.new.run_cli
