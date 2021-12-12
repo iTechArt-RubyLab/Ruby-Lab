@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative './base'
+
 # Include calculators collection
 module Calculators
   # Include rainfall calculators
@@ -8,9 +10,19 @@ module Calculators
     module Operations
       # Class to calculate average rainfall
       class Average
-        def initialize; end
+        include Base
 
-        def call; end
+        def initialize(rainfall)
+          @rainfall = rainfall
+        end
+
+        def call
+          rainfall.sum / MONTHS
+        end
+
+        private
+
+        attr_accessor :rainfall
       end
     end
   end
