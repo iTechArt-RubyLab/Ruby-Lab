@@ -17,7 +17,7 @@ module Calculators
         end
 
         def call
-          rainfall.map { |rainfall_item| (rainfall_item - average)**2 }.sum / MONTHS
+          rainfall.map { |rainfall_item| (rainfall_item - average)**2 }.sum / Base::MONTHS
         end
 
         private

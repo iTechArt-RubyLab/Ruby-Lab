@@ -17,7 +17,7 @@ module Calculators
         end
 
         def call
-          rainfall.sum / MONTHS
+          rainfall.sum / Base::MONTHS
         end
 
         private
