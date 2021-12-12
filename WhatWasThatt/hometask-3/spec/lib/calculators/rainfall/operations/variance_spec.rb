@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/calculators/rainfall/operations/variance'
+require_relative './../../../../../lib/calculators/rainfall/operations/variance'
 
 RSpec.describe Calculators::Rainfall::Operations::Variance do
   describe '#call' do

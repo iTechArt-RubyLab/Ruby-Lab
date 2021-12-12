@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-require './lib/calculators/rainfall/calculator'
+require_relative './../../../../lib/calculators/rainfall/calculator'
 
 RSpec.describe Calculators::Rainfall::Calculator do
   describe '#call' do
     let(:data) do
-      'London:Jan 48.0,Feb 38.9,Mar 39.9,Apr 42.2,May 47.3,Jun 52.1,Jul 59.5,
-       Aug 57.2,Sep 55.4,Oct 62.0,Nov 59.0,Dec 52.9'
+      'London:Jan48.0,Feb38.9,Mar39.9,Apr42.2,May47.3,Jun52.1,Jul59.5,Aug57.2,Sep55.4,Oct62.0,Nov59.0,Dec52.9'
     end
     let(:delta) { 0.1 }
     let(:town) { 'London' }

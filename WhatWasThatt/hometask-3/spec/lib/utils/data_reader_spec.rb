@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require './lib/utils/data_reader'
+require_relative './../../../lib/utils/data_reader'
 
 RSpec.describe Utils::DataReader do
   describe '#call' do
     context 'when file opened' do
       let(:path) { 'data.txt' }
       let(:town_rainfall) do
-        'Rome:Jan 81.2,Feb 63.2,Mar 70.3,Apr 55.7,May 53.0,Jun 36.4,Jul 17.5,Aug 27.5,Sep 60.9'
+        'Rome:Jan81.2,Feb63.2,Mar70.3,Apr55.7,May53.0,Jun36.4,Jul17.5,Aug27.5,Sep60.9,Oct117.7,Nov111.0,Dec97.9'
       end
       let(:result) do
         OpenStruct.new(success?: true, error_message: '', data: town_rainfall)

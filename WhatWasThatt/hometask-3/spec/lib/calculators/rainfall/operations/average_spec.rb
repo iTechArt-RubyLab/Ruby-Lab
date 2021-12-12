@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './lib/calculators/rainfall/operations/average'
+require_relative './../../../../../lib/calculators/rainfall/operations/average'
 
 RSpec.describe Calculators::Rainfall::Operations::Average do
   describe '#call' do
