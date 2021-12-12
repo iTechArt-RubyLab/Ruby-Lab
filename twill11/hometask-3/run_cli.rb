@@ -1,20 +1,20 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative './lib/rainfall'
-require_relative './lib/validator'
+require_relative 'lib/rainfall'
+require_relative 'lib/validator'
 
 # Getting result of rainfalls
 class RunCli
-  def run_cli(town = nil)
-    return if exit?(town)
-
+  def run_cli
     puts 'Enter city name: '
     town = user_input
 
+    return if exit?(town)
+
     print_result(town)
 
-    run_cli(town)
+    run_cli
   end
 
   private
@@ -33,8 +33,6 @@ class RunCli
   end
 
   def print_result(town)
-    return if exit?(town)
-
     validator = Validator.new(town)
     validator.validate
 

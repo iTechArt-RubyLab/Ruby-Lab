@@ -12,7 +12,7 @@ class Validator
   end
 
   def valid?
-    error_messages.empty?
+    errors.empty?
   end
 
   def error_messages

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Reading data
-class DataReader
+module DataReader
   def read_file(file)
     File.open(file).read
   end

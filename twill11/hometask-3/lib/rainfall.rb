@@ -5,22 +5,30 @@ require_relative 'data_reader'
 
 # Formatting data
 class Rainfall
+  include DataConverter
+  include DataReader
+
   MONTHS = 12
+
   def initialize(data_path)
     @data_path = data_path
   end
 
   def mean_result(town)
-    mean(converted_data.values_recorder(town, data_reader))
+    mean(data(town))
   end
 
   def variance_result(town)
-    variance(converted_data.values_recorder(town, data_reader))
+    variance(data(town))
   end
 
   private
 
   attr_reader :data_path
+
+  def data(town)
+    values_recorder(town, read_file(data_path))
+  end
 
   def mean(data)
     data.sum / MONTHS
@@ -28,13 +36,5 @@ class Rainfall
 
   def variance(data)
     data.map { |value| (value - mean(data))**2 }.sum / MONTHS
-  end
-
-  def converted_data
-    @converted_data ||= DataConverter.new
-  end
-
-  def data_reader
-    @data_reader ||= DataReader.new.read_file(data_path)
   end
 end
