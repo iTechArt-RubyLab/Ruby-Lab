@@ -2,7 +2,7 @@
 
 # Include calculators collection
 module Calculators
-  # Include rainfall logic
+  # Include rainfall calculators
   module Rainfall
     # Class to create collection of calculators to calculate different rainfall params
     class Calculator

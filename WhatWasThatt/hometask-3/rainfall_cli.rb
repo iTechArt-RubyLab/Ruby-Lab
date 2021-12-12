@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Service to receiving data and return result
-class Program
+class RainfallCli
   def initialize; end
 
   def run_cli; end
