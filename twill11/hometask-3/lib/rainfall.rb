@@ -9,16 +9,21 @@ class Rainfall
   include DataReader
 
   MONTHS = 12
+  MINUS_ONE = -1
 
   def initialize(data_path)
     @data_path = data_path
   end
 
   def mean_result(town)
+    return MINUS_ONE if non_exists_town?(town)
+
     mean(data(town))
   end
 
   def variance_result(town)
+    return MINUS_ONE if non_exists_town?(town)
+
     variance(data(town))
   end
 
@@ -28,6 +33,10 @@ class Rainfall
 
   def data(town)
     values_recorder(town, read_file(data_path))
+  end
+
+  def non_exists_town?(town)
+    data(town).empty?
   end
 
   def mean(data)

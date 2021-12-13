@@ -40,7 +40,11 @@ class RunCli
   end
 
   def rainfall
-    @rainfall ||= Rainfall.new('data.txt')
+    @rainfall ||= Rainfall.new(file_path('data.txt'))
+  end
+
+  def file_path(file_name)
+    "#{File.dirname(__FILE__)}/#{file_name}"
   end
 end
 
