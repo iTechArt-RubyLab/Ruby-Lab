@@ -57,12 +57,12 @@ class RainfallCli
     EXIT_COMMANDS.include?(city)
   end
 
-  def calculate_indecator(calculator)
-    Calculators::Rainfall::Calculator.new(data.data, city, calculator).call
+  def calculate_indecator(weather_indicator)
+    Calculators::Rainfall::Calculator.new(data.data, city, weather_indicator).call
   end
 
-  def print_weather_indicator(calculator)
-    puts("Rainfall #{calculator} #{calculate_indecator(calculator)}")
+  def print_weather_indicator(weather_indicator)
+    puts("Rainfall #{weather_indicator} #{calculate_indecator(weather_indicator)}")
   end
 
   def print_weather_indicators
