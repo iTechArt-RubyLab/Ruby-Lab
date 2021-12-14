@@ -1,0 +1,2 @@
+ALTER TABLE film 
+ADD COLUMN views INTEGER;
