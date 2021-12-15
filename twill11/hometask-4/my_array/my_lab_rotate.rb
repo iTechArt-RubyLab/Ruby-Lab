@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Array rotating
-class Array
+# Module rotating
+module MyLabRotate
   def lab_rotate(step = 1)
     shift_array = step % size
     shift_array.zero? ? self : last(size - shift_array) + first(shift_array)
