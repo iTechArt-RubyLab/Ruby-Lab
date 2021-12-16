@@ -1,2 +1,2 @@
-ALTER TABLE
-  "film" DROP column "recomended";
+ALTER TABLE film 
+DROP column recomended;
