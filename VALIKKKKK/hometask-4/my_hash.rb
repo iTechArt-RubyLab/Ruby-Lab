@@ -4,7 +4,7 @@
 class MyHash
   include Enumerable
 
-  INIT_SIZE = 10
+  INIT_SIZE = 16
 
   def initialize
     @entry_count = 0
@@ -12,22 +12,8 @@ class MyHash
     @arr = Array.new(@bin_count) { [] }
   end
 
-  def index_of(key)
-    key.hash % @bin_count
-  end
-
-  def each(&block)
-    @arr.each(&block)
-  end
-
-  def find(key)
-    bin_for(key).find do |entry|
-      key == entry.first
-    end
-  end
-
   def [](key)
-    find(key).last
+    find(key)&.last
   end
 
   def []=(key, value)
@@ -44,7 +30,12 @@ class MyHash
   end
 
   def delete_by_key(key)
+    return if bin_for(key)&.last.nil?
+
+    current_element = bin_for(key).first
+    @entry_count -= 1
     bin_for(key).clear
+    current_element.last
   end
 
   def delete_all
@@ -55,11 +46,17 @@ class MyHash
     @entry_count
   end
 
-  def array
-    @arr.flatten
+  private
+
+  def index_of(key)
+    key.hash % @bin_count
   end
 
-  private
+  def find(key)
+    bin_for(key).find do |entry|
+      key == entry.first
+    end
+  end
 
   def grow
     @bin_count = @bin_count << 1
