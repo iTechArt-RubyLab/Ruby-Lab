@@ -1,1 +1,2 @@
-  ALTER TABLE film DROP column income
+ALTER TABLE
+  "film" DROP column "recomended";
