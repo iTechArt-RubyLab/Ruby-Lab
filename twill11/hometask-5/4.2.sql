@@ -1,4 +1,3 @@
 SELECT * FROM film 
-WHERE language_id IN (
- SELECT language_id FROM language WHERE name IN ('English', 'German', 'Italian')
-)
+JOIN language ON language.language_id = film.language_id 
+WHERE language.name IN ('English', 'German', 'Italian');

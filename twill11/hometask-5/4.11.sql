@@ -1,2 +1,2 @@
 ALTER TABLE film 
-DROP column director
+DROP column director;
