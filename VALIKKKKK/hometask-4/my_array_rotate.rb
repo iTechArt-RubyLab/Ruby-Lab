@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This class implements the rotate method
+# This class implements the lab_rotate, lab_rotate! methods
 class Array
   def lab_rotate!(num = 1)
     lab_rotate_logic(self, num)
@@ -13,26 +13,13 @@ class Array
   private
 
   def lab_rotate_logic(arr, num)
+    shift_size = num.abs % arr.size
+    return arr if shift_size.zero?
+
     if num.positive?
-      positive_case(arr, num)
+      arr.concat(arr.shift(shift_size))
     else
-      negative_case(arr, num)
-    end
-  end
-
-  def positive_case(arr, num)
-    if num > arr.size
-      arr.concat(arr.shift(num - arr.size))
-    else
-      arr.concat(arr.shift(num))
-    end
-  end
-
-  def negative_case(arr, num)
-    if (-num) > arr.size
-      arr.unshift(arr.slice!(arr.size + num, -num - arr.size)).flatten(1)
-    else
-      arr.unshift(arr.slice!(num, -num)).flatten(1)
+      arr.unshift(arr.slice!(-shift_size, shift_size)).flatten
     end
   end
 end
