@@ -1,3 +1,4 @@
-SELECT CONCAT(last_name, '-', first_name) as fullname
+SELECT CONCAT(last_name, '-', first_name) AS fullname
 FROM actor
-WHERE first_name like 'W%' OR last_name like '%H'
+WHERE first_name LIKE 'W%' 
+  OR last_name LIKE '%H'

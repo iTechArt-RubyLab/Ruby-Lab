@@ -1,1 +1,3 @@
-SELECT * FROM actor WHERE last_name = 'Zellweger'
+SELECT *
+FROM actor
+WHERE last_name = 'Zellweger'

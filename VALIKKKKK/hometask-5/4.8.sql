@@ -1,1 +1,2 @@
-DELETE FROM film WHERE title = 'It'
+DELETE FROM film 
+WHERE title = 'It'

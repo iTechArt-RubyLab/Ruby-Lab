@@ -1,1 +1,2 @@
-ALTER TABLE film DROP column_name
+ALTER TABLE film
+DROP column_name

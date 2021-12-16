@@ -1,1 +1,2 @@
-ALTER TABLE film ADD column_name TEXT
+ALTER TABLE film 
+ADD column_name TEXT
