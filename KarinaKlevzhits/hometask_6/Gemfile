@@ -5,7 +5,6 @@ source 'https://rubygems.org'
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 # gem "rails"
-gem 'env'
 gem 'http'
 gem 'net-http'
 gem 'nokogiri'
