@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Top-level comment
+# top-level comment
 class MyHash
   include Enumerable
 
