@@ -3,6 +3,7 @@
 require 'nokogiri'
 
 module Deaths
+  # service to get parsed character death info
   class Parser
     def initialize(character_data)
       @character_data = character_data

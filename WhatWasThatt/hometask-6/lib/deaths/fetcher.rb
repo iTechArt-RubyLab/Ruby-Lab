@@ -5,6 +5,7 @@ require 'nokogiri'
 require 'ostruct'
 
 module Deaths
+  # service to get correct data from character page
   class Fetcher
     def initialize(page)
       @page = page
@@ -24,14 +25,14 @@ module Deaths
       URI.open(page).read
     end
 
-    def html_document
+    def doc
       Nokogiri::HTML(content)
     end
 
     def rows
       begin
-        data = html_document.xpath('/html/body/div[4]/div[3]/div[2]/main/div[3]/div[2]/div[1]').css('aside').xpath('div[11]/div')
-      rescue TypeError => e
+        data = doc.xpath('/html/body/div[4]/div[3]/div[2]/main/div[3]/div[2]/div[1]').css('aside').xpath('div[11]/div')
+      rescue StandardError
         return OpenStruct.new(success?: false, error_message: NO_CHARACTER_MESSAGE, data: '')
       end
       OpenStruct.new(success?: true, error_message: '', data: data)

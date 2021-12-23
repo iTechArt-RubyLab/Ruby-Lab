@@ -4,6 +4,7 @@ require 'open-uri'
 require 'nokogiri'
 
 module Characters
+  # service to fetch characters data from page
   class Fetcher
     def call
       rows

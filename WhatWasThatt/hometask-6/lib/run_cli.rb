@@ -3,6 +3,7 @@
 require_relative 'characters/processor'
 require_relative 'deaths/processor'
 
+# service to connect users inputs and characters with their death info
 class RunCli
   def run_cli
     run

@@ -2,6 +2,7 @@
 
 module Deaths
   module Writers
+    # service to create csv file with character death info
     class Csv
       def initialize(name, death_info)
         @name = name

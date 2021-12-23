@@ -5,6 +5,7 @@ require_relative 'parser'
 require_relative 'writers/csv'
 
 module Deaths
+  # service to get parsed data, validation and create csv file
   class Processor
     WRITING_ACTIONS = { csv: Deaths::Writers::Csv }.freeze
 

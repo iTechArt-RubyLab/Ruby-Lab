@@ -3,6 +3,7 @@
 require 'nokogiri'
 
 module Characters
+  # service to get hash with name and link of each character
   class Parser
     def initialize(rows)
       @rows = rows

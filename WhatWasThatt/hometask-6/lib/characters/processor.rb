@@ -6,6 +6,7 @@ require_relative 'writers/csv'
 require 'ostruct'
 
 module Characters
+  # service to get parsed data and return hash and csv file
   class Processor
     WRITING_ACTIONS = { csv: Characters::Writers::Csv }.freeze
 
