@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-gem 'dry-initializer'
-gem 'http'
-gem 'json'
-gem 'rubocop'
+gem 'dry-initializer', '~> 3.0', '>= 3.0.4'
+gem 'http', '~> 5.0', '>= 5.0.4'
+gem 'json', '~> 2.6', '>= 2.6.1'
+gem 'rubocop', '~> 1.24'

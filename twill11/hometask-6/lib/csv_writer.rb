@@ -1,24 +1,21 @@
 # frozen_string_literal: true
 
 require 'csv'
-require_relative 'parser'
+require_relative 'photo'
 
-# Writing info to csv file
+# Write info to csv file
 class CsvWriter
-  HEADERS = ['photo id', 'person real name', 'photo title', 'link to image'].freeze
+  attr_reader :photos
 
-  attr_reader :data
-
-  def initialize(data)
-    @data = data
+  def initialize(photos)
+    @photos = photos
   end
 
   def csv_writer(tag)
     CSV.open("file/#{tag}.csv", 'wb') do |csv|
-      csv << HEADERS
-
-      data.each do |row|
-        csv << row
+      csv << Photo::HEADERS
+      photos.each do |photo|
+        csv << photo.photo_dataset
       end
     end
   end

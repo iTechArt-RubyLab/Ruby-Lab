@@ -19,7 +19,7 @@ GEM
     http-cookie (1.0.4)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    json (2.3.0)
+    json (2.6.1)
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
@@ -31,13 +31,13 @@ GEM
     rake (13.0.6)
     regexp_parser (2.2.0)
     rexml (3.2.5)
-    rubocop (1.23.0)
+    rubocop (1.24.0)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml
-      rubocop-ast (>= 1.12.0, < 2.0)
+      rubocop-ast (>= 1.15.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.15.0)
@@ -53,10 +53,10 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  dry-initializer
-  http
-  json
-  rubocop
+  dry-initializer (~> 3.0, >= 3.0.4)
+  http (~> 5.0, >= 5.0.4)
+  json (~> 2.6, >= 2.6.1)
+  rubocop (~> 1.24)
 
 BUNDLED WITH
    2.2.31

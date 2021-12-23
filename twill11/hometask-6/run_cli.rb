@@ -11,8 +11,8 @@ class RunCli
     @tag = gets.chomp
     print 'Enter count of: '
     @count = gets.chomp.to_i
-    info_of_rows
-    write_to_csv
+    photos = info_of_rows
+    write_to_csv(photos)
     puts 'File was generated successfully!'
   end
 
@@ -20,7 +20,7 @@ class RunCli
 
   attr_reader :tag, :count
 
-  def write_to_csv
+  def write_to_csv(info_of_rows)
     CsvWriter.new(info_of_rows).csv_writer(tag)
   end
 
