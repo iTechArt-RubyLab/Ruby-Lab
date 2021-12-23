@@ -2,6 +2,7 @@
 
 require_relative 'characters/processor'
 require_relative 'deaths/processor'
+require_relative 'characters/list'
 
 # service to connect users inputs and characters with their death info
 class RunCli
@@ -15,18 +16,35 @@ class RunCli
 
   EXIT_COMMANDS = %w[exit! !!! exit].freeze
 
+  LIST_COMMANDS = %w[list -l --list --l l].freeze
+
   def run
     loop do
       info_message
       read_character
       break if exit?
-
+      if list?
+        list_of_characters
+        next
+      end
       death_message
     end
   end
 
   def exit?
     EXIT_COMMANDS.include?(name)
+  end
+
+  def list?
+    LIST_COMMANDS.include?(name)
+  end
+
+  def characters_list
+    Characters::List.new(characters_hash).call
+  end
+
+  def print_characters_list
+    puts characters_list
   end
 
   def read_character
