@@ -11,14 +11,21 @@ class ResponseParser
 
   def call
     cars_data = CarsData.new
-    @response['adverts'].each do |el|
-      model = el['model']['name']
-      year = el['specs']['year']
-      price = el['price']['converted']['USD']['amount']
-      city =  el['location']['city']['name']
-      link = el['html_url']
-      cars_data.cars << CarData.new(model: model, year: year, price: price, city: city, link: link)
+    @response['adverts'].each do |attrib|
+      cars_data.cars << CarData.new(prepare_attributes(attrib))
     end
     cars_data
+  end
+
+  private
+
+  def prepare_attributes(attributes)
+    {
+      model: attributes['model']['name'],
+      year: attributes['specs']['year'],
+      price: attributes['price']['converted']['USD']['amount'],
+      city: attributes['location']['city']['name'],
+      link: attributes['html_url']
+    }
   end
 end

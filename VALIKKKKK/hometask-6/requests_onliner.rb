@@ -6,7 +6,7 @@ require_relative './lib/data_fetcher'
 # Entry point class
 class RequestsOnliner
   def self.call
-    FileWriter.new(DataFetcher.new.call).call
+    FileWriter.new(DataFetcher.call).call
   end
 end
 
