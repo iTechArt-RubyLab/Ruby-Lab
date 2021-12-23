@@ -3,12 +3,13 @@
 require_relative 'fetcher'
 require_relative 'parser'
 require_relative 'writers/csv'
+require_relative 'writers/pdf'
 require 'ostruct'
 
 module Characters
   # service to get parsed data and return hash and csv file
   class Processor
-    WRITING_ACTIONS = { csv: Characters::Writers::Csv }.freeze
+    WRITING_ACTIONS = { csv: Characters::Writers::Csv, pdf: Characters::Writers::Pdf }.freeze
 
     def initialize(format, file_name)
       @format = format

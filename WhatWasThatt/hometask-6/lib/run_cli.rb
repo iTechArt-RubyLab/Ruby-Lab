@@ -23,8 +23,9 @@ class RunCli
       info_message
       read_character
       break if exit?
+
       if list?
-        list_of_characters
+        print_characters_list
         next
       end
       death_message
@@ -60,7 +61,7 @@ class RunCli
   end
 
   def characters_hash
-    Characters::Processor.new(:csv, 'characters').call
+    Characters::Processor.new(:pdf, 'characters').call
   end
 
   def death_info

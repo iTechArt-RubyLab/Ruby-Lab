@@ -1,24 +1,45 @@
 # frozen_string_literal: true
-# # frozen_string_literal: true
 
-# module Characters
-#   module Writers
-#     class Pdf
-#       def initialize(name, hash)
-#         @name = name
-#         @hash = hash
-#       end
+require 'erb'
+require 'prawn'
+require 'pdfcrowd'
 
-#       def call
-#         p hash['Daenerys Targaryen'].to_s
-#         Prawn::Document.generate("#{name}.pdf") do
-#           text hash['Daenerys Targaryen'].to_s
-#         end
-#       end
+module Characters
+  module Writers
+    # service to create pdf file with characters names and links
+    class Pdf
+      def initialize(names, hash)
+        @names = names
+        @hash = hash
+      end
 
-#       private
+      def call
+        file_generator
+      end
 
-#       attr_accessor :name, :hash
-#     end
-#   end
-# end
+      private
+
+      attr_accessor :names, :hash
+
+      def file_generator
+        # Create template.
+        template = '
+        <%# ignore numerous minor requests -- focus on priorities %>
+        % hash.each do |name|
+          -- <%=name.first%> *link* <%=name.last%>
+        % end
+        '.gsub(/^  /, '')
+        message = ERB.new(File.read(template), trim_mode: '>')
+        parsed_data = message.result
+
+        begin
+          client = Pdfcrowd::HtmlToPdfClient.new('demo', 'ce544b6ea52a5621fb9d55f8b542d14d')
+          client.convertStringToFile(parsed_data, "#{name}.pdf")
+        rescue Pdfcrowd::Error => e
+          warn "Pdfcrowd Error: #{e}"
+          raise
+        end
+      end
+    end
+  end
+end

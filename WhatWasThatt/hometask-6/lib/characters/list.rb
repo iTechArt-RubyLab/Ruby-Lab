@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Characters
+  # service to create array of characters names
   class List
     def initialize(characters_hash)
       @characters_hash = characters_hash
