@@ -7,7 +7,7 @@ require 'ostruct'
 
 module Characters
   class Processor
-    WRITING_ACTIONS = { csv: Writers::Csv }.freeze
+    WRITING_ACTIONS = { csv: Characters::Writers::Csv }.freeze
 
     def initialize(format, file_name)
       @format = format
@@ -15,18 +15,23 @@ module Characters
     end
 
     def call
-      writing_action = WRITING_ACTIONS.fetch(format, nil)
-      if writing_action.nil?
-        OpenStruct.new(success?: false, file_name: '')
-      else
-        file = writing_action.new(file_name, parsed_data).call
-        OpenStruct.new(success?: true, file_name: file)
-      end
+      writing_action
+      parsed_data
     end
 
     private
 
     attr_accessor :format, :file_name
+
+    def writing_action
+      action = WRITING_ACTIONS.fetch(format, nil)
+      if action.nil?
+        OpenStruct.new(success?: false, data: '')
+      else
+        file = action.new(file_name, parsed_data).call
+        OpenStruct.new(success?: true, data: file)
+      end
+    end
 
     def data
       Characters::Fetcher.new.call
