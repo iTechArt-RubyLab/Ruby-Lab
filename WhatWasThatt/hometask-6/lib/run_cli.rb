@@ -61,7 +61,7 @@ class RunCli
   end
 
   def characters_hash
-    Characters::Processor.new(:pdf, 'characters').call
+    Characters::Processor.new(:csv, 'characters').call
   end
 
   def death_info

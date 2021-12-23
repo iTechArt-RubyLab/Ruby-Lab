@@ -15,7 +15,7 @@ module Characters
     MAIN_PAGE = 'https://gameofthrones.fandom.com/wiki/Game_of_Thrones_Wiki'
 
     def content
-      URI.open(MAIN_PAGE).read
+      URI.parse(MAIN_PAGE).open.read
     end
 
     def html_document

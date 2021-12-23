@@ -22,7 +22,7 @@ module Deaths
     NO_CHARACTER_MESSAGE = 'no such character'
 
     def content
-      URI.open(page).read
+      URI.parse(page).open.read
     end
 
     def doc
