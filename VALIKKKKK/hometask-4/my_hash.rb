@@ -39,6 +39,7 @@ class MyHash
   end
 
   def delete_all
+    @entry_count = 0
     @arr.clear
   end
 
