@@ -3,87 +3,99 @@
 require_relative '../my_hash/my_hash'
 
 RSpec.describe MyHash do
-  describe '[]=' do
+  subject(:my_hash) { described_class.new }
+
+  describe '#[]=' do
     before do
       my_hash['hello'] = 'world'
     end
 
-    let(:my_hash) { described_class.new }
-
     context 'when write key value' do
-      it { expect(my_hash.size).to eq 1 }
+      it 'return' do
+        expect(my_hash.size).to eq 1
+      end
     end
 
     context 'when rewrite value by exist key' do
-      it { expect(my_hash['hello']).to eq 'world' }
+      it 'return' do
+        expect(my_hash['hello']).to eq 'world'
+      end
     end
 
     context 'when key not passed' do
-      it { expect { my_hash[] = 'world' }.to raise_error(ArgumentError) }
+      it 'return error' do
+        expect { my_hash[] = 'world' }.to raise_error(ArgumentError)
+      end
     end
   end
 
-  describe '[]' do
+  describe '#[]' do
     before do
       my_hash['hello'] = 3
     end
 
-    let(:my_hash) { described_class.new }
-
     context 'when read value by a key' do
-      it { expect(my_hash['hello']).to eq 3 }
+      it 'return' do
+        expect(my_hash['hello']).to eq 3
+      end
     end
 
     context 'when value not exist' do
-      it { expect(my_hash['idk']).to be_nil }
+      it 'return nil' do
+        expect(my_hash['idk']).to be_nil
+      end
     end
 
     context 'when key not passed' do
-      it { expect { my_hash[] }.to raise_error(ArgumentError) }
+      it 'return error' do
+        expect { my_hash[] }.to raise_error(ArgumentError)
+      end
     end
   end
 
-  describe 'delete()' do
+  describe '#delete()' do
     before do
       my_hash['hello'] = 'world'
       my_hash.delete('hello')
     end
 
-    let(:my_hash) { described_class.new }
-
     context 'when delete key-value by key' do
-      it { expect(my_hash['hello']).to eq nil }
+      it 'return' do
+        expect(my_hash['hello']).to eq nil
+      end
     end
 
     context 'when key not passed' do
-      it { expect { my_hash.delete }.to raise_error(ArgumentError) }
+      it 'return error' do
+        expect { my_hash.delete }.to raise_error(ArgumentError)
+      end
     end
   end
 
-  describe 'clear' do
+  describe '#clear' do
     before do
       my_hash['hello'] = 'world'
       my_hash.clear
     end
 
-    let(:my_hash) { described_class.new }
-
     context 'when clear all from hash' do
-      it { expect(my_hash.size).to eq 0 }
+      it 'return' do
+        expect(my_hash.size).to eq 0
+      end
     end
   end
 
-  describe 'size' do
+  describe '#size' do
     before do
       my_hash['hello'] = 'world'
       my_hash['foo'] = 'bar'
       my_hash['ilike'] = 'ruby'
     end
 
-    let(:my_hash) { described_class.new }
-
     context 'when getting size' do
-      it { expect(my_hash.size).to eq 3 }
+      it 'return' do
+        expect(my_hash.size).to eq 3
+      end
     end
   end
 end
