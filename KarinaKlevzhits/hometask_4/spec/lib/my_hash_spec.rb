@@ -44,7 +44,7 @@ RSpec.describe MyHash do
       it { expect(my_hash.delete(:key2)).to eq(nil) }
     end
 
-    context 'when try to delete without key as argumen' do
+    context 'when try to delete without key as argument' do
       it { expect { my_hash.delete }.to raise_error(ArgumentError) }
     end
   end
@@ -84,12 +84,8 @@ RSpec.describe MyHash do
       my_hash[5] = 5
     end
 
-    context 'when object is valid' do
-      it { expect(my_hash.length).to eq(5) }
-    end
-
-    context 'when not valid data' do
-      it { expect(my_hash.length).not_to eq(9) }
+    it 'return length of my hash' do
+      expect(my_hash.length).to eq(5)
     end
   end
 end
