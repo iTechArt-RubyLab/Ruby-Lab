@@ -68,7 +68,6 @@ class MyHash
   def delete(key)
     return if bin_for(key).last.nil?
 
-    current_element = bin_for(key).first
     @entry_count -= 1
     bin_for(key).clear
   end
