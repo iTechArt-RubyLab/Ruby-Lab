@@ -18,7 +18,7 @@ class DataParser
     result
   end
 
-private
+  private
 
   def result_row(time, currency, rate)
     { time: time, currency: currency, rate: rate }

@@ -28,7 +28,7 @@ class Currency
     end
   end
 
-private
+  private
 
   attr_accessor :url, :input_currency
 

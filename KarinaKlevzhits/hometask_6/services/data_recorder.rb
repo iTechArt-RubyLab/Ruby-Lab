@@ -18,7 +18,7 @@ class DataRecorder
     con&.close
   end
 
-private
+  private
 
   def con
     @con ||= PG.connect dbname: 'my_db', user: 'karina'

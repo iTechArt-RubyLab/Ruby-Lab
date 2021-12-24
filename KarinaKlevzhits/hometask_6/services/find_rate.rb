@@ -24,8 +24,7 @@ class FindRate
     con&.close
   end
 
-private
+  private
 
   attr_accessor :currency, :limit
-  
 end
