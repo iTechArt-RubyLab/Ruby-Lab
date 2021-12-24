@@ -34,16 +34,17 @@ RSpec.describe MyHash do
     before { my_hash[:key] = 'ruby' }
 
     context 'when key exists' do
-      before { my_hash.delete(:key) }
-
-      it { expect(my_hash[:key]).to eq(nil) }
+      it 'delete pair of key and value' do
+        expect { my_hash.delete(:key) }.to change(my_hash, :length).by(-1)
+        expect(my_hash[:key]).to be_nil
+      end
     end
 
     context 'when key does not exists' do
       it { expect(my_hash.delete(:key2)).to eq(nil) }
     end
 
-    context 'when wrong parametrs in method delete' do
+    context 'when try to delete without key as argumen' do
       it { expect { my_hash.delete }.to raise_error(ArgumentError) }
     end
   end
@@ -55,17 +56,21 @@ RSpec.describe MyHash do
       my_hash.clear
     end
 
-    context 'when all data is valid' do
-      it 'key is nil' do
+    context 'when my hash cleared' do
+      it 'not return value of key after clear' do
         expect(my_hash[2]).to eq(nil)
       end
 
-      it 'length' do
+      it 'return result after clear' do
+        expect(my_hash.clear).to eq({})
+      end
+
+      it 'return length of my hash equal 0' do
         expect(my_hash.length).to eq(0)
       end
     end
 
-    context 'when wrong length after clear' do
+    context 'when my hash is clearing' do
       it { expect(my_hash.length).not_to eq(2) }
     end
   end

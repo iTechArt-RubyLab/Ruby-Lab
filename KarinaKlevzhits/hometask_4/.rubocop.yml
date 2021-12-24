@@ -1,2 +1,4 @@
 Metrics/BlockLength:
    IgnoredMethods: ['describe', 'context']
+RSpec/MultipleExpectations:
+  Max: 2
