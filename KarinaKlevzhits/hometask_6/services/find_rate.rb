@@ -4,6 +4,8 @@ require 'pg'
 require_relative 'currency_queries'
 # class FindRate
 class FindRate
+  attr_accessor :currency, :limit
+
   include CurrencyQueries
   def initialize(currency, limit)
     @currency = currency
@@ -24,8 +26,4 @@ class FindRate
     rs&.clear
     con&.close
   end
-
-  private
-
-  attr_accessor :currency, :limit
 end

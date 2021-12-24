@@ -3,6 +3,8 @@
 require 'pg'
 # class DataRecorder
 class DataRecorder
+  attr_accessor :currencies
+
   def initialize(currencies)
     @currencies = currencies
   end
@@ -38,6 +40,4 @@ class DataRecorder
       con.exec "INSERT INTO Currencies (time,currency,rate) VALUES ('#{time}','#{currency}','#{rate}')"
     end
   end
-
-  attr_accessor :currencies
 end

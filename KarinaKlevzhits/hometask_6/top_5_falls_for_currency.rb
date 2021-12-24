@@ -54,7 +54,7 @@ class Currency
   end
 
   def find_rate
-    FindRate.new(input_currency, 5).call
+    FindRate.new(input_currency, 10).call
   end
 
   def user_message
