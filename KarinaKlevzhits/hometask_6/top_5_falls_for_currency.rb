@@ -7,13 +7,12 @@ require './services/data_loader'
 require './services/data_parser'
 require './services/find_rate'
 require './services/data_recorder'
-config = {
-  url: 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml?d77b9d32811c6036126e2d3d784a0ee0'
-}
+URL = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml?d77b9d32811c6036126e2d3d784a0ee0'
+
 # class Currency
 class Currency
-  def initialize(config)
-    @url = config[:url]
+  def initialize(url)
+    @url = url
   end
 
   def run_cli
@@ -39,7 +38,7 @@ class Currency
   end
 
   def exist?(input_string)
-    parsed_data.any? { |i| i[:currency] == input_string }
+    parse_data.any? { |i| i[:currency] == input_string }
   end
 
   def load_data
@@ -68,4 +67,4 @@ class Currency
     end
   end
 end
-Currency.new(config).run_cli
+Currency.new(URL).run_cli
