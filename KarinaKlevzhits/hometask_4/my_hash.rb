@@ -18,6 +18,7 @@ class MyHash
 
   def clear
     @hash = []
+    {}
   end
 
   def delete(key)
