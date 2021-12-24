@@ -10,7 +10,7 @@ class DataParser
 
   def call
     result = []
-    data.xpath('//*[@time]').each do |link|
+    @data.xpath('//*[@time]').each do |link|
       link.search('Cube').each do |inner_link|
         result.push(result_row(link['time'], inner_link['currency'], inner_link['rate']))
       end
@@ -18,9 +18,7 @@ class DataParser
     result
   end
 
-  private
-
-  attr_accessor :data
+private
 
   def result_row(time, currency, rate)
     { time: time, currency: currency, rate: rate }

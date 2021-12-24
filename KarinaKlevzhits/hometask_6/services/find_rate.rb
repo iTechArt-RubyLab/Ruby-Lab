@@ -12,7 +12,7 @@ class FindRate
   def call
     con = PG.connect dbname: 'my_db', user: 'karina'
 
-    rs = con.exec "SELECT rate FROM  Currencies WHERE currency='#{currency}' ORDER BY rate DESC LIMIT #{limit}"
+    rs = con.exec "SELECT rate FROM Currencies WHERE currency='#{currency}' ORDER BY rate DESC LIMIT #{limit}"
 
     rs.each do |row|
       puts format('%s', row['rate'])
@@ -24,7 +24,8 @@ class FindRate
     con&.close
   end
 
-  private
+private
 
   attr_accessor :currency, :limit
+  
 end

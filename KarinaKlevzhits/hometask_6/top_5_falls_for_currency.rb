@@ -3,10 +3,10 @@
 
 require 'open-uri'
 require 'http'
-require './lib/data_loader'
-require './lib/data_parser'
-require './lib/find_rate'
-require './lib/data_recorder'
+require './services/data_loader'
+require './services/data_parser'
+require './services/find_rate'
+require './services/data_recorder'
 config = {
   url: 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml?d77b9d32811c6036126e2d3d784a0ee0'
 }
@@ -28,13 +28,13 @@ class Currency
     end
   end
 
-  private
+private
 
   attr_accessor :url, :input_currency
 
   def run
-    currencies
-    parsed_data
+    load_data
+    parse_data
     record_data
   end
 
@@ -42,16 +42,16 @@ class Currency
     parsed_data.any? { |i| i[:currency] == input_string }
   end
 
-  def currencies
+  def load_data
     DataLoader.new(url).call
   end
 
-  def parsed_data
+  def parse_data
     DataParser.new.call
   end
 
   def record_data
-    DataRecorder.new(parsed_data).call
+    DataRecorder.new(parse_data).call
   end
 
   def find_rate
