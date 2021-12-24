@@ -71,7 +71,6 @@ class MyHash
     current_element = bin_for(key).first
     @entry_count -= 1
     bin_for(key).clear
-    current_element.last
   end
 
   def clear
