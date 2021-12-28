@@ -83,7 +83,7 @@ class MyHash
 
   def each(&block)
     @table.each do |key|
-      key.each(&block) unless @table.empty?
+      key.each(&block)
     end
   end
 end
