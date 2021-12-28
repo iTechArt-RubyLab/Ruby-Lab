@@ -66,10 +66,11 @@ class MyHash
   end
 
   def delete(key)
-    return if bin_for(key).last.nil?
+    entry = find(key)
+    return unless entry
 
     @entry_count -= 1
-    bin_for(key).clear
+    bin_for(key).delete(entry)
   end
 
   def clear
@@ -81,6 +82,8 @@ class MyHash
   end
 
   def each(&block)
-    @table.each(&block)
+    @table.each do |key|
+      key.each(&block) unless @table.empty?
+    end
   end
 end
